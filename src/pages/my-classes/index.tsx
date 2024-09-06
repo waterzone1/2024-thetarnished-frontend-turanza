@@ -7,7 +7,7 @@ const MyClasses = () => {
         <MainContainer>
             <SideBar />
             <Content>
-                <h1>My classes</h1>
+                <h1>You haven´t booked any class yet</h1>
             </Content>
         </MainContainer>
     )

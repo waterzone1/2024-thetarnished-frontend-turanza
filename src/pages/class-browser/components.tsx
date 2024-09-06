@@ -33,6 +33,7 @@ export const MainContainer = styled.div<MainContainerProps>`
 export const Content = styled.div`
     width: 90% ;
     height: 100% ;
+    margin-left: 100px;
     display: flex ;
     flex-direction: column;
     align-items: center ;
@@ -53,7 +54,7 @@ export const BrowserWrapper = styled.div`
 export const Card = styled.div`
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 16px;
+    height: 80px;
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -64,16 +65,17 @@ export const Card = styled.div`
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     &:hover {
-        background-color: #95b0c2;
+        background-color: #b1dbb5;
     }
 `;
 
-export const CardLeftContainer = styled.div`
-    flex: 1;
-`
-
-export const CardRightContainer = styled.div`
-    flex: 1;
+export const CardInfo = styled.div`
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+    align-items: center;
 `
 
 export const Title = styled.h2`
@@ -115,4 +117,9 @@ export const PopUp = styled.div`
     color: ${colors.primary};
     border: 2px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
+
+export const ButtonsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
 `
