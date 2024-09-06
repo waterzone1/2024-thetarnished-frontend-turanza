@@ -60,13 +60,19 @@ export const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 30px 70px 60px 70px ;
+    padding: 30px 70px 60px 70px;
     background-color: ${colors.secondary} ;
     border-radius: 10% ;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
     backface-visibility: hidden;
 `
+
+export const AnimatedContainer = styled.div<{ isTeacher: boolean }>`
+  max-height: ${props => (props.isTeacher ? '300px' : '0')};
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+`;
 
 export const FormTitle = styled.h2`
     color: ${colors.primary};
@@ -86,6 +92,7 @@ export const InputText = styled.label`
 
 export const Input = styled.input`
     padding: 10px;
+    width: 300px;
     margin-bottom: 15px;
     border: 1px solid ${colors.primary};
     border-radius: 5px;
@@ -98,6 +105,37 @@ export const Input = styled.input`
         box-shadow: 0 0 5px ${colors.primary};
     }
 `;
+
+export const Checkbox = styled.input`
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 2px solid ${colors.primary};
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:checked {
+        background-color: ${colors.primary};
+    }
+
+    &:checked::after {
+        content: '✔';
+        color: #fff;
+        font-size: 14px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        background-color: #d1d1d1;
+    }
+`
 
 const buttonStyles = css<ButtonProps>`
     padding: 10px;

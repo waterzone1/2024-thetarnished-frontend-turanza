@@ -7,14 +7,15 @@ export const SideBar = styled.div`
 `
 
 export const NavbarContainer = styled.nav`
+    position: fixed;
     background-color: ${colors.secondary} ;
-    height: 70%;
+    height: 500px;
     width: 100px;
     display: flex ;
     flex-direction:column;
     align-items: center;
     justify-content:center;
-    gap: 8%;
+    gap: 10%;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -50,7 +51,7 @@ export const LogOutNavbarLink = styled(NavLink)`
     align-items: center;
     justify-content: center;
     padding: 10px 10px;
-    background-color: #d16759;
+    background-color: ${colors.important};
     color: ${colors.secondary};
     border-radius: 5px;
     cursor: pointer;

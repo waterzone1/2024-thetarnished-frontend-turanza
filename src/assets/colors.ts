@@ -4,7 +4,8 @@ const colors = {
     background: '#718694',
     light: '#59b963',
     text: '#333333',
-    border: '#dddddd'
+    border: '#dddddd',
+    important: '#d16759',
 };
 
 export default colors;

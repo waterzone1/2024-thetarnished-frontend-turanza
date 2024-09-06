@@ -12,7 +12,8 @@ export const MainContainer = styled.div`
 
 export const Content = styled.div`
     width: 90% ;
-    height: 100% ;
+    height: 100%;
+    margin-left: 100px;
     display: flex ;
     flex-direction: column;
     align-items: center ;

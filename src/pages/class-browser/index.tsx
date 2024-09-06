@@ -1,40 +1,39 @@
 import { useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar'
-import { MainContainer, Content, Card, Title, Instructor, Details, BrowserWrapper, CardLeftContainer, CardRightContainer, PopUp, PopUpContainer } from './components';
-import { Button } from '../login/components';
+import { MainContainer, Content, Card, Title, Instructor, BrowserWrapper, CardInfo, PopUp, PopUpContainer, ButtonsContainer } from './components';
+import { Button } from '../../components/main-button/components';
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const classData = [
     {
-        title: 'Math',
         instructor: 'Dr. John Doe',
-        schedule: 'Mondays y Wednesdays, 10:00 AM - 12:00 PM',
-        level: 'College'
+        days: 'Monday, Wednesday, Friday',
     },
     {
-        title: 'Math',
         instructor: 'Eng. Andrew Smith',
-        schedule: 'Tuesdays y Thursdays, 2:00 PM - 4:00 PM',
-        level: 'Beginner'
+        days: 'Tuesday, Thursday',
     },
     {
-        title: 'Physics',
-        instructor: 'Prof. Mary Johnson',
-        schedule: 'Mondays and Wednesdays, 1:00 PM - 3:00 PM',
-        level: 'Intermediate'
+        instructor: 'Dr. Jane Smith',
+        days: 'Monday, Wednesday, Friday',
     },
     {
-        title: 'Chemestry',
-        instructor: 'Dr. Alice Brown',
-        schedule: 'Mondays, Wednesdays y Fridays, 9:00 AM - 11:00 AM',
-        level: 'College'
-    }
+        instructor: 'Eng. Andrew Smith',
+        days: 'Tuesday, Thursday',
+    },
+    {
+        instructor: 'Dr. John Doe',
+        days: 'Monday, Wednesday, Friday',
+    },
+    {
+        instructor: 'Eng. Andrew Smith',
+        days: 'Tuesday, Thursday',
+    },
 ];
 
 interface ClassCardProps {
-    title: string;
     instructor: string;
-    schedule: string;
-    level: string;
+    days: string;
     onClick?: () => void;
 }
 
@@ -54,26 +53,30 @@ const ClassBrowser = () => {
         setIsPopupOpen(false);
     };
 
+    const handlePreviousPage = () => {
+        console.log('Previous page');
+    };
+
+    const handleNextPage = () => {
+        console.log('Next page');
+    };
+
     return(
         <>
         {clickedClass != null &&
             <PopUpContainer>
                 <PopUp>
-                    <h1>{clickedClass.title}</h1>
-                    <p>{clickedClass.instructor}</p>
-                    <p>{clickedClass.schedule}</p>
-                    <p>{clickedClass.level}</p>
-                    <Button>Book</Button>
-                    <Button secondary onClick={handlePopupClose}>Close</Button>
+                    <h1>{clickedClass.instructor}</h1>
+                    <ButtonsContainer>
+                        <Button>Book</Button>
+                        <Button secondary onClick={handlePopupClose}>Close</Button>
+                    </ButtonsContainer>
                 </PopUp>
-            </PopUpContainer>
-            
+            </PopUpContainer>   
         }
-
         <MainContainer isPopupOpen={isPopupOpen}>
             <SideBar />
             <Content>
-                <h1>Class browser</h1>
                 <BrowserWrapper>
                     {classData.map((classItem, index) => (
                         <Card 
@@ -81,18 +84,18 @@ const ClassBrowser = () => {
                             onClick={() => handleCardClick(classItem)} 
                             role="button" 
                             tabIndex={0}
-                            aria-label={`Subject: ${classItem.title} teacher: ${classItem.instructor}`}
+                            aria-label={`Schedule: ${classItem.days} teacher: ${classItem.instructor}`}
                         >
-                            <CardLeftContainer>
-                                <Title>{classItem.title}</Title>
-                                <Instructor>{classItem.instructor}</Instructor>
-                            </CardLeftContainer>
-                            <CardRightContainer>
-                                <Details><strong>Hour:</strong> {classItem.schedule}</Details>
-                                <Details><strong>Level:</strong> {classItem.level}</Details>
-                            </CardRightContainer>
+                            <CardInfo>
+                                <Title>{classItem.instructor}</Title>
+                                <Instructor>{classItem.days}</Instructor>
+                            </CardInfo>
                         </Card>
                     ))}
+                    <ButtonsContainer>
+                        <Button secondary onClick={handlePreviousPage}><MdOutlineKeyboardArrowLeft /> Previous</Button>
+                        <Button secondary onClick={handleNextPage}>Next<MdOutlineKeyboardArrowRight /></Button>
+                    </ButtonsContainer>
                 </BrowserWrapper>
             </Content>
         </MainContainer>

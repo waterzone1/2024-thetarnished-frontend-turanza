@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { MainContainer, LeftContainer, RightContainer, Image, FormContainer, Form, InputText, Input, FormTitle, Button, ToggleVisibilityButton, ButtonsContainer, AnimatedStars, Star, ForgotPass } from "./components"
+import { MainContainer, LeftContainer, RightContainer, Image, FormContainer, Form, InputText, Input, FormTitle, Button, ToggleVisibilityButton, ButtonsContainer, AnimatedStars, Star, ForgotPass, AnimatedContainer, Checkbox } from "./components"
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import Logo from "../../assets/Logo.png"
@@ -12,6 +12,7 @@ const Register = () => {
     const [repassword, setRepassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [isTeacher, setIsTeacher] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ const Register = () => {
         navigate("/");
     }
 
-    const options = [
+    const subjects = [
         { value: 'option1', label: 'Option 1' },
         { value: 'option2', label: 'Option 2' },
         { value: 'option3', label: 'Option 3' },
@@ -63,6 +64,10 @@ const Register = () => {
                 <FormContainer>
                     <FormTitle>Welcome!</FormTitle>
                     <Form onSubmit={(event) => handleRegister(event)}>
+                        <InputText>Name:</InputText>
+                        <Input type="text" id="name" placeholder="Name..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
+                        <InputText>Surname:</InputText>
+                        <Input type="text" id="surname" placeholder="Surname..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
                         <InputText>Email:</InputText>
                         <Input type="email" id="email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
                         <InputText>Password:</InputText>
@@ -73,8 +78,7 @@ const Register = () => {
                                 placeholder="Password..." 
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
-                                required 
-                                style={{ paddingRight: '30px' }}
+                                required
                             />
                             <ToggleVisibilityButton
                                 onClick={() => setIsVisible(!isVisible)}
@@ -90,12 +94,18 @@ const Register = () => {
                                 placeholder="Password..." 
                                 value={repassword} 
                                 onChange={(e) => setRepassword(e.target.value)} 
-                                required 
-                                style={{ paddingRight: '30px' }}
+                                required
                             />
-                        <InputText>Subjects:</InputText>
-                        <MultiSelectDropdown options={options} onSelect={handleSelectOptions}/>
-
+                        <InputText>Are you a teacher?</InputText>
+                        <Checkbox type="checkbox" id="isTeacher" checked={isTeacher} onChange={(e) => setIsTeacher(e.target.checked)} />
+                        <AnimatedContainer isTeacher={isTeacher}>
+                            {isTeacher && (
+                                <>
+                                <InputText>Subjects:</InputText>
+                                <MultiSelectDropdown options={subjects} onSelect={handleSelectOptions}/>
+                                </>
+                            )}
+                        </AnimatedContainer>
                         <ButtonsContainer>
                             <Button type="submit" >Register</Button>
                             <ForgotPass to="/">Already have an account?</ForgotPass>

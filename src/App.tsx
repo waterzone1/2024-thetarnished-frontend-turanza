@@ -10,6 +10,7 @@ import MyClasses from './pages/my-classes';
 import ClassBrowser from './pages/class-browser';
 import ForgotPassword from './pages/forgot-password';
 import Register from './pages/register';
+import ChangePassword from './pages/change-password';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </Router>
   );

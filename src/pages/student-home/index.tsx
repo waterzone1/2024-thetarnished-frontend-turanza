@@ -9,8 +9,64 @@ import { BiWorld } from "react-icons/bi";
 import { RiPlantLine } from "react-icons/ri";
 import { IoStatsChartOutline } from "react-icons/io5";
 import { ImStatsDots } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
+  const handleSubjectSearch = (subjectId: number) => {
+    console.log(`Searching for ${subjectId}`);
+    navigate(`/browse-available-classes`);
+  };
+
+  const subjects = [
+    {
+      name: 'Math',
+      icon: <PiMathOperationsLight />,
+      id: 1,
+    },
+    {
+      name: 'Physics',
+      icon: <GiAtom />,
+      id: 2,
+    },
+    {
+      name: 'Chemistry',
+      icon: <SlChemistry />,
+      id: 3,
+    },
+    {
+      name: 'Programming',
+      icon: <FaLaptopCode />,
+      id: 4,
+    },
+    {
+      name: 'Biology',
+      icon: <RiPlantLine />,
+      id: 5,
+    },
+    {
+      name: 'History',
+      icon: <PiBookOpenTextLight />,
+      id: 6,
+    },
+    {
+      name: 'Geography',
+      icon: <BiWorld />,
+      id: 7,
+    },
+    {
+      name: 'Statistics',
+      icon: <IoStatsChartOutline />,
+      id: 8,
+    },
+    {
+      name: 'Economics',
+      icon: <ImStatsDots />,
+      id: 9,
+    },
+  ];
 
   return (
     <MainContainer>
@@ -18,15 +74,12 @@ const Home = () => {
       <Content>
       <ContentTitle>What do you want to learn today?</ContentTitle>
         <CardsWrapper>
-          <Card><CardIcon><PiMathOperationsLight  /></CardIcon><CardSubject>Math</CardSubject></Card>
-          <Card><CardIcon><GiAtom /></CardIcon><CardSubject>Physics</CardSubject></Card>
-          <Card><CardIcon><SlChemistry /></CardIcon><CardSubject>Chemistry</CardSubject></Card>
-          <Card><CardIcon><FaLaptopCode /></CardIcon><CardSubject>Programming</CardSubject></Card>
-          <Card><CardIcon><RiPlantLine /></CardIcon><CardSubject>Biology</CardSubject></Card>
-          <Card><CardIcon><BiWorld  /></CardIcon><CardSubject>Geography</CardSubject></Card>
-          <Card><CardIcon><ImStatsDots  /></CardIcon><CardSubject>Economics</CardSubject></Card>
-          <Card><CardIcon><IoStatsChartOutline  /></CardIcon><CardSubject>Statistics</CardSubject></Card>
-          <Card><CardIcon><PiBookOpenTextLight  /></CardIcon><CardSubject>Literature</CardSubject></Card>
+          {subjects.map((subject, index) => (
+            <Card key={index} onClick={() => handleSubjectSearch(subject.id)}>
+              <CardIcon>{subject.icon}</CardIcon>
+              <CardSubject>{subject.name}</CardSubject>
+            </Card>
+          ))}
         </CardsWrapper>
       </Content>
       <ImageContainer>
