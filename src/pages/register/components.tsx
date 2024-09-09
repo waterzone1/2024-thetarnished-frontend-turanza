@@ -87,13 +87,13 @@ export const Form = styled.form`
 export const InputText = styled.label`
     font-size: 16px;
     color: ${colors.text};
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 `;
 
 export const Input = styled.input`
     padding: 10px;
     width: 300px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border: 1px solid ${colors.primary};
     border-radius: 5px;
     font-size: 16px;
@@ -155,7 +155,6 @@ const buttonStyles = css<ButtonProps>`
 `;
 
 export const ButtonsContainer = styled.div`
-    padding-top: 50px;
     display: flex;  
     flex-direction: column ;
 `

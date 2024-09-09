@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/manage-schedule" element={<ManageSchedule />} />
           <Route path="/manage-classes" element={<ManageClasses />} />
           <Route path="/my-classes" element={<MyClasses />} />
-          <Route path="/browse-available-classes" element={<ClassBrowser />} />
+          <Route path="/class-browser/:subjectId" element={<ClassBrowser />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/register" element={<Register />} />
