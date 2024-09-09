@@ -61,6 +61,7 @@ export const UserSubjects = styled.div`
     display: flex;
     width: 80%;
     align-items: center;
+    justify-content:center ;
     gap: 10px;
 `
 

@@ -7,6 +7,8 @@ import MultiSelectDropdown from "../../components/multi-select-dropdown";
 
 const Register = () => {
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
@@ -20,10 +22,36 @@ const Register = () => {
         setSelectedOptions(selected);
     };
 
-    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(email, password, repassword, selectedOptions);
-        navigate("/");
+        try{
+            if(!firstName || !lastName || !email || !password || !repassword || !selectedOptions) {
+                return alert('Please fill all fields');
+            }
+            if(!(password === repassword)) {
+                return alert('Passwords do not match');
+            }
+            const role = isTeacher ? 'TEACHER' : 'STUDENT';
+    
+            await fetch('http://localhost:3000/authentication/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    email: email,
+                    password: password,
+                    subjects: selectedOptions,
+                    role: role
+                }),
+            });
+            navigate("/");           
+
+        }catch(error){
+            console.error(error);
+        }
     }
 
     const subjects = [
@@ -65,9 +93,9 @@ const Register = () => {
                     <FormTitle>Welcome!</FormTitle>
                     <Form onSubmit={(event) => handleRegister(event)}>
                         <InputText>Name:</InputText>
-                        <Input type="text" id="name" placeholder="Name..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
+                        <Input type="text" id="firstname" placeholder="Firstname..." value={firstName} onChange={(e) => setFirstName(e.target.value)} required ></Input>
                         <InputText>Surname:</InputText>
-                        <Input type="text" id="surname" placeholder="Surname..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
+                        <Input type="text" id="lastname" placeholder="Lastname..." value={lastName} onChange={(e) => setLastName(e.target.value)} required ></Input>
                         <InputText>Email:</InputText>
                         <Input type="email" id="email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
                         <InputText>Password:</InputText>

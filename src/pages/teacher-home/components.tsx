@@ -30,7 +30,8 @@ export const ContentTitle = styled.h2`
 `;
 
 export const CardsWrapper = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
     border-radius: 8px;

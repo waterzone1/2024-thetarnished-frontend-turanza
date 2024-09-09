@@ -65,7 +65,7 @@ export const FormContainer = styled.div`
     border-radius: 10% ;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
-    backface-visibility: hidden
+    backface-visibility: hidden;
 `
 
 export const FormTitle = styled.h2`
@@ -100,6 +100,7 @@ export const Input = styled.input`
 `;
 
 const buttonStyles = css<ButtonProps>`
+    height: 40px;
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
@@ -114,6 +115,12 @@ const buttonStyles = css<ButtonProps>`
         border-color: ${colors.primary};
         background-color: ${props => props.secondary ? "#cccccc" : "#5b6b76"};
     }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle ;
+    min-width: 120px;
 `;
 
 export const ButtonsContainer = styled.div`

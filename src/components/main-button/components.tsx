@@ -10,6 +10,7 @@ const buttonStyles = css<ButtonProps>`
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
+    min-width: 150px;
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 5px;

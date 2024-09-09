@@ -2,31 +2,33 @@ import React, { useState } from "react"
 import { MainContainer, LeftContainer, RightContainer, Image, FormContainer, Form, InputText, Input, FormTitle, Button, ToggleVisibilityButton, ButtonsContainer, AnimatedStars, Star, ForgotPass } from "./components"
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
-import Logo from "../../assets/Logo.png"
-import { logUser } from "./methods"
-import Loading from "../../components/loading";
+import Logo from "../../assets/Logo.png";
+import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { useAuth } from "../../auth/useAuth";
+import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
 
 const Login = () => {
 
-    const [username, setUsername] = useState('');
+    const { login } = useAuth();
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLogging, setIsLogging] = useState(false);
+    const [invalidCredentials, setInvalidCredentials] = useState(false);
     
     const navigate = useNavigate();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const success = await logUser(username, password);
-        if (success) {
-            setLoading(true);
-            setTimeout(() => {
-                navigate("/teacher-home");
-                setLoading(false);
-              }, 3000);
-            
-        } else {
-            alert("Incorrect username or password");
+        try{
+            setIsLogging(true);
+            await login(email, password);
+            setIsLogging(false);
+        }
+        catch(error){
+            setIsLogging(false);
+            console.error(error);
+            setInvalidCredentials(true);
         }
     }
 
@@ -35,7 +37,6 @@ const Login = () => {
     }
 
     return(
-        loading ? (<Loading/>) : (
         <MainContainer>
             <LeftContainer>
                 <Image src={Logo}></Image>
@@ -53,10 +54,11 @@ const Login = () => {
                 <Star cx="650" cy="50" r="2" delay="1s"/>
             </AnimatedStars>
                 <FormContainer>
+                    {invalidCredentials && <p style={{color: 'red'}}>Invalid credentials. Please try again.</p>}
                     <FormTitle>Welcome!</FormTitle>
                     <Form onSubmit={handleLogin}>
-                        <InputText>Username:</InputText>
-                        <Input type="text" id="username" placeholder="Username..." value={username} onChange={(e) => setUsername(e.target.value)} required ></Input>
+                        <InputText>Email:</InputText>
+                        <Input type="text" id="email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
                         <InputText>Password:</InputText>
                         <div style={{ position: 'relative' }}>
                             <Input 
@@ -76,7 +78,7 @@ const Login = () => {
                             </ToggleVisibilityButton>
                         </div>
                         <ButtonsContainer>
-                            <Button type="submit">Login</Button>
+                            <Button type="submit">{isLogging ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Login"}</Button>
                             <Button type="button" onClick={handleRegisterButtonClick} secondary>Register</Button>
                             <ForgotPass to="/forgot-password">Forgot Password?</ForgotPass>
                         </ButtonsContainer>
@@ -85,8 +87,5 @@ const Login = () => {
             </RightContainer>
         </MainContainer>
     )
-
-    )
-
 }
 export default Login;

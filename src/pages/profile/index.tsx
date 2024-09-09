@@ -3,20 +3,23 @@ import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, Use
 import { Button } from '../../components/main-button/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/useAuth';
 
 const Profile = () => {
 
     const navigate = useNavigate();
+    const { user, updateUser } = useAuth();
 
+    const [firstName, setFirstName] = useState(user?.firstName || '');
+    const [lastName, setLastName] = useState(user?.lastName || '');
     const [isEditing, setIsEditing] = useState(false);
-    const [firstName, setFirstName] = useState('Balti');
-    const [lastName, setLastName] = useState('Turanza');
 
     const handlePasswordChange = () => {
         navigate('/change-password');
     };
 
     const handleProfileSave = () => {
+        updateUser({ firstName: firstName, lastName: lastName });
         setIsEditing(false);
     };
 
@@ -26,15 +29,17 @@ const Profile = () => {
             <Content>
                 {!isEditing ? ( 
                 <ProfileCard>
-                    <UserImage src="https://i.pravatar.cc/150?img=12" alt="User Image" />
+                    <UserImage src="https://i.pravatar.cc/150?img=68" alt="User Image" />
                     <UserInfo>
-                        <UserName>Balti Turanza</UserName>
-                        <UserEmail>balticapo@hotmail.com</UserEmail>
-                        <UserSubjects>
-                            <Subject>Math</Subject>
-                            <Subject>Physics</Subject>
-                            <Subject>Programming</Subject>
-                        </UserSubjects>
+                        <UserName>{user?.firstName + ' ' + user?.lastName}</UserName>
+                        <UserEmail>{user?.email}</UserEmail>
+                        {user?.role === 'TEACHER' &&( 
+                            <UserSubjects>
+                                {user?.subjects?.map((subject) => (
+                                    <Subject key={subject.subjectid}>{subject.subjectname}</Subject>
+                                ))}
+                            </UserSubjects>
+                        )}
                     </UserInfo>
                     <CardButtons>
                         <Button onClick={() => setIsEditing(true)}>Edit your profile</Button>

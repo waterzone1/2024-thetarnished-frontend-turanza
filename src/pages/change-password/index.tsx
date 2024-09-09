@@ -1,36 +1,98 @@
 import { useState } from "react"
-import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, FormTitle, Button, ButtonsContainer, EmailSentNotification } from "./components"
+import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, FormTitle, Button, ButtonsContainer } from "./components"
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../auth/useAuth";
+import { Message } from "../../components/message/components";
+import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
+import { ToggleVisibilityButton } from "../login/components";
+import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const ChangePassword = () => {
 
-    const [passwordChanged, setPasswordChanged] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     const navigate = useNavigate();
 
+    const { user, isLoggedIn, logout } = useAuth();
+
+    const handleGoBack = () => {
+        navigate(-1);
+    }
+
     const handleChangePassword = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setPasswordChanged(true);
-        setTimeout(() => {
-            navigate('/');
-        }, 3000);   
+        const userEmail = user?.email;
+        setIsLoading(true);
+        try{
+            const response = await fetch('http://localhost:3000/authentication/change-password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    oldPassword: currentPassword,
+                    newPassword: newPassword,
+                    email: userEmail
+                })
+            });
+            setIsLoading(false);
+            if(!response.ok){
+                throw new Error('Failed to change password');
+            }
+
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                logout();
+                navigate('/');
+            }, 3000);   
+        }catch(error){
+            console.error(error);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
+        }
+
+        
     }
 
     return(
         <MainContainer>
-           {passwordChanged && <EmailSentNotification>Your new password has been saved</EmailSentNotification>}
+           {showSuccessMessage && <Message>Your new password has been saved</Message>}
+           {showErrorMessage && <Message error>Could not update your password. Invalid credentials</Message>}
             <RightContainer>
                 <FormContainer>
                     <FormTitle>Change your password</FormTitle>
                     <Form onSubmit={(event) => handleChangePassword(event)}>
                         <InputText>Your current password:</InputText>
-                        <Input type="password" id="password" placeholder="Current password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required ></Input>
+                        <div style={{ position: 'relative' }}>
+                            <Input 
+                                type={isVisible ? 'text' : 'password'} 
+                                id="password" 
+                                placeholder="Password..." 
+                                value={currentPassword} 
+                                onChange={(e) => setCurrentPassword(e.target.value)} 
+                                required
+                            />
+                            <ToggleVisibilityButton
+                                onClick={() => setIsVisible(!isVisible)}
+                                type="button"
+                            >
+                                {isVisible ? <AiTwotoneEyeInvisible /> : <AiOutlineEye />}
+                            </ToggleVisibilityButton>
+                        </div>
                         <InputText>Your new password:</InputText>
-                        <Input type="password" id="password" placeholder="Password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required ></Input>
+                        <Input type={isVisible ? 'text' : 'password'} id="password" placeholder="Password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required ></Input>
                         <ButtonsContainer>
-                            <Button type="submit" >Confirm</Button>
+                            <Button type="submit">{isLoading ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Confirm"}</Button>
+                            {isLoggedIn && <Button onClick={handleGoBack} secondary>Back</Button>}  
                         </ButtonsContainer>
                     </Form>
                 </FormContainer>

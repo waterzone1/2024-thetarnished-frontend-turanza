@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavbarContainer, NavbarLink, LogOutNavbarLink } from './components';
-import { AiOutlineHome, AiOutlineForm , AiOutlineUser, AiOutlineTool, AiOutlineSchedule, AiOutlineLogout, AiOutlineDatabase, AiOutlineGroup } from "react-icons/ai";
-
-const handleLogout = () => {
-    window.location.href = '/';
-}
+import { AiOutlineHome/* , AiOutlineForm */ , AiOutlineUser/* , AiOutlineTool */, AiOutlineSchedule, AiOutlineLogout/* , AiOutlineDatabase */, AiOutlineGroup } from "react-icons/ai";
+import { useAuth } from '../../auth/useAuth';
 
 const SideBar: React.FC = () => {
 
-    const [user] = useState<{ name: string; role: 'admin' | 'teacher' | 'student' }>({
-        name: 'John Doe',
-        role: 'student',
-    });
+    const { user, logout } = useAuth();
 
     return (
         <NavbarContainer>
-            {(user.role === 'teacher' || user.role === 'admin') && (
+            {(user?.role === 'TEACHER') && (
                 <>
                 <NavbarLink title='Home' to="/teacher-home" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineHome /></NavbarLink>
                 <NavbarLink title='Manage schedule' to="/manage-schedule" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineSchedule /></NavbarLink>
@@ -23,7 +17,7 @@ const SideBar: React.FC = () => {
                 </>
             )}
 
-            {(user.role === 'student' || user.role === 'admin') && (
+            {(user?.role === 'STUDENT') && (
                 <>
                 <NavbarLink title='Home' to="/student-home" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineHome /></NavbarLink>
                 <NavbarLink title='My classes' to="/my-classes" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineGroup  /></NavbarLink>
@@ -32,7 +26,7 @@ const SideBar: React.FC = () => {
 
             <NavbarLink title='My profile' to="/profile" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineUser /></NavbarLink>
             {/* <NavbarLink title='Settings' to="/settings" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineTool /></NavbarLink> */}
-            <LogOutNavbarLink to="/" onClick={handleLogout}><AiOutlineLogout /></LogOutNavbarLink>
+            <LogOutNavbarLink to="/" onClick={logout}><AiOutlineLogout /></LogOutNavbarLink>
         </NavbarContainer>
     );
 };
