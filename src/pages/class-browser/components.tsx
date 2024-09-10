@@ -12,7 +12,7 @@ export const MainContainer = styled.div<MainContainerProps>`
     display: flex;
     align-items: center;
     background: rgb(43,130,51);
-    background: radial-gradient(circle, rgba(43,130,51,1) 0%, rgba(15,41,46,1) 84%);
+    background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
 
     &::after {
         content: '';
@@ -41,31 +41,55 @@ export const Content = styled.div`
 `
 
 export const BrowserWrapper = styled.div`
-    width: 70%;
-    display: flex ;
-    flex-direction: column;
-    align-items: center ;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    background-color: ${colors.secondary};
     border-radius: 30px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 50px;
-`
+    max-height: 800px;
+    overflow-y: auto;
+    flex-wrap: wrap;
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: white;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e0e0e0;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: white transparent;
+`;
+
+
 export const Card = styled.div`
-    border: 1px solid #ddd;
+    width: 100%;
+    background-color: ${colors.secondary} ;
     border-radius: 8px;
     height: 80px;
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: flex-start;
-    width: 90% ;
     transition: background-color 0.3s;
     cursor: pointer ;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
-        background-color: #b1dbb5;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 `;
 
@@ -122,4 +146,56 @@ export const PopUp = styled.div`
 export const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: row;
+`
+
+
+export const LoadingSkeletonCard = styled.div`
+    width: 100%;
+    height: 80px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    border: 1px solid ${colors.secondary} ;
+    margin: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    animation: pulse 1.5s infinite ease-in-out;
+    
+    @keyframes pulse {
+        0% {
+            background-color: transparent;
+            opacity: 0.1;
+        }
+        50% {
+            background-color: #adadad;
+            opacity: 0.2;
+        }
+        100% {
+            background-color: #939393;
+            opacity: 0.3;
+        }
+    }
+`;
+
+export const StaticSkeletonCard = styled.div`
+    width: 100%;
+    height: 80px;
+    border: 1px solid ${colors.secondary} ;
+    border-radius: 8px;
+    margin: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+`;
+
+export const Select = styled.select`
+    background-color: transparent ;
+    border: 1px solid ${colors.primary} ;
+    border-radius: 5px;
+    padding: 10px;
+    color: ${colors.primary};
+`
+
+export const InputsContainer = styled.div`
+    display: flex ;
+    flex-direction: column ;
+    width: 50%;
+    gap: 10px;
+    margin-bottom: 10px;
 `

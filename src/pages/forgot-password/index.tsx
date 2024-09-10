@@ -1,18 +1,42 @@
 import { useState } from "react"
 import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, FormTitle, Button, ButtonsContainer, EmailSentNotification } from "./components"
 import { useNavigate } from 'react-router-dom';
+import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
 
 const ForgotPassword = () => {
 
     const [email, setEmail] = useState('');
     const [emailSent, setEmailSent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
     const handleResetPassword = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+    try{
+        setIsLoading(true);
+        const response = await fetch('http://localhost:3000/reset/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to reset password');
+        }
+
+    }catch(error){
+        console.log(error);
+    }   
+        setIsLoading(false)
         setEmailSent(true);
-        console.log(email);
+        setTimeout(() => {
+            setEmailSent(false);
+            navigate('/');
+        }, 3000);
     }
 
     const handleBackToLogin = () => {
@@ -29,7 +53,7 @@ const ForgotPassword = () => {
                         <InputText>Email:</InputText>
                         <Input type="email" id="email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)} required ></Input>
                         <ButtonsContainer>
-                            <Button type="submit" >Send</Button>
+                            <Button type="submit" >{isLoading ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Confirm"}</Button>
                             <Button type="submit" secondary onClick={handleBackToLogin}>Back to login</Button>
                         </ButtonsContainer>
                     </Form>

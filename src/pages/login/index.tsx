@@ -78,7 +78,7 @@ const Login = () => {
                             </ToggleVisibilityButton>
                         </div>
                         <ButtonsContainer>
-                            <Button type="submit">{isLogging ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Login"}</Button>
+                            <Button type="submit">{isLogging ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Login"}</Button>
                             <Button type="button" onClick={handleRegisterButtonClick} secondary>Register</Button>
                             <ForgotPass to="/forgot-password">Forgot Password?</ForgotPass>
                         </ButtonsContainer>

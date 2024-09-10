@@ -1,19 +1,40 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
+import { useEffect, useState } from 'react';
 
 interface Subject {
-  id: number;
-  name: string;
+  subjectid: number;
+  subjectname: string;
 }
 
 interface MultiAutocompleteInputProps {
   onSelect: (selectedOptions: number[]) => void;
 }
 
-export default function MultiAutocompleteInput({
-  onSelect,
-}: MultiAutocompleteInputProps) {
+export default function MultiAutocompleteInput({ onSelect,}: MultiAutocompleteInputProps) {
+
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  useEffect(() => {
+    const getAllSubjects = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/subject/all-subjects', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            setSubjects(data)
+        } catch (error) {
+            console.error('Error fetching subjects:', error);
+        }
+    };
+
+    getAllSubjects();
+}, []);
+
   return (
     <Autocomplete
       multiple
@@ -21,10 +42,10 @@ export default function MultiAutocompleteInput({
       id="multiple-limit-tags"
       filterSelectedOptions
       options={subjects}
-      getOptionLabel={(option: Subject) => option.name}
+      getOptionLabel={(option: Subject) => option.subjectname}
       defaultValue={[]}
       onChange={(_event, value) => {
-        const selectedTitles = value.map((option) => option.id);
+        const selectedTitles = value.map((option) => option.subjectid);
         onSelect(selectedTitles);
       }}
       renderTags={(value: Subject[], getTagProps) => (
@@ -38,7 +59,7 @@ export default function MultiAutocompleteInput({
         >
           {value.map((option, index) => (
             <Chip
-              label={option.name}
+              label={option.subjectname}
               {...getTagProps({ index })}
               style={{ marginRight: 4 }}
             />
@@ -69,17 +90,3 @@ export default function MultiAutocompleteInput({
     />
   );
 }
-
-
-const subjects: Subject[] = [
-  { id: 1, name: 'Mathematics' },
-  { id: 2, name: 'Physics' },
-  { id: 3, name: 'Chemistry' },
-  { id: 4, name: 'Biology' },
-  { id: 5, name: 'History' },
-  { id: 6, name: 'Geography' },
-  { id: 7, name: 'English Literature' },
-  { id: 8, name: 'Computer Science' },
-  { id: 9, name: 'Philosophy' },
-  { id: 10, name: 'Economics' },
-];

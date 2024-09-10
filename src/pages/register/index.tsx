@@ -4,6 +4,9 @@ import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import Logo from "../../assets/Logo.png"
 import MultiAutocompleteInput from "../../components/multi-autocomplete-input";
+import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
+import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { Message } from "../../components/message/components";
 
 const Register = () => {
 
@@ -15,6 +18,9 @@ const Register = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
     const [isTeacher, setIsTeacher] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,16 +31,19 @@ const Register = () => {
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsRegistering(true);
         try{
             if(!firstName || !lastName || !email || !password || !repassword || !selectedOptions) {
-                return alert('Please fill all fields');
+                setErrorMessage('Please fill all fields');
+                throw new Error('Please fill all fields');
             }
             if(!(password === repassword)) {
-                return alert('Passwords do not match');
+                setErrorMessage('Passwords do not match');
+                throw new Error('Passwords do not match');
             }
             const role = isTeacher ? 'TEACHER' : 'STUDENT';
     
-            await fetch('http://localhost:3000/authentication/register', {
+            const response = await fetch('http://localhost:3000/authentication/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,15 +57,26 @@ const Register = () => {
                     role: role
                 }),
             });
-            navigate("/");           
+            if (!response.ok) {
+                setErrorMessage('Invalid information');
+                throw new Error('Invalid information');
+            }
+            setIsRegistering(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                navigate("/");
+            }, 3000);         
 
         }catch(error){
             console.error(error);
+            setIsRegistering(false);
         }
     }
 
     return(
         <MainContainer>
+            {showSuccessMessage && <Message>You are now registered!</Message>}
             <LeftContainer>
                 <Image src={Logo}></Image>
             </LeftContainer>
@@ -74,6 +94,7 @@ const Register = () => {
             </AnimatedStars>
                 <FormContainer>
                     <FormTitle>Welcome!</FormTitle>
+                    <p style={{color: "red"}}>{errorMessage}</p>
                     <Form onSubmit={(event) => handleRegister(event)}>
                         <InputText>Name:</InputText>
                         <Input type="text" id="firstname" placeholder="Firstname..." value={firstName} onChange={(e) => setFirstName(e.target.value)} required ></Input>
@@ -117,7 +138,7 @@ const Register = () => {
                             )}
                         </AnimatedContainer>
                         <ButtonsContainer>
-                            <Button type="submit" >Register</Button>
+                            <Button type="submit">{isRegistering ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Register"}</Button>
                             <ForgotPass to="/">Already have an account?</ForgotPass>
                         </ButtonsContainer>
                     </Form>

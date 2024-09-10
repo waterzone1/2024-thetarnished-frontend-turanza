@@ -12,6 +12,7 @@ import ClassBrowser from './pages/class-browser';
 import ForgotPassword from './pages/forgot-password';
 import Register from './pages/register';
 import ChangePassword from './pages/change-password';
+import ResetPassword from './pages/reset-password';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/reset-password/:userId/:token" element={<ResetPassword />} />
         </Routes>
       </AuthProvider>
     </Router>

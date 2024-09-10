@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         schedule: data.user.schedule,
         role: data.user.role as 'STUDENT' | 'TEACHER',
     };
-    console.log(loggedInUser);
+    
     setUser(loggedInUser);
     localStorage.setItem('user', JSON.stringify(loggedInUser));
     setIsLoggedIn(true);

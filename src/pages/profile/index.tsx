@@ -4,6 +4,9 @@ import { Button } from '../../components/main-button/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
+import { Message } from '../../components/message/components';
+import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
+import SimplifiedLogo from "../../assets/Logo transparent.png";
 
 const Profile = () => {
 
@@ -13,18 +16,46 @@ const Profile = () => {
     const [firstName, setFirstName] = useState(user?.firstName || '');
     const [lastName, setLastName] = useState(user?.lastName || '');
     const [isEditing, setIsEditing] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const handlePasswordChange = () => {
         navigate('/change-password');
     };
 
-    const handleProfileSave = () => {
-        updateUser({ firstName: firstName, lastName: lastName });
-        setIsEditing(false);
+    const handleProfileSave = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setIsSaving(true);
+        try{
+            const response = await fetch('http://localhost:3000/authentication/edit-profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    newFirstName: firstName,
+                    newLastName: lastName,
+                    email: user?.email
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update profile');
+            }
+            setIsSaving(false);
+            updateUser({ firstName: firstName, lastName: lastName });
+            setIsEditing(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 3000);
+        }catch(error){
+            console.error(error)
+        }
     };
 
     return (
         <MainContainer>
+            {showSuccessMessage && <Message>Your profile has been updated.</Message>}
             <SideBar/>
             <Content>
                 {!isEditing ? ( 
@@ -33,11 +64,15 @@ const Profile = () => {
                     <UserInfo>
                         <UserName>{user?.firstName + ' ' + user?.lastName}</UserName>
                         <UserEmail>{user?.email}</UserEmail>
-                        {user?.role === 'TEACHER' &&( 
+                        {user?.role === 'TEACHER' ? ( 
                             <UserSubjects>
                                 {user?.subjects?.map((subject) => (
                                     <Subject key={subject.subjectid}>{subject.subjectname}</Subject>
                                 ))}
+                            </UserSubjects>
+                        ) : (
+                            <UserSubjects>
+                                <Subject>{user?.role}</Subject>
                             </UserSubjects>
                         )}
                     </UserInfo>
@@ -55,7 +90,7 @@ const Profile = () => {
                         <InputText>Last name:</InputText>
                         <Input type="text" id="username" placeholder="Username..." value={lastName} onChange={(e) => setLastName(e.target.value)} required ></Input>
                         <ButtonsContainer>
-                            <Button type="submit">Save</Button>
+                            <Button type="submit">{isSaving ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Save"}</Button>
                             <Button type="button" onClick={() => setIsEditing(false)} important>Cancel</Button>
                         </ButtonsContainer>
                     </Form>

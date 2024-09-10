@@ -19,7 +19,7 @@ const buttonStyles = css<ButtonProps>`
       props.secondary ? colors.secondary :
       colors.primary};
     border: ${props => props.secondary ? `1px solid ${colors.primary}` : "none"};
-    color: ${props => props.secondary ? colors.text : '#fff'};
+    color: ${props => props.secondary ? colors.primary : '#fff'};
     display: flex;
     justify-content: center;
     align-items: center;
