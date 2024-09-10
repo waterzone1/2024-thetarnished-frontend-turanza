@@ -2,10 +2,6 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from "../../assets/colors";
 
-export const SideBar = styled.div`
-    
-`
-
 export const NavbarContainer = styled.nav`
     position: fixed;
     background-color: ${colors.secondary} ;
@@ -19,6 +15,10 @@ export const NavbarContainer = styled.nav`
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+    @media (max-width: 1000px) {  
+        display: none;
+    }
 `;
 
 export const NavbarLink = styled(NavLink)`

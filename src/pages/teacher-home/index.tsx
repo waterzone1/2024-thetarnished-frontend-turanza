@@ -2,6 +2,7 @@ import { Content, MainContainer, ContentTitle, CardsWrapper, CardsTitle, Card, C
 import Logo from "../../assets/Logo transparent.png"
 import SideBar from "../../components/sidebar/sidebar";
 import { useAuth } from "../../auth/useAuth";
+import Topbar from "../../components/topbar/index";
 
 const Home = () => {
 
@@ -9,6 +10,7 @@ const Home = () => {
 
   return (
     <MainContainer>
+      <Topbar/>
       <SideBar/>
       <Content>
       <ContentTitle>Welcome {user?.firstName}!</ContentTitle>

@@ -19,6 +19,10 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center ;
     justify-content: center;
+
+    @media (max-width: 1000px) {  
+        margin: auto;
+    }
 `
 
 export const ContentTitle = styled.h2`

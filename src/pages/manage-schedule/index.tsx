@@ -13,6 +13,8 @@ const ManageSchedule = () => {
     const [availableHours, setAvailableHours] = useState<string[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [message, setMessage] = useState('');
     const { user, updateUser } = useAuth();
     const daysOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
     const hours = Array.from({ length: 13 }, (_, i) => {
@@ -64,14 +66,13 @@ const ManageSchedule = () => {
                 body: JSON.stringify({ schedule: scheduleData })
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                updateUser({ schedule: result });
-                console.log('Schedule saved successfully', result);
-            } else {
-                console.error('Error saving schedule');
+            if (!response.ok) {   
+                throw new Error('Error saving schedule');
             }
+            const result = await response.json();
+            updateUser({ schedule: result });
             setIsSaving(false);
+            setMessage('Schedule saved successfully');
             setShowSuccessMessage(true);
             setTimeout(() => {
                 setShowSuccessMessage(false);
@@ -80,12 +81,18 @@ const ManageSchedule = () => {
         } catch (error) {
             console.error('Error creating schedule', error);
             setIsSaving(false);
+            setMessage('Error creating schedule');
+            setShowErrorMessage(true)
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
         }
     };
 
     return (
         <MainContainer>
-            {showSuccessMessage && <Message success>Schedule saved successfully</Message>}
+            {showSuccessMessage && <Message>{message}</Message>}
+            {showErrorMessage && <Message error>{message}</Message>}
             <SideBar />
             <Content>
                 <ScheduleContainer>
