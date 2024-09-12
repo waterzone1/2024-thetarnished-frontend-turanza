@@ -23,7 +23,7 @@ export const RightContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 100%;
     height: 100%;
 `
 
@@ -47,6 +47,10 @@ export const FormContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
     backface-visibility: hidden;
+
+    @media (max-width: 400px){
+        padding: 30px 30px 60px 30px ;
+    }
 `
 
 export const FormTitle = styled.h2`

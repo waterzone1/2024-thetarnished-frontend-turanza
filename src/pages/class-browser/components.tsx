@@ -38,6 +38,11 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center ;
     justify-content: center;
+
+    @media (max-width: 1000px){
+        margin-left: 0;
+        width: 100% ;
+    }
 `
 
 export const BrowserWrapper = styled.div`
@@ -70,6 +75,12 @@ export const BrowserWrapper = styled.div`
 
     scrollbar-width: thin;
     scrollbar-color: white transparent;
+
+    @media (max-width: 1000px){
+        width: 80%;
+    }
+
+
 `;
 
 
@@ -137,15 +148,24 @@ export const PopUp = styled.div`
     background-color: white;
     padding: 50px;
     border-radius: 8px;
-    z-index: 1000; 
+    z-index: 900; 
     color: ${colors.primary};
     border: 2px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    @media (max-width: 500px){
+        padding: 5px;
+        width: 80%;
+    }
 `
 
 export const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: row;
+
+    @media (max-width: 500px){
+        width: 100px;
+    }
 `
 
 

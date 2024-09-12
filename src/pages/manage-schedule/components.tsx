@@ -2,7 +2,7 @@ import styled from "styled-components";
 import colors from "../../assets/colors";
 
 export const MainContainer = styled.div`
-    height: 100vh ;
+    height: 120vh ;
     width: 100vw ;
     display: flex;
     align-items: center ;
@@ -18,12 +18,27 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center ;
     justify-content: center;
+
+    @media (max-width: 1000px){
+        margin-left: 0;
+        width: 100% ;
+    }
+
+    @media (max-width: 850px){
+        width: 90% ;
+        margin: auto;
+    }
 `
 export const ScheduleContainer = styled.div`
     padding: 50px 50px 20px 50px;
     background-color: ${colors.secondary} ;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 30px ;
+
+    @media (max-width: 1000px){
+        margin: auto;
+        padding: 5px;
+    }
 `
 
 export const TableData = styled.td`
@@ -34,8 +49,13 @@ export const TableData = styled.td`
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
     color: ${colors.secondary} ;
     font-size: 1.5rem ;
-`
 
+    @media (max-width: 500px){
+        width: 50px ;
+        height: 30px ;
+        font-size: 15px;
+    }
+`
 export const ButtonContainer = styled.div`
     display: flex ;
     width: 100% ;

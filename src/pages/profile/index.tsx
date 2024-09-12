@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/useAuth';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import Topbar from '../../components/topbar';
 
 const Profile = () => {
 
@@ -57,6 +58,7 @@ const Profile = () => {
         <MainContainer>
             {showSuccessMessage && <Message>Your profile has been updated.</Message>}
             <SideBar/>
+            <Topbar/>
             <Content>
                 {!isEditing ? ( 
                 <ProfileCard>

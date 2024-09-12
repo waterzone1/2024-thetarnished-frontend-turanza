@@ -1,5 +1,5 @@
 import { useAuth } from "../../auth/useAuth";
-import { FullMenuContainer, FullMenuLink, MenuButton, MenuWrapper, TopbarContainer } from './components';
+import { FullMenuContainer, FullMenuLink, MenuButton, MenuWrapper, SingOutLink, TopbarContainer } from './components';
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseSharp } from "react-icons/io5";
@@ -43,7 +43,7 @@ const Topbar = () => {
 
           <FullMenuLink title='My profile' to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>Profile</FullMenuLink>
           {/* <FullMenuLink title='Settings' to="/settings" className={({ isActive }) => (isActive ? "active" : "")}>Settings</FullMenuLink> */}
-          <FullMenuLink to='/' onClick={logoutUser}>Log out</FullMenuLink>
+          <SingOutLink to='/' onClick={logoutUser}>Log out</SingOutLink>
         </FullMenuContainer>
         )}
     </TopbarContainer>

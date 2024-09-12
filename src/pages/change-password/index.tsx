@@ -1,11 +1,10 @@
 import { useState } from "react"
-import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, FormTitle, Button, ButtonsContainer } from "./components"
+import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, FormTitle, Button, ButtonsContainer, ToggleVisibilityButton } from "./components"
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../auth/useAuth";
 import { Message } from "../../components/message/components";
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
-import { ToggleVisibilityButton } from "../login/components";
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const ChangePassword = () => {

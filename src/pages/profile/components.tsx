@@ -18,6 +18,11 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center ;
     justify-content: center;
+
+    @media (max-width: 1000px){
+        margin-left: 0;
+        width: 100% ;
+    }
 `
 
 export const ProfileCard = styled.div`
@@ -30,6 +35,14 @@ export const ProfileCard = styled.div`
     align-items: center ;
     border-radius: 50px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    @media (max-width: 1200px){
+        margin-top: 80px;
+    }
+
+    @media (max-width: 550px){
+        width: 90% ;
+    }
 `
 
 export const UserImage  = styled.img`
@@ -78,6 +91,10 @@ export const CardButtons = styled.div`
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
+
+    @media (max-width: 550px){
+        flex-direction:column ;
+    }
 `
 
 export const FormContainer = styled.div`
@@ -90,6 +107,10 @@ export const FormContainer = styled.div`
     background-color: ${colors.secondary} ;
     border-radius: 30px ;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+    @media (max-width: 550px){
+        width: 90% ;
+    }
 `
 
 export const FormTitle = styled.h2`
@@ -99,7 +120,7 @@ export const FormTitle = styled.h2`
 export const Form = styled.form`
     display: flex;
     flex-direction: column;
-    z-index: 3;
+    z-index: 1;
 `;
 export const InputText = styled.label`
     font-size: 16px;

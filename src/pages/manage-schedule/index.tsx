@@ -8,6 +8,7 @@ import TransparentLogo from "../../assets/Logo transparent.png";
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import { Button } from '../../components/main-button/components';
+import Topbar from '../../components/topbar';
 
 const ManageSchedule = () => {
     const [availableHours, setAvailableHours] = useState<string[]>([]);
@@ -17,6 +18,7 @@ const ManageSchedule = () => {
     const [message, setMessage] = useState('');
     const { user, updateUser } = useAuth();
     const daysOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
+    const daysOfWeekShort = useMemo(() => ['M', 'T', 'W', 'T', 'F', 'S', 'S'], []);
     const hours = Array.from({ length: 13 }, (_, i) => {
         const hour = String(i + 8).padStart(2, '0');
         return `${hour}:00:00`;
@@ -94,13 +96,14 @@ const ManageSchedule = () => {
             {showSuccessMessage && <Message>{message}</Message>}
             {showErrorMessage && <Message error>{message}</Message>}
             <SideBar />
+            <Topbar/>
             <Content>
                 <ScheduleContainer>
                     <table style={{ color: 'black', paddingBottom: '20px' }}>
                         <thead>
                             <tr>
                                 <th></th>
-                                {daysOfWeek.map(day => (
+                                {daysOfWeekShort.map(day => (
                                     <th key={day}>{day}</th>
                                 ))}
                             </tr>

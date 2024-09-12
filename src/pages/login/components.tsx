@@ -17,6 +17,11 @@ export const MainContainer = styled.div`
     background: linear-gradient(143deg, rgba(89,185,99,1) 0%, rgba(38,78,42,1) 35%, rgba(15,41,46,1) 84%);
     padding: 0;
     z-index: -2;
+
+    @media (max-width: 1200px){
+      flex-direction: column;
+      justify-content: flex-start;
+    }
 `
 
 export const LeftContainer = styled.div`
@@ -30,6 +35,27 @@ export const LeftContainer = styled.div`
     position: relative;
     background-color: ${colors.secondary};
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+    @media (max-width: 1200px){
+      display: none;
+    }
+
+`
+
+export const TopContainer = styled.div`
+  background-color: ${colors.secondary};
+  border-bottom-left-radius: 40%;
+  border-bottom-right-radius: 40%;
+  padding-top: 40px;
+  padding-bottom: 50px;
+  width: 100%;
+  justify-content:center ;
+  display: flex;
+  height: 15%;
+
+  @media (min-width: 1200px){
+      display: none;
+  }
 `
 
 export const RightContainer = styled.div`
@@ -38,12 +64,24 @@ export const RightContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 50%;
-    height: 100%;
+    height: 85%;
+
+    @media (max-width: 1200px){
+      width: 100%;
+    }
 `
 
 export const Image = styled.img`
     max-width: 100%;
     max-height: 100%;
+
+    @media (max-width: 1200px){
+      height: 100px;
+    }
+
+    @media (max-width: 500px){
+      height: 80px;
+    }
 `
 
 const flip = keyframes`
@@ -66,6 +104,10 @@ export const FormContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
     backface-visibility: hidden;
+
+    @media (max-width: 500px){
+      padding: 30px 30px 60px 30px;
+    }
 `
 
 export const FormTitle = styled.h2`
@@ -142,6 +184,14 @@ export const ToggleVisibilityButton = styled.button`
     height: 40px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+
+    
+`
+
+export const StarsContainer = styled.div`
+  @media (max-width: 1200px){
+      display: none;
+    }
 `
 
 export const AnimatedStars = styled.svg`
@@ -172,6 +222,7 @@ const floating = keyframes`
   100% {
     transform: translateY(0);
   }
+  
 `;
 
 interface StarProps extends React.SVGProps<SVGCircleElement> {

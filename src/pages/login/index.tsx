@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { MainContainer, LeftContainer, RightContainer, Image, FormContainer, Form, InputText, Input, FormTitle, Button, ToggleVisibilityButton, ButtonsContainer, AnimatedStars, Star, ForgotPass } from "./components"
+import { MainContainer, LeftContainer, RightContainer, Image, FormContainer, Form, InputText, Input, FormTitle, Button, ToggleVisibilityButton, ButtonsContainer, AnimatedStars, Star, ForgotPass, TopContainer, StarsContainer } from "./components"
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import Logo from "../../assets/Logo.png";
@@ -41,18 +41,23 @@ const Login = () => {
             <LeftContainer>
                 <Image src={Logo}></Image>
             </LeftContainer>
+            <TopContainer>
+                <Image src={Logo}></Image>
+            </TopContainer>
             <RightContainer>
-            <AnimatedStars xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
-                <Star cx="100" cy="100" r="2" delay="2s"/>
-                <Star cx="200" cy="200" r="2" delay="0s"/>
-                <Star cx="300" cy="300" r="2" delay="1s"/>
-                <Star cx="500" cy="100" r="2" delay="0s"/>
-                <Star cx="600" cy="500" r="2" delay="0s"/>
-                <Star cx="700" cy="300" r="2" delay="1s"/>
-                <Star cx="100" cy="500" r="2" delay="2s"/>
-                <Star cx="300" cy="600" r="2" delay="1s"/>
-                <Star cx="650" cy="50" r="2" delay="1s"/>
-            </AnimatedStars>
+            <StarsContainer>
+                <AnimatedStars xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+                    <Star cx="100" cy="100" r="2" delay="2s"/>
+                    <Star cx="200" cy="200" r="2" delay="0s"/>
+                    <Star cx="300" cy="300" r="2" delay="1s"/>
+                    <Star cx="500" cy="100" r="2" delay="0s"/>
+                    <Star cx="600" cy="500" r="2" delay="0s"/>
+                    <Star cx="700" cy="300" r="2" delay="1s"/>
+                    <Star cx="100" cy="500" r="2" delay="2s"/>
+                    <Star cx="300" cy="600" r="2" delay="1s"/>
+                    <Star cx="650" cy="50" r="2" delay="1s"/>
+                </AnimatedStars>
+            </StarsContainer>
                 <FormContainer>
                     {invalidCredentials && <p style={{color: 'red'}}>Invalid credentials. Please try again.</p>}
                     <FormTitle>Welcome!</FormTitle>

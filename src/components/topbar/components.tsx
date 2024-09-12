@@ -7,16 +7,16 @@ export const TopbarContainer = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 85px;
     background-color: ${colors.secondary};
     display: flex;
     align-items: center;
     justify-content: right;
+    z-index: 999;
 
     @media (min-width: 1000px) {
         display: none;
     }
-
 `
 
 export const MenuWrapper = styled.div`
@@ -67,7 +67,19 @@ export const FullMenuLink = styled(NavLink)`
     }
 
     &.active {
-        background-color: #59b963;
+        background-color: ${colors.primary};
         color: ${colors.secondary};
     }
+`
+
+export const SingOutLink = styled(NavLink)`
+    position: absolute;
+    background-color: ${colors.important};
+    color: ${colors.secondary};
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color:  ${colors.secondary};
+    top: 70%;
 `

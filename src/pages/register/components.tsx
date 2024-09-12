@@ -30,14 +30,17 @@ export const LeftContainer = styled.div`
     position: relative;
     background-color: ${colors.secondary};
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  
+    @media (max-width: 1200px){
+      display: none;
+    }
 `
-
 export const RightContainer = styled.div`
     position: relative ;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 100%;
     height: 100%;
 `
 
@@ -66,6 +69,14 @@ export const FormContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
     backface-visibility: hidden;
+
+    @media (max-width: 500px){
+      padding: 30px 35px 60px 35px;
+    }
+
+    @media (max-width: 400px){
+      max-width: 200px;
+    }
 `
 
 export const AnimatedContainer = styled.div<{ isTeacher: boolean }>`
@@ -103,6 +114,15 @@ export const Input = styled.input`
 
     &:focus {
         box-shadow: 0 0 5px ${colors.primary};
+    }
+
+    @media (max-width: 500px){
+      padding: 5px;
+    }
+
+    @media (max-width: 400px){
+      width: 90%;
+      max-width: 200px;
     }
 `;
 
@@ -172,6 +192,13 @@ export const ToggleVisibilityButton = styled.button`
     height: 40px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+
+    @media (max-width: 500px){
+      height: 30px;
+      width: 5px;
+      top: 15px;
+      right: 8px; 
+    }
 `
 
 export const AnimatedStars = styled.svg`

@@ -21,5 +21,5 @@ export const Message = styled.div<MessageProps>`
     padding: 10px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    z-index: 999;
+    z-index: 1001;
 `;

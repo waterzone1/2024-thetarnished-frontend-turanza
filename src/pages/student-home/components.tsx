@@ -9,6 +9,11 @@ export const MainContainer = styled.div`
     align-items: center ;
     background: rgb(43,84,52);
     background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
+
+    @media (max-width: 1000px){
+        flex-direction: column;
+        height: 110vh ;
+    }
 `
 
 export const Content = styled.div`
@@ -19,6 +24,12 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center ;
     justify-content: center;
+
+    @media (max-width: 1000px){
+        margin-left: 0;
+        width: 100% ;
+        padding-top: 100px;
+    }
 `
 
 export const ContentTitle = styled.h2`
@@ -36,6 +47,39 @@ export const CardsWrapper = styled.div`
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 800px){
+      grid-template-columns: 45% 45%;
+      max-height: 800px;
+      overflow-y: auto;
+      flex-wrap: wrap;
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: white;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e0e0e0;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: white transparent;
+    }
+
+    @media (max-width: 450px){
+      grid-template-columns: 100%;
+    }
 `;
 
 interface CardProps {
@@ -61,15 +105,23 @@ export const Card = styled.div<CardProps>`
     transform: ${({ isSkeleton }) => (isSkeleton ? "none" : "translateY(-5px);")};
     box-shadow: ${({ isSkeleton }) => (isSkeleton ? "none" : "0 8px 16px rgba(0, 0, 0, 0.2);")};
   }
+
+  @media (max-width: 600px){
+      margin: auto ;
+      width: 150px;
+      height: 125px;
+    }
 `;
 
 export const CardSubject = styled.div`
   font-size: 25px;
   color: ${colors.primary};
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-export const ImageContainer = styled.div`
+/* export const ImageContainer = styled.div`
     position: absolute ;
     right: 20px;
     bottom: 20px;
@@ -78,7 +130,7 @@ export const ImageContainer = styled.div`
 export const Image = styled.img`
     width: 60px;
     height: 60px;
-`
+` */
 
 export const Arrow = styled.div<{ direction: string }>`
   position: absolute;
@@ -121,8 +173,8 @@ export const SkeletonCard = styled.div`
   align-items: center;
   padding: 16px;
   text-align: center;
+  
 `;
-
 
 export const SubjectSearchInput = styled.input`
   width: 250px;

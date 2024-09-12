@@ -23,7 +23,7 @@ export const RightContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 100%;
     height: 100%;
 `
 
@@ -47,10 +47,18 @@ export const FormContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     animation: ${flip} .5s ease-in-out;
     backface-visibility: hidden;
+
+    @media (max-width: 500px){
+        padding: 30px 20px 60px 20px ;
+    }
 `
 
 export const FormTitle = styled.h2`
     color: ${colors.primary};
+
+    @media (max-width: 500px){
+      width: 90%;
+    }
 `
 
 export const Form = styled.form`
@@ -78,6 +86,10 @@ export const Input = styled.input`
     &:focus {
         box-shadow: 0 0 5px ${colors.primary};
     }
+
+    @media (max-width: 500px){
+        width: 90%;
+    }
 `;
 
 const buttonStyles = css<ButtonProps>`
@@ -100,6 +112,10 @@ const buttonStyles = css<ButtonProps>`
 export const ButtonsContainer = styled.div`
     display: flex;  
     flex-direction: column ;
+
+    @media (max-width: 500px){
+      width: 100%;
+    }
 `
 
 export const Button = styled.button<ButtonProps>`
@@ -117,4 +133,20 @@ export const EmailSentNotification = styled.div`
     padding: 10px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+`
+
+export const ToggleVisibilityButton = styled.button`
+    position: absolute; 
+    right: 0px; 
+    top: 20px; 
+    transform: translateY(-50%);
+    background-color: ${colors.primary};
+    height: 40px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    @media (max-width: 500px){
+      top: 20px;
+      right: 4px; 
+    }
 `

@@ -1,9 +1,9 @@
-import { Content, MainContainer, CardsWrapper, Card, CardSubject, Image, ImageContainer, SkeletonCard, SubjectSearchInput } from "./components";
-import Logo from "../../assets/Logo transparent.png";
+import { Content, MainContainer, CardsWrapper, Card, CardSubject, SkeletonCard, SubjectSearchInput } from "./components";
 import SideBar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "../../components/main-button/components";
+import Topbar from "../../components/topbar";
 
 interface Subject {
   subjectid: number;
@@ -16,8 +16,17 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const widthUmbral1 = 800;
+  const widthUmbral2 = 450;
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
 
-  const ITEMS_PER_PAGE = 9;
+  const getItemsPerPage = (width: number) => {
+    if (width > widthUmbral1) return 9;
+    if (width > widthUmbral2) return 6;
+    return 3;
+  };
+
+  const ITEMS_PER_PAGE = getItemsPerPage(pageWidth);
 
   const handleSubjectSearch = (subjectId: number) => {
     navigate(`/class-browser/${subjectId}`);
@@ -32,6 +41,13 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const handleWidthChange = () => {
+      setPageWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleWidthChange);
+
+    handleWidthChange();
+
     const fetchSubjects = async () => {
       try {
         const response = await fetch('http://localhost:3000/subject/all-subjects-dictated', {
@@ -47,12 +63,18 @@ const Home = () => {
 
         const data = await response.json();
         setSubjects(data.results);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
       } catch (error) {
         console.error('Error:', error);
       }
     };
     fetchSubjects();
+    
+    return () => {
+      window.removeEventListener('resize', handleWidthChange);
+    };
   }, []);
 
   const filteredSubjects = subjects.filter(subject =>
@@ -68,6 +90,7 @@ const Home = () => {
   return (
     <MainContainer>
       <SideBar />
+      <Topbar/>
       <Content>
         {isLoading ? (
           <>
@@ -101,16 +124,13 @@ const Home = () => {
               ))}
             </CardsWrapper>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100px' }}>
               {currentPage > 1 && <Button onClick={handlePrevPage}>Previous</Button>}
               {currentPage < totalPages && <Button onClick={handleNextPage}>Next</Button>}
             </div>
           </>
         )}
       </Content>
-      <ImageContainer>
-        <Image src={Logo} />
-      </ImageContainer>
     </MainContainer>
   );
 };

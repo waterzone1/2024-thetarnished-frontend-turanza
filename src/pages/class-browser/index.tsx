@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
 import { MainContainer, Content, Card, Title, Instructor, BrowserWrapper, CardInfo, PopUp, PopUpContainer, ButtonsContainer, LoadingSkeletonCard, StaticSkeletonCard, Select, InputsContainer } from './components';
 import { Button } from '../../components/main-button/components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../auth/useAuth';
+import { Message } from '../../components/message/components';
 
 interface Teacher {
     teacherid: string;
@@ -29,8 +31,13 @@ const ClassBrowser = () => {
     const [clickedClass, setClickedClass] = useState<Teacher | null>(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [message, setMessage] = useState('');
 
     const { subjectId } = useParams();
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getTeachersDictatingSubject = async () => {
@@ -60,9 +67,12 @@ const ClassBrowser = () => {
                     const filteredSchedules = schedules.filter(({ schedule }) => schedule.length > 0);
 
                     setTeachersDictatingSubject(filteredSchedules);
+
                     setIsLoading(false);
+                    
                 } catch (error) {
                     console.error('Error fetching teachers dictating subjects:', error);
+                    setIsLoading(false);
                 }
             }
         };
@@ -92,21 +102,83 @@ const ClassBrowser = () => {
         setSelectedTime(event.target.value);
     };
 
-    const handleBook = async () => {
-        /* book logic */
-    };
-
-    const dayNames: { [key: string]: string } = {
-        '1': 'Monday',
-        '2': 'Tuesday',
-        '3': 'Wednesday',
-        '4': 'Thursday',
-        '5': 'Friday',
-        '6': 'Saturday',
-        '7': 'Sunday'
+    const handleGoBack = () => {
+        navigate('/student-home');
     };
 
     const formatTime = (time: string) => {
+        const [hours, minutes] = time.split(':');
+        return `${hours}:${minutes}`;
+    };
+
+    const handleBook = async () => {
+        try {
+            const selectedSchedule = teacherSchedule.find(
+                (schedule) =>
+                    schedule.teacherid === clickedClass?.teacherid &&
+                    schedule.dayofweek === selectedDay &&
+                    formatTime(schedule.start_time) === selectedTime
+            );
+    
+            if (!selectedSchedule) {
+                setMessage('No matching schedule found');
+                throw new Error('No matching schedule found');
+            }
+    
+            if (!selectedDay || !selectedTime) {
+                setMessage('Please select a day and time');
+                throw new Error('Please select a day and time');
+            }
+    
+            const response = await fetch(`http://localhost:3000/reservation/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    student_id: user?.id,
+                    subject_id: subjectId,
+                    teacher_id: clickedClass?.teacherid,
+                    dayofweek: parseInt(selectedDay, 10),
+                    start_time: `${selectedTime}:00`,
+                    schedule_id: selectedSchedule?.scheduleid,
+                })
+            });
+    
+            if (!response.ok) {
+                setMessage('Failed to book class');
+                throw new Error('Failed to book class');
+            }
+    
+            setIsPopupOpen(false);
+            setClickedClass(null);
+            setMessage('Class booked successfully');
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                navigate(`/student-home`);
+            }, 3000);
+    
+        } catch (error) {
+            console.error(error);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
+        }
+    };
+
+    const dayNames: { [key: string]: string } = {
+        '1': 'Mon',
+        '2': 'Tue',
+        '3': 'Wed',
+        '4': 'Thu',
+        '5': 'Fri',
+        '6': 'Sat',
+        '7': 'Sun'
+    };
+
+    const formatTimeWithPadding = (time: string) => {
         const [hours, minutes] = time.split(':').map(Number);
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
     };
@@ -116,12 +188,14 @@ const ClassBrowser = () => {
         return days.map(day => dayNames[day] || 'Unknown').join(', ');
     };
 
+    const dayOrder = ['1', '2', '3', '4', '5', '6', '7'];
     const filteredSchedule = Array.isArray(teacherSchedule) ? teacherSchedule.filter(schedule => schedule.dayofweek === selectedDay) : [];
-    const uniqueDays = Array.from(new Set(teacherSchedule.map(schedule => schedule.dayofweek)));
+    const uniqueDays = Array.from(new Set(teacherSchedule.map(schedule => schedule.dayofweek)))
+    .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
     
     const uniqueTimes = Array.from(new Set(filteredSchedule.map(schedule => schedule.start_time)))
         .sort((a, b) => a.localeCompare(b, undefined))
-        .map(formatTime);
+        .map(formatTimeWithPadding);
 
     const numStaticSkeletonCards = Math.max(0, 7 - teachersDictatingSubject.length);
     const cardsToDisplay = [...teachersDictatingSubject.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
@@ -131,9 +205,9 @@ const ClassBrowser = () => {
             {clickedClass != null &&
                 <PopUpContainer>
                     <PopUp>
-                        <h1>{clickedClass.firstname} {clickedClass.lastname}</h1>
+                        <h2>{clickedClass.firstname} {clickedClass.lastname}</h2>
                         <InputsContainer>
-                            <Select onChange={handleDayChange} value={selectedDay}>
+                            <Select required onChange={handleDayChange} value={selectedDay}>
                                 <option value="">Select a day</option>
                                 {uniqueDays.map(day => (
                                     <option key={day} value={day}>
@@ -141,9 +215,8 @@ const ClassBrowser = () => {
                                     </option>
                                 ))}
                             </Select>
-                            
                             {filteredSchedule.length > 0 && (
-                                <Select onChange={handleTimeChange} value={selectedTime}>
+                                <Select required onChange={handleTimeChange} value={selectedTime}>
                                     <option value="">Select a time</option>
                                     {uniqueTimes.map(time => (
                                         <option key={time} value={time}>
@@ -161,6 +234,8 @@ const ClassBrowser = () => {
                 </PopUpContainer>
             }
             <MainContainer isPopupOpen={isPopupOpen}>
+            {showSuccessMessage && <Message>{message}</Message>}
+            {showErrorMessage && <Message error>{message}</Message>}
                 <SideBar />
                 <Content>
                     <BrowserWrapper>
@@ -171,6 +246,12 @@ const ClassBrowser = () => {
                                 ))}
                             </div>
                         ) : (
+                            (numStaticSkeletonCards === 7) ? 
+                            <>
+                            <h1 style={{textAlign: "center"}}>No more teachers available for this subject.</h1>
+                            <Button secondary onClick={handleGoBack}>Go back</Button>
+                            </> 
+                            : (
                             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
                                 {cardsToDisplay.map((teacher, index) => (
                                     teacher ? (
@@ -191,6 +272,7 @@ const ClassBrowser = () => {
                                     )
                                 ))}
                             </div>
+                            )
                         )}
                     </BrowserWrapper>
                 </Content>
@@ -198,5 +280,4 @@ const ClassBrowser = () => {
         </>
     );
 }
-
 export default ClassBrowser;
