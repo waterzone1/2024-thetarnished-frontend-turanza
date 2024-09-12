@@ -19,7 +19,7 @@ const TeacherHome = () => {
     useEffect(() => {
         const getReservationsForStudent = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reservation/teacher/1002573885424041985`, {
+                const response = await fetch(`http://localhost:3000/reservation/teacher/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
