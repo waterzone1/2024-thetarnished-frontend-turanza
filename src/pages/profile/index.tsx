@@ -8,11 +8,12 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import Topbar from '../../components/topbar';
+import { PopUp, PopUpContainer } from '../class-browser/components';
 
 const Profile = () => {
 
     const navigate = useNavigate();
-    const { user, updateUser } = useAuth();
+    const { user, updateUser, logout } = useAuth();
 
     const [firstName, setFirstName] = useState(user?.firstName || '');
     const [lastName, setLastName] = useState(user?.lastName || '');
@@ -20,9 +21,43 @@ const Profile = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [showDeleteAccountConfirmation, setShowDeleteAccountConfirmation] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handlePasswordChange = () => {
         navigate('/change-password');
+    };
+
+    const handleDeleteAccountClick = () => {
+        setShowDeleteAccountConfirmation(true);
+        setIsPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowDeleteAccountConfirmation(false);
+        setIsPopupOpen(false);
+    };
+
+    const handleDeleteAccount = async () => {
+        try{
+            const response = await fetch('http://localhost:3000/authentication/delete-account', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: user?.email
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+            logout();
+        }catch(error){
+            alert("Failed to delete user");
+            console.error(error);
+        }
+        
     };
 
     const handleProfileSave = async (event: React.FormEvent) => {
@@ -61,9 +96,20 @@ const Profile = () => {
     };
 
     return (
-        <MainContainer>
+        <MainContainer isPopupOpen={isPopupOpen}>
             {showSuccessMessage && <Message>Your profile has been updated.</Message>}
             {showErrorMessage && <Message error>Could not update your password. Invalid credentials</Message>}
+            {showDeleteAccountConfirmation && (
+            <PopUpContainer>
+                <PopUp>
+                    <h2>Are you sure you want to delete your account?</h2>
+                    <ButtonsContainer>
+                    <Button onClick={handleDeleteAccount}>Yes</Button>
+                    <Button secondary onClick={handleClosePopup}>No</Button>
+                    </ButtonsContainer>
+                </PopUp>
+            </PopUpContainer>
+            )}
             <SideBar/>
             <Topbar/>
             <Content>
@@ -88,6 +134,7 @@ const Profile = () => {
                     <CardButtons>
                         <Button onClick={() => setIsEditing(true)}>Edit your profile</Button>
                         <Button important onClick={handlePasswordChange}>Change password</Button>
+                        <Button important onClick={handleDeleteAccountClick}>Delete account</Button>
                     </CardButtons>
                 </ProfileCard>
                 ) : (
