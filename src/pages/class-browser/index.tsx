@@ -5,6 +5,8 @@ import { Button } from '../../components/main-button/components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
 import { Message } from '../../components/message/components';
+import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
+import SimplifiedLogo from "../../assets/Logo transparent.png";
 
 interface Teacher {
     teacherid: string;
@@ -34,6 +36,7 @@ const ClassBrowser = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [message, setMessage] = useState('');
+    const [isBooking, setIsBooking] = useState(false);
 
     const { subjectId } = useParams();
     const { user } = useAuth();
@@ -113,6 +116,7 @@ const ClassBrowser = () => {
 
     const handleBook = async () => {
         try {
+            setIsBooking(true);
             const selectedSchedule = teacherSchedule.find(
                 (schedule) =>
                     schedule.teacherid === clickedClass?.teacherid &&
@@ -154,14 +158,16 @@ const ClassBrowser = () => {
             setClickedClass(null);
             setMessage('Class booked successfully');
             setShowSuccessMessage(true);
+            setIsBooking(false);
             setTimeout(() => {
                 setShowSuccessMessage(false);
-                navigate(`/student-home`);
+                window.location.reload();
             }, 3000);
     
         } catch (error) {
             console.error(error);
             setShowErrorMessage(true);
+            setIsBooking(false);
             setTimeout(() => {
                 setShowErrorMessage(false);
             }, 3000);
@@ -227,7 +233,7 @@ const ClassBrowser = () => {
                             )}
                         </InputsContainer>
                         <ButtonsContainer>
-                            <Button onClick={handleBook}>Book</Button>
+                            <Button onClick={handleBook}>{isBooking ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Book"}</Button>
                             <Button secondary onClick={handlePopupClose}>Close</Button>
                         </ButtonsContainer>
                     </PopUp>

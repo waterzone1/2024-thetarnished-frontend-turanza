@@ -19,6 +19,7 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const handlePasswordChange = () => {
         navigate('/change-password');
@@ -50,13 +51,19 @@ const Profile = () => {
                 setShowSuccessMessage(false);
             }, 3000);
         }catch(error){
-            console.error(error)
+            console.error(error);
+            setIsEditing(false);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
         }
     };
 
     return (
         <MainContainer>
             {showSuccessMessage && <Message>Your profile has been updated.</Message>}
+            {showErrorMessage && <Message error>Could not update your password. Invalid credentials</Message>}
             <SideBar/>
             <Topbar/>
             <Content>
