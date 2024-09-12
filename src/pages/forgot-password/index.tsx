@@ -28,17 +28,18 @@ const ForgotPassword = () => {
             throw new Error('Failed to reset password');
         }
 
-    }catch(error){
-        console.log(error);
-    }   
-        setIsLoading(false)
+        setIsLoading(false);
         setEmailSent(true);
         setTimeout(() => {
             setEmailSent(false);
             navigate('/');
         }, 3000);
-    }
 
+    }catch(error){
+        setIsLoading(false);
+        console.log(error);
+    }   
+    }
     const handleBackToLogin = () => {
         navigate('/');
     }
