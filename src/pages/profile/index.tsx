@@ -23,6 +23,7 @@ const Profile = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showDeleteAccountConfirmation, setShowDeleteAccountConfirmation] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     const handlePasswordChange = () => {
         navigate('/change-password');
@@ -50,11 +51,15 @@ const Profile = () => {
                 }),
             });
             if (!response.ok) {
+                setMessage("Could not delete account");
                 throw new Error('Failed to delete user');
             }
             logout();
         }catch(error){
-            alert("Failed to delete user");
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false)
+            }, 3000);
             console.error(error);
         }
         
@@ -76,6 +81,7 @@ const Profile = () => {
                 }),
             });
             if (!response.ok) {
+                setMessage("Could not update profile");
                 throw new Error('Failed to update profile');
             }
             setIsSaving(false);
@@ -98,7 +104,7 @@ const Profile = () => {
     return (
         <MainContainer isPopupOpen={isPopupOpen}>
             {showSuccessMessage && <Message>Your profile has been updated.</Message>}
-            {showErrorMessage && <Message error>Could not update your password. Invalid credentials</Message>}
+            {showErrorMessage && <Message error>{message}</Message>}
             {showDeleteAccountConfirmation && (
             <PopUpContainer>
                 <PopUp>

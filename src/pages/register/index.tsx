@@ -34,12 +34,12 @@ const Register = () => {
         setIsRegistering(true);
         try{
             if(!firstName || !lastName || !email || !password || !repassword || !selectedOptions) {
-                setErrorMessage('Please fill all fields');
-                throw new Error('Please fill all fields');
+                setErrorMessage('Please fill all fields.');
+                throw new Error('Please fill all fields.');
             }
             if(!(password === repassword)) {
-                setErrorMessage('Passwords do not match');
-                throw new Error('Passwords do not match');
+                setErrorMessage('Passwords do not match.');
+                throw new Error('Passwords do not match.');
             }
             const role = isTeacher ? 'TEACHER' : 'STUDENT';
     
@@ -57,7 +57,12 @@ const Register = () => {
                     role: role
                 }),
             });
-            if (!response.ok) {
+
+            if(response.status === 401){
+                setErrorMessage('User already exists.');
+                throw new Error('User already exists.');
+            }
+            else if (!response.ok) {
                 setErrorMessage('Invalid information');
                 throw new Error('Invalid information');
             }

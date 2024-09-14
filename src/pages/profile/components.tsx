@@ -168,3 +168,17 @@ export const ButtonsContainer = styled.div`
     display: flex; 
     flex-direction: column ;
 `
+
+export const InteractionBlocker = styled.div`
+    position: fixed; /* Fija el elemento en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Color negro semi-transparente */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    display: flex; /* Opcional: centra el contenido si es necesario */
+    justify-content: center; /* Opcional: centra horizontalmente */
+    align-items: center; /* Opcional: centra verticalmente */
+`

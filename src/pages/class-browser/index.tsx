@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/useAuth';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { InteractionBlocker } from '../profile/components';
 
 interface Teacher {
     teacherid: string;
@@ -37,6 +38,7 @@ const ClassBrowser = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [message, setMessage] = useState('');
     const [isBooking, setIsBooking] = useState(false);
+    const [isBookingTimeout, setIsBookingTimeout] = useState(false);
 
     const { subjectId } = useParams();
     const { user } = useAuth();
@@ -133,20 +135,24 @@ const ClassBrowser = () => {
                 setMessage('Please select a day and time');
                 throw new Error('Please select a day and time');
             }
+
+            const requestBody = {
+                student_id: user?.id,
+                subject_id: subjectId,
+                teacher_id: clickedClass?.teacherid,
+                dayofweek: parseInt(selectedDay, 10),
+                start_time: `${selectedTime}:00`,
+                schedule_id: selectedSchedule?.scheduleid,
+            };
+            
+            console.log('Request body:', requestBody);
     
             const response = await fetch(`http://localhost:3000/reservation/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    student_id: user?.id,
-                    subject_id: subjectId,
-                    teacher_id: clickedClass?.teacherid,
-                    dayofweek: parseInt(selectedDay, 10),
-                    start_time: `${selectedTime}:00`,
-                    schedule_id: selectedSchedule?.scheduleid,
-                })
+                body: JSON.stringify(requestBody),
             });
     
             if (!response.ok) {
@@ -157,10 +163,12 @@ const ClassBrowser = () => {
             setIsPopupOpen(false);
             setClickedClass(null);
             setMessage('Class booked successfully');
-            setShowSuccessMessage(true);
             setIsBooking(false);
+            setIsBookingTimeout(true);
+            setShowSuccessMessage(true);
             setTimeout(() => {
                 setShowSuccessMessage(false);
+                setIsBookingTimeout(false);
                 window.location.reload();
             }, 3000);
     
@@ -242,6 +250,7 @@ const ClassBrowser = () => {
             <MainContainer isPopupOpen={isPopupOpen}>
             {showSuccessMessage && <Message>{message}</Message>}
             {showErrorMessage && <Message error>{message}</Message>}
+            {isBookingTimeout && <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>}
                 <SideBar />
                 <Content>
                     <BrowserWrapper>
