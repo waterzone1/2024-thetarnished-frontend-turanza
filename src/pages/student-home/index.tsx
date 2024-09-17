@@ -1,9 +1,11 @@
-import { Content, MainContainer, CardsWrapper, Card, CardSubject, SkeletonCard, SubjectSearchInput } from "./components";
+import { Content, MainContainer, CardsWrapper, Card, CardSubject, SkeletonCard } from "./components";
 import SideBar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "../../components/main-button/components";
 import Topbar from "../../components/topbar";
+import { SearchInput } from "../../components/search-input/components";
+import Logo from "../../components/top-down-logo";
 
 interface Subject {
   subjectid: number;
@@ -28,8 +30,8 @@ const Home = () => {
 
   const ITEMS_PER_PAGE = getItemsPerPage(pageWidth);
 
-  const handleSubjectSearch = (subjectId: number) => {
-    navigate(`/class-browser/${subjectId}`);
+  const handleSubjectSearch = (subjectId: number, subjectName: string) => {
+    navigate(`/class-browser/${subjectId}/${subjectName}`);
   };
 
   const handleNextPage = () => {
@@ -90,6 +92,7 @@ const Home = () => {
   return (
     <MainContainer>
       <SideBar />
+      <Logo/>
       <Topbar/>
       <Content>
         {isLoading ? (
@@ -104,7 +107,7 @@ const Home = () => {
         ) : (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-              <SubjectSearchInput
+              <SearchInput
                 type="text"
                 placeholder="Search by subject name"
                 value={searchQuery}
@@ -114,7 +117,7 @@ const Home = () => {
 
             <CardsWrapper>
               {currentSubjects.map(subject => (
-                <Card key={subject.subjectid} onClick={() => handleSubjectSearch(subject.subjectid)}>
+                <Card key={subject.subjectid} onClick={() => handleSubjectSearch(subject.subjectid, subject.subjectname)}>
                   <CardSubject>{subject.subjectname}</CardSubject>
                 </Card>
               ))}

@@ -3,6 +3,7 @@ import { MainContainer, RightContainer, FormContainer, Form, InputText, Input, F
 import { useNavigate } from 'react-router-dom';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
+import Logo from "../../components/top-down-logo";
 
 const ForgotPassword = () => {
 
@@ -60,6 +61,7 @@ const ForgotPassword = () => {
                     </Form>
                 </FormContainer>
             </RightContainer>
+            <Logo/>
         </MainContainer>
     )
 

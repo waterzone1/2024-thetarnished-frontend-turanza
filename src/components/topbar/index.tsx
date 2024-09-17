@@ -1,8 +1,10 @@
 import { useAuth } from "../../auth/useAuth";
-import { FullMenuContainer, FullMenuLink, MenuButton, MenuWrapper, SingOutLink, TopbarContainer } from './components';
+import { FullMenuContainer, FullMenuLink, Logo, MenuButton, MenuWrapper, SingOutLink, TopbarContainer } from './components';
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseSharp } from "react-icons/io5";
+import LogoSimplified from "../../assets/Logo.png";
+import { AiOutlineHome/* , AiOutlineForm */ , AiOutlineUser/* , AiOutlineTool */, AiOutlineSchedule, AiOutlineLogout/* , AiOutlineDatabase */, AiOutlineGroup } from "react-icons/ai";
 
 const Topbar = () => {
 
@@ -20,6 +22,7 @@ const Topbar = () => {
   return (
     <TopbarContainer>
         <MenuWrapper>
+            <Logo src={LogoSimplified}/>
             <MenuButton onClick={toggleMenuOpen}>
                 {isMenuOpen ? <IoCloseSharp /> : <RxHamburgerMenu />}
             </MenuButton>
@@ -28,22 +31,22 @@ const Topbar = () => {
         <FullMenuContainer>
           {(user?.role === 'TEACHER') && (
                   <>
-                  <FullMenuLink title='Home' to="/teacher-home" className={({ isActive }) => (isActive ? "active" : "")}>Home</FullMenuLink>
-                  <FullMenuLink title='Manage schedule' to="/manage-schedule" className={({ isActive }) => (isActive ? "active" : "")}>Manage schedule</FullMenuLink>
+                  <FullMenuLink title='Home' to="/teacher-home" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineHome />Home</FullMenuLink>
+                  <FullMenuLink title='Manage schedule' to="/manage-schedule" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineSchedule />Manage schedule</FullMenuLink>
                   {/* <FullMenuLink title='Manage classes' to="/manage-classes" className={({ isActive }) => (isActive ? "active" : "")}>Manage classes</FullMenuLink> */}
                   </>
               )}
 
           {(user?.role === 'STUDENT') && (
               <>
-              <FullMenuLink title='Home' to="/student-home" className={({ isActive }) => (isActive ? "active" : "")}>Home</FullMenuLink>
-              <FullMenuLink title='My classes' to="/my-classes" className={({ isActive }) => (isActive ? "active" : "")}>My classes</FullMenuLink>
+              <FullMenuLink title='Home' to="/student-home" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineHome />Home</FullMenuLink>
+              <FullMenuLink title='My classes' to="/my-classes" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineGroup  />My classes</FullMenuLink>
               </>
           )}
 
-          <FullMenuLink title='My profile' to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>Profile</FullMenuLink>
+          <FullMenuLink title='My profile' to="/profile" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineUser />Profile</FullMenuLink>
           {/* <FullMenuLink title='Settings' to="/settings" className={({ isActive }) => (isActive ? "active" : "")}>Settings</FullMenuLink> */}
-          <SingOutLink to='/' onClick={logoutUser}>Log out</SingOutLink>
+          <SingOutLink to='/' onClick={logoutUser}><AiOutlineLogout />Log out</SingOutLink>
         </FullMenuContainer>
         )}
     </TopbarContainer>

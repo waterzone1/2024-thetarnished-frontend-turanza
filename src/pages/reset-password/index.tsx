@@ -6,6 +6,7 @@ import SimplifiedLogo from "../../assets/Logo transparent.png";
 import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
 import { ToggleVisibilityButton } from "../login/components";
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import Logo from "../../components/top-down-logo";
 
 const ResetPassword = () => {
 
@@ -111,6 +112,7 @@ const ResetPassword = () => {
                     </Form>
                 </FormContainer>
             </RightContainer>
+            <Logo/>
         </MainContainer>
     )
 

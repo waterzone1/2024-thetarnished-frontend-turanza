@@ -26,7 +26,7 @@ const SideBar: React.FC = () => {
 
             <NavbarLink title='My profile' to="/profile" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineUser /></NavbarLink>
             {/* <NavbarLink title='Settings' to="/settings" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineTool /></NavbarLink> */}
-            <LogOutNavbarLink to="/" onClick={logout}><AiOutlineLogout /></LogOutNavbarLink>
+            <LogOutNavbarLink to="/" onClick={logout}><AiOutlineLogout/></LogOutNavbarLink>
         </NavbarContainer>
     );
 };

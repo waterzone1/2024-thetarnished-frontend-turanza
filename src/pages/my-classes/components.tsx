@@ -8,10 +8,6 @@ export const MainContainer = styled.div`
     align-items: center ;
     background: rgb(43,84,52);
     background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
-
-    @media (max-width: 1000px){
-        height: 110vh ;
-    }
 `
 
 export const Content = styled.div`

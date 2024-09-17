@@ -9,6 +9,7 @@ import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/comp
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import Topbar from '../../components/topbar';
 import { PopUp, PopUpContainer } from '../class-browser/components';
+import Logo from '../../components/top-down-logo';
 
 const Profile = () => {
 
@@ -102,9 +103,7 @@ const Profile = () => {
     };
 
     return (
-        <MainContainer isPopupOpen={isPopupOpen}>
-            {showSuccessMessage && <Message>Your profile has been updated.</Message>}
-            {showErrorMessage && <Message error>{message}</Message>}
+        <>
             {showDeleteAccountConfirmation && (
             <PopUpContainer>
                 <PopUp>
@@ -116,12 +115,15 @@ const Profile = () => {
                 </PopUp>
             </PopUpContainer>
             )}
+        <MainContainer isPopupOpen={isPopupOpen}>
+            {showSuccessMessage && <Message>Your profile has been updated.</Message>}
+            {showErrorMessage && <Message error>{message}</Message>}
             <SideBar/>
             <Topbar/>
             <Content>
                 {!isEditing ? ( 
                 <ProfileCard>
-                    <UserImage src="https://i.pravatar.cc/150?img=68" alt="User Image" />
+                    <UserImage src="https://imgs.search.brave.com/CidPMbEerqHyYiRV-k0nX7jmRCWkpObwF5BxWwlJKog/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjE5/NDAwODEwL3Bob3Rv/L21yLXdoby5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9aGFy/VHhXX0lSbDA2Q25o/LTRrbkNudHh3WWlx/V282eWlBeEpUcld5/U0ppRT0" alt="User Image" />
                     <UserInfo>
                         <UserName>{user?.firstName + ' ' + user?.lastName}</UserName>
                         <UserEmail>{user?.email}</UserEmail>
@@ -159,7 +161,9 @@ const Profile = () => {
                 </FormContainer> 
                 )}
             </Content>
+            <Logo/>
         </MainContainer>
+        </>
     )
 }
 

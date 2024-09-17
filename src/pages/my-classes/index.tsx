@@ -3,6 +3,7 @@ import SideBar from '../../components/sidebar/sidebar';
 import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
+import Logo from '../../components/top-down-logo';
 
 
 interface Teacher {
@@ -57,6 +58,7 @@ const MyClasses = () => {
     return (
         <MainContainer>
             <SideBar />
+            <Logo/>
             <Topbar/>
             <Content>
                 {isLoading ? (
@@ -88,7 +90,7 @@ const MyClasses = () => {
                         ))}
                     </div>
                 ) : (
-                    <h1>You haven’t booked any class yet</h1>
+                    <h2 style={{textAlign:"center"}}>You haven’t booked any class yet.</h2>
                 )}
             </Content>
         </MainContainer>

@@ -121,17 +121,6 @@ export const CardSubject = styled.div`
   text-overflow: ellipsis;
 `;
 
-/* export const ImageContainer = styled.div`
-    position: absolute ;
-    right: 20px;
-    bottom: 20px;
-`
-
-export const Image = styled.img`
-    width: 60px;
-    height: 60px;
-` */
-
 export const Arrow = styled.div<{ direction: string }>`
   position: absolute;
   top: 50%;
@@ -173,15 +162,4 @@ export const SkeletonCard = styled.div`
   align-items: center;
   padding: 16px;
   text-align: center;
-  
 `;
-
-export const SubjectSearchInput = styled.input`
-  width: 250px;
-  padding: 15px;
-  background: ${colors.secondary};
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  color: ${colors.primary};
-`

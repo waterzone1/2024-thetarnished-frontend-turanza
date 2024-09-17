@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, NoScheduleAlertContainer } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
+import { Button } from '../../components/main-button/components';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../../components/top-down-logo';
 
 interface Reservations {
     id: string;
@@ -13,6 +16,8 @@ interface Reservations {
 
 const TeacherHome = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
+
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -45,14 +50,27 @@ const TeacherHome = () => {
         getReservationsForStudent();
     }, [user?.id]);
 
+    const handleGoToSchedule = () => {
+        navigate("/manage-schedule")
+    };
+
     const totalCards = 3;
     const skeletonCards = totalCards - reservations.length;
 
     return (
         <MainContainer>
             <SideBar />
+            <Logo/>
             <Topbar/>
             <Content>
+              {(user?.schedule)?.length === 0 ? (
+                <NoScheduleAlertContainer>
+                  <h2>In order for students to be able to book your classes, you need to set up your availability schedule.</h2>
+                  <Button onClick={handleGoToSchedule}>Go to schedule</Button>
+                </NoScheduleAlertContainer>
+
+              ) : (
+                <>
                 {isLoading ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         {Array.from({ length: totalCards }).map((_, index) => (
@@ -61,10 +79,11 @@ const TeacherHome = () => {
                     </div>
                 ) : (
                     <div>
-                        <h1 style={{paddingTop:"30px", paddingLeft: "15px"}}>Hello, {user?.firstName}!</h1>
-                        <h2 style={{paddingLeft: "15px"}}>Here are your upcoming classes:</h2>
+                        <h1 style={{paddingTop:"30px"}}>Hello, {user?.firstName}!</h1>
                         {reservations.length > 0 ? (
-                            <CardsContainer>
+                          <>
+                          <h2 style={{paddingLeft: "15px"}}>Here are your upcoming classes:</h2>
+                          <CardsContainer>
                                 {reservations.map((reservation) => (
                                     <Card key={reservation.id}>
                                         <CardHeader>
@@ -85,10 +104,13 @@ const TeacherHome = () => {
                                         <StaticSkeletonCard key={`skeleton-${index}`} />
                                 ))}
                             </CardsContainer>
+                          </>
                         ) : (
-                            <h1>You don’t have any pending classes.</h1>
+                            <h2>You don’t have any pending classes.</h2>
                         )}
                     </div>
+                )}
+                </>
                 )}
             </Content>
         </MainContainer>

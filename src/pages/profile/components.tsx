@@ -84,6 +84,10 @@ export const UserInfo = styled.div`
 export const UserName = styled.h1`
     color: ${colors.primary};
     margin-bottom: 0px;
+
+    @media (max-width: 600px){
+        font-size: 30px;
+    }
 `
 
 export const UserEmail = styled.h2`
@@ -96,6 +100,11 @@ export const UserSubjects = styled.div`
     align-items: center;
     justify-content:center ;
     gap: 10px;
+
+    @media (max-width: 600px){
+        overflow: auto;
+        flex-wrap: wrap;
+    }
 `
 
 export const Subject = styled.div`
@@ -112,9 +121,6 @@ export const CardButtons = styled.div`
     left: 50%;
     transform: translateX(-50%);
 
-    @media (max-width: 550px){
-        flex-direction:column ;
-    }
 `
 
 export const FormContainer = styled.div`
