@@ -106,7 +106,7 @@ const ManageSchedule = () => {
         {isPopupOpen && (
             <PopUpContainer>
                 <PopUp>
-                    <h2>Your schedule.</h2>
+                    <h2>Availability schedule.</h2>
                     <p>Here you can set your schedule.</p>
                     <p>Click on the grid cells to select your available spots, or click again to unselect.</p>
                     <p>Then press the save button.</p>
