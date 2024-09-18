@@ -84,6 +84,10 @@ export const UserInfo = styled.div`
 export const UserName = styled.h1`
     color: ${colors.primary};
     margin-bottom: 0px;
+
+    @media (max-width: 600px){
+        font-size: 30px;
+    }
 `
 
 export const UserEmail = styled.h2`
@@ -96,6 +100,11 @@ export const UserSubjects = styled.div`
     align-items: center;
     justify-content:center ;
     gap: 10px;
+
+    @media (max-width: 600px){
+        overflow: auto;
+        flex-wrap: wrap;
+    }
 `
 
 export const Subject = styled.div`
@@ -112,9 +121,6 @@ export const CardButtons = styled.div`
     left: 50%;
     transform: translateX(-50%);
 
-    @media (max-width: 550px){
-        flex-direction:column ;
-    }
 `
 
 export const FormContainer = styled.div`
@@ -167,4 +173,18 @@ export const ButtonsContainer = styled.div`
     padding-top: 50px;
     display: flex; 
     flex-direction: column ;
+`
+
+export const InteractionBlocker = styled.div`
+    position: fixed; /* Fija el elemento en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Color negro semi-transparente */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    display: flex; /* Opcional: centra el contenido si es necesario */
+    justify-content: center; /* Opcional: centra horizontalmente */
+    align-items: center; /* Opcional: centra verticalmente */
 `

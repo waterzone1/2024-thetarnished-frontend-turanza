@@ -9,6 +9,9 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import { Button } from '../../components/main-button/components';
 import Topbar from '../../components/topbar';
+import { PopUp, PopUpContainer } from '../class-browser/components';
+import { ButtonsContainer } from '../login/components';
+import Logo from '../../components/top-down-logo';
 
 const ManageSchedule = () => {
     const [availableHours, setAvailableHours] = useState<string[]>([]);
@@ -17,6 +20,9 @@ const ManageSchedule = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [message, setMessage] = useState('');
     const { user, updateUser } = useAuth();
+    const [isPopupOpen, setIsPopupOpen] = useState((user?.schedule)?.length === 0);
+
+
     const daysOfWeek = useMemo(() => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], []);
     const daysOfWeekShort = useMemo(() => ['M', 'T', 'W', 'T', 'F', 'S', 'S'], []);
     const hours = Array.from({ length: 13 }, (_, i) => {
@@ -91,11 +97,30 @@ const ManageSchedule = () => {
         }
     };
 
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+    };
+
     return (
-        <MainContainer>
+        <>
+        {isPopupOpen && (
+            <PopUpContainer>
+                <PopUp>
+                    <h2>Availability schedule.</h2>
+                    <p>Here you can set your schedule.</p>
+                    <p>Click on the grid cells to select your available spots, or click again to unselect.</p>
+                    <p>Then press the save button.</p>
+                    <ButtonsContainer>
+                        <Button secondary onClick={handleClosePopup}>Close</Button>
+                    </ButtonsContainer>
+                </PopUp>
+            </PopUpContainer>
+        )}
+        <MainContainer isPopupOpen={isPopupOpen}>
             {showSuccessMessage && <Message>{message}</Message>}
             {showErrorMessage && <Message error>{message}</Message>}
             <SideBar />
+            <Logo/>
             <Topbar/>
             <Content>
                 <ScheduleContainer>
@@ -131,6 +156,7 @@ const ManageSchedule = () => {
                 </ScheduleContainer>
             </Content>
         </MainContainer>
+        </>
     );
 };
 

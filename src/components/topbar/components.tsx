@@ -11,7 +11,7 @@ export const TopbarContainer = styled.div`
     background-color: ${colors.secondary};
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: space-between;
     z-index: 999;
 
     @media (min-width: 1000px) {
@@ -20,7 +20,11 @@ export const TopbarContainer = styled.div`
 `
 
 export const MenuWrapper = styled.div`
+    display: flex;
     height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
 `
 
 export const MenuButton = styled.button`
@@ -60,6 +64,10 @@ export const FullMenuLink = styled(NavLink)`
     text-align: center;
     font-size: 20px;
     color:  ${colors.primary};
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
     &:hover {
         background-color: ${colors.primary};
@@ -77,9 +85,18 @@ export const SingOutLink = styled(NavLink)`
     background-color: ${colors.important};
     color: ${colors.secondary};
     padding: 10px;
+    padding-left: 30px;
     width: 100%;
     text-align: center;
     font-size: 20px;
     color:  ${colors.secondary};
     top: 70%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`
+
+export const Logo = styled.img`
+    height: 55px;
+    margin-left: 10px;
 `

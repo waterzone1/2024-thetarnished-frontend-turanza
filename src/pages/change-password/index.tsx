@@ -6,6 +6,7 @@ import { Message } from "../../components/message/components";
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
 import { AiTwotoneEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import Logo from "../../components/top-down-logo";
 
 const ChangePassword = () => {
 
@@ -96,6 +97,7 @@ const ChangePassword = () => {
                     </Form>
                 </FormContainer>
             </RightContainer>
+            <Logo/>
         </MainContainer>
     )
 

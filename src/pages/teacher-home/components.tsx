@@ -152,3 +152,24 @@ export const LoadingSkeletonCard = styled.div`
         max-width: 300px ;
   }
 `;
+
+export const NoScheduleAlertContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+`
+
+export const TimeFilterButton = styled.button<{ active?: boolean }>`
+  padding: 10px 20px;
+  background-color: ${({ active }) => (active ? `${colors.primary}` : `${colors.secondary}`)};
+  color: ${({ active }) => (active ? '#fff' : '#000')};
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: ${({ active }) => (active ? '' : '#bbb')};
+  }
+`;

@@ -7,6 +7,10 @@ import { useAuth } from '../../auth/useAuth';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { InteractionBlocker } from '../profile/components';
+import { SearchInput } from '../../components/search-input/components';
+import Topbar from '../../components/topbar';
+import Logo from '../../components/top-down-logo';
 
 interface Teacher {
     teacherid: string;
@@ -37,8 +41,10 @@ const ClassBrowser = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [message, setMessage] = useState('');
     const [isBooking, setIsBooking] = useState(false);
+    const [isBookingTimeout, setIsBookingTimeout] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const { subjectId } = useParams();
+    const { subjectId, subjectName } = useParams();
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -133,20 +139,24 @@ const ClassBrowser = () => {
                 setMessage('Please select a day and time');
                 throw new Error('Please select a day and time');
             }
+
+            const requestBody = {
+                student_id: user?.id,
+                subject_id: subjectId,
+                teacher_id: clickedClass?.teacherid,
+                dayofweek: parseInt(selectedDay, 10),
+                start_time: `${selectedTime}:00`,
+                schedule_id: selectedSchedule?.scheduleid,
+            };
+            
+            console.log('Request body:', requestBody);
     
             const response = await fetch(`http://localhost:3000/reservation/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    student_id: user?.id,
-                    subject_id: subjectId,
-                    teacher_id: clickedClass?.teacherid,
-                    dayofweek: parseInt(selectedDay, 10),
-                    start_time: `${selectedTime}:00`,
-                    schedule_id: selectedSchedule?.scheduleid,
-                })
+                body: JSON.stringify(requestBody),
             });
     
             if (!response.ok) {
@@ -157,10 +167,12 @@ const ClassBrowser = () => {
             setIsPopupOpen(false);
             setClickedClass(null);
             setMessage('Class booked successfully');
-            setShowSuccessMessage(true);
             setIsBooking(false);
+            setIsBookingTimeout(true);
+            setShowSuccessMessage(true);
             setTimeout(() => {
                 setShowSuccessMessage(false);
+                setIsBookingTimeout(false);
                 window.location.reload();
             }, 3000);
     
@@ -203,8 +215,14 @@ const ClassBrowser = () => {
         .sort((a, b) => a.localeCompare(b, undefined))
         .map(formatTimeWithPadding);
 
-    const numStaticSkeletonCards = Math.max(0, 7 - teachersDictatingSubject.length);
-    const cardsToDisplay = [...teachersDictatingSubject.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
+    const filteredTeachers = teachersDictatingSubject.filter(teacher =>
+        teacher.teacher.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const numStaticSkeletonCards = Math.max(0, 7 - filteredTeachers.length);
+    const cardsToDisplay = [...filteredTeachers.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
+
+
     
     return (
         <>
@@ -242,8 +260,20 @@ const ClassBrowser = () => {
             <MainContainer isPopupOpen={isPopupOpen}>
             {showSuccessMessage && <Message>{message}</Message>}
             {showErrorMessage && <Message error>{message}</Message>}
+            {isBookingTimeout && <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>}
                 <SideBar />
+                <Logo/>
+                <Topbar/>
                 <Content>
+                <h2>Available teachers dictating {subjectName}</h2>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                    <SearchInput
+                        type="text"
+                        placeholder="Search by teacher name"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                </div>
                     <BrowserWrapper>
                         {isLoading ? (
                             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
@@ -252,9 +282,9 @@ const ClassBrowser = () => {
                                 ))}
                             </div>
                         ) : (
-                            (numStaticSkeletonCards === 7) ? 
+                            (teachersDictatingSubject.length === 0) ? 
                             <>
-                            <h1 style={{textAlign: "center"}}>No more teachers available for this subject.</h1>
+                            <h1 style={{textAlign: "center"}}>No teachers available for this subject.</h1>
                             <Button secondary onClick={handleGoBack}>Go back</Button>
                             </> 
                             : (

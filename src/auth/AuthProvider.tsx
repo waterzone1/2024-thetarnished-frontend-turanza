@@ -8,7 +8,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const apiUrl = "http://localhost:3000/"
+  const apiUrl = "http://localhost:3000/" 
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');

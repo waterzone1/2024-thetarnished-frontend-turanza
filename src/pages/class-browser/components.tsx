@@ -28,6 +28,10 @@ export const MainContainer = styled.div<MainContainerProps>`
         pointer-events: none;
         backdrop-filter: blur(5px);        
     }
+
+    @media (max-width: 1000px){
+        height: 100%;
+    }
 `;
 
 export const Content = styled.div`
@@ -42,6 +46,7 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        margin-top: 100px;
     }
 `
 
@@ -208,6 +213,7 @@ export const Select = styled.select`
     border: 1px solid ${colors.primary} ;
     border-radius: 5px;
     padding: 10px;
+    width: 150px;
     color: ${colors.primary};
 `
 
