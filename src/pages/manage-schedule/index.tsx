@@ -9,9 +9,9 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import { Button } from '../../components/main-button/components';
 import Topbar from '../../components/topbar';
-import { PopUp, PopUpContainer } from '../class-browser/components';
 import { ButtonsContainer } from '../login/components';
 import Logo from '../../components/top-down-logo';
+import { PopUp, PopUpContainer } from '../../components/popup/components';
 
 const ManageSchedule = () => {
     const [availableHours, setAvailableHours] = useState<string[]>([]);

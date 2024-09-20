@@ -138,32 +138,6 @@ export const Details = styled.p`
     color: #555;
 `;
 
-export const PopUpContainer = styled.div`
-    z-index: 1000; 
-    position: fixed;
-    width: 100vw ;
-    height: 100vh;
-`
-
-export const PopUp = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 50px;
-    border-radius: 8px;
-    z-index: 900; 
-    color: ${colors.primary};
-    border: 2px solid #ccc;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    @media (max-width: 500px){
-        padding: 5px;
-        width: 80%;
-    }
-`
-
 export const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -223,4 +197,66 @@ export const InputsContainer = styled.div`
     width: 50%;
     gap: 10px;
     margin-bottom: 10px;
+`
+
+export const PaymentButton = styled.button`
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 150px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+
+    &::before, &::after {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: -2px; 
+        width: 40px;
+        height: 5px;
+        background-color: gold;
+        transform: rotate(-45deg);
+        transform-origin: top left;
+    }
+
+    &::after {
+        top: 10px;
+    }
+
+    &:hover {
+        background-color: grey;
+    }
+`;
+
+
+export const CashFlowProLogo = styled.img`
+    position: absolute;
+    display: none;
+    width: 30px;
+    height: 30px;
+    top: 5px;
+    right: 5px;
+`
+
+export const CloseButton = styled.button`
+    background-color: transparent;
+    color: ${colors.primary};
+    font-size: 1.5rem;
+    border: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    &:hover {
+        opacity: 0.7;
+    }
 `

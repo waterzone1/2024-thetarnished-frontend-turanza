@@ -8,8 +8,8 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import Topbar from '../../components/topbar';
-import { PopUp, PopUpContainer } from '../class-browser/components';
 import Logo from '../../components/top-down-logo';
+import { PopUp, PopUpContainer } from '../../components/popup/components';
 
 const Profile = () => {
 

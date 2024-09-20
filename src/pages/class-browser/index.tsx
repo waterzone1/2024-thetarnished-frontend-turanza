@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, Title, Instructor, BrowserWrapper, CardInfo, PopUp, PopUpContainer, ButtonsContainer, LoadingSkeletonCard, StaticSkeletonCard, Select, InputsContainer } from './components';
+import { MainContainer, Content, Card, Title, Instructor, BrowserWrapper, CardInfo, ButtonsContainer, LoadingSkeletonCard, StaticSkeletonCard, Select, InputsContainer, PaymentButton, CashFlowProLogo, CloseButton } from './components';
 import { Button } from '../../components/main-button/components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
@@ -11,6 +11,9 @@ import { InteractionBlocker } from '../profile/components';
 import { SearchInput } from '../../components/search-input/components';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
+import CashFlowLogo from '../../assets/Cash Flow Logo.jpeg';
+import { PopUp, PopUpContainer } from '../../components/popup/components';
+import { RiCloseLargeFill } from "react-icons/ri";
 
 interface Teacher {
     teacherid: string;
@@ -222,13 +225,16 @@ const ClassBrowser = () => {
     const numStaticSkeletonCards = Math.max(0, 7 - filteredTeachers.length);
     const cardsToDisplay = [...filteredTeachers.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
 
-
+    const handleBookWithCashFlow  = async () => {
+        console.log('handleBookWithCashFlow called');
+    }
     
     return (
         <>
             {clickedClass != null &&
                 <PopUpContainer>
                     <PopUp>
+                        <CloseButton onClick={handlePopupClose}><RiCloseLargeFill/></CloseButton>
                         <h2>{clickedClass.firstname} {clickedClass.lastname}</h2>
                         <InputsContainer>
                             <Select required onChange={handleDayChange} value={selectedDay}>
@@ -252,7 +258,7 @@ const ClassBrowser = () => {
                         </InputsContainer>
                         <ButtonsContainer>
                             <Button onClick={handleBook}>{isBooking ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Book"}</Button>
-                            <Button secondary onClick={handlePopupClose}>Close</Button>
+                            <PaymentButton onClick={handleBookWithCashFlow}>{isBooking ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Book with Cash Flow"}<CashFlowProLogo src={CashFlowLogo}/></PaymentButton>
                         </ButtonsContainer>
                     </PopUp>
                 </PopUpContainer>
