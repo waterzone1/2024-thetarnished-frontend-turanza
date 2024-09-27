@@ -42,6 +42,7 @@ const AdminHome = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [currentTeacherId, setCurrentTeacherId] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
 
     const { isLoggedIn, user } = useAuth();
 
@@ -53,14 +54,24 @@ const AdminHome = () => {
     }, [isLoggedIn, user?.role]);
 
     const handleTeacherAccept = () => {
-        console.log(currentTeacherId);
+        setTeachers(teachers.filter(teacher => teacher.id !== currentTeacherId));
         setIsPopupOpen(false);
+    }
+
+    const handleTeacherReject = (teacherId: number) => {
+        setCurrentTeacherId(teacherId);
+        setIsRejectPopupOpen(true);
     }
 
     const handleTeacherEnroll = (teacherId: number) => {
         setCurrentTeacherId(teacherId);
         setIsPopupOpen(true);
     } 
+
+    const handleTeacherRejection = () => {
+        setTeachers(teachers.filter(teacher => teacher.id !== currentTeacherId));
+        setIsRejectPopupOpen(false);
+    }
 
     const filteredTeachers = teachers.filter(teacher => 
         `${teacher.firstname} ${teacher.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -75,6 +86,18 @@ const AdminHome = () => {
                         <p>This teacher will be able to create, and give classes to students.</p>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button onClick={handleTeacherAccept}>Accept</Button>
+                            <Button secondary onClick={() => setIsPopupOpen(false)}>Close</Button>
+                        </div>
+                    </PopUp>
+                </PopUpContainer>
+            )}
+            {isRejectPopupOpen && (
+                <PopUpContainer>
+                    <PopUp>
+                        <h2>You are about to reject this teacher application. Are you sure?</h2>
+                        <p>This teacher account will be deleted.</p>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <Button important onClick={handleTeacherRejection}>Reject</Button>
                             <Button secondary onClick={() => setIsPopupOpen(false)}>Close</Button>
                         </div>
                     </PopUp>
@@ -100,6 +123,7 @@ const AdminHome = () => {
                                     </TeacherInfo>
                                     <ButtonContainer>
                                         <Button onClick={() => handleTeacherEnroll(teacher.id)}>Enroll</Button>
+                                        <Button important onClick={() => handleTeacherReject(teacher.id)}>Reject</Button>
                                     </ButtonContainer>
                                 </TeacherCard>
                             ))

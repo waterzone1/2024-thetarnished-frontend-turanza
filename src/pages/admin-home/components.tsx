@@ -101,6 +101,7 @@ export const TeacherName = styled.h2`
 `
 
 export const ButtonContainer = styled.div`
+    display: flex;
     position: absolute;
     right: 50px;
     top: 50%;
