@@ -216,7 +216,7 @@ const ClassBrowser = () => {
         .map(formatTimeWithPadding);
 
     const filteredTeachers = teachersDictatingSubject.filter(teacher =>
-        teacher.teacher.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+       `${teacher.teacher.firstname} ${teacher.teacher.lastname}`.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const numStaticSkeletonCards = Math.max(0, 7 - filteredTeachers.length);
