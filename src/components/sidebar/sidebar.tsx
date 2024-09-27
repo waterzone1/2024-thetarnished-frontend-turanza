@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavbarContainer, NavbarLink, LogOutNavbarLink } from './components';
-import { AiOutlineHome/* , AiOutlineForm */ , AiOutlineUser/* , AiOutlineTool */, AiOutlineSchedule, AiOutlineLogout/* , AiOutlineDatabase */, AiOutlineGroup } from "react-icons/ai";
+import { AiOutlineHome , AiOutlineForm , AiOutlineUser/* , AiOutlineTool */, AiOutlineSchedule, AiOutlineLogout/* , AiOutlineDatabase */, AiOutlineGroup } from "react-icons/ai";
 import { useAuth } from '../../auth/useAuth';
 
 const SideBar: React.FC = () => {
@@ -13,7 +13,7 @@ const SideBar: React.FC = () => {
                 <>
                 <NavbarLink title='Home' to="/teacher-home" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineHome /></NavbarLink>
                 <NavbarLink title='Manage schedule' to="/manage-schedule" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineSchedule /></NavbarLink>
-                {/* <NavbarLink title='Manage classes' to="/manage-classes" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineForm  /></NavbarLink> */}
+                <NavbarLink title='Manage classes' to="/manage-classes" className={({ isActive }) => (isActive ? "active" : "")}><AiOutlineForm  /></NavbarLink>
                 </>
             )}
 

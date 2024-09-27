@@ -141,6 +141,7 @@ export const Details = styled.p`
 export const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: row;
+    margin-top: auto;
 
     @media (max-width: 500px){
         width: 100px;
@@ -193,7 +194,6 @@ export const Select = styled.select`
 
 export const InputsContainer = styled.div`
     display: flex ;
-    flex-direction: column ;
     width: 50%;
     gap: 10px;
     margin-bottom: 10px;
@@ -260,3 +260,32 @@ export const CloseButton = styled.button`
         opacity: 0.7;
     }
 `
+
+export const LeftContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-right: 1px solid ${colors.primary};
+    height: 100%;
+`
+
+export const RightContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center ;
+    width: 50%;
+    height: 100%;
+`
+
+interface SlotButtonProps {
+    remove?: boolean;
+}
+
+export const SlotButton = styled.button<SlotButtonProps>`
+    background-color: ${props => props.remove ? colors.important : colors.primary};
+`
+
+export const SummaryContainer = styled.div``
+
+export const SummaryItem = styled.div``

@@ -5,7 +5,7 @@ import colors from "../../assets/colors";
 export const NavbarContainer = styled.nav`
     position: fixed;
     background-color: ${colors.secondary} ;
-    height: 500px;
+    height: 600px;
     width: 100px;
     display: flex ;
     flex-direction:column;
