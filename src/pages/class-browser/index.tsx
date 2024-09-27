@@ -38,7 +38,7 @@ const ClassBrowser = () => {
     const [teacherSchedule, setTeacherSchedule] = useState<Schedule[]>([]);
     const [selectedSlots, setSelectedSlots] = useState<{ day: string, time: string }[]>([{ day: '', time: '' }]);
     const [clickedClass, setClickedClass] = useState<Teacher | null>(null);
-    const [isPopupOpen, setIsPopupOpen] = useState(true);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -238,11 +238,11 @@ const ClassBrowser = () => {
     
     return (
             <>
-                {isPopupOpen /* && clickedClass != null */ &&
+                {isPopupOpen && clickedClass != null &&
                     <PopUpContainer>
                         <PopUp>
                         <CloseButton onClick={handlePopupClose}><RiCloseLargeFill/></CloseButton>
-                            {/* <h2>{clickedClass.firstname} {clickedClass.lastname}</h2> */}
+                            <h2>{clickedClass.firstname} {clickedClass.lastname}</h2>
                             <LeftContainer>
                                 <h2>Select a day and time for each slot</h2>
                                 {selectedSlots.map((slot, index) => (
