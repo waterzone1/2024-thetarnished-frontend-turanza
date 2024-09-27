@@ -19,41 +19,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await fetch(`${apiUrl}authentication/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    });
+      const response = await fetch(`${apiUrl}authentication/login`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+      });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-    }
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Login failed');
+      }
 
-    const data = await response.json();
-    const loggedInUser = {
-        id: data.user.id,
-        firstName: data.user.firstname,
-        lastName: data.user.lastname,
-        email: data.user.email,
-        subjects: data.user.subjects,
-        schedule: data.user.schedule,
-        role: data.user.role as 'STUDENT' | 'TEACHER',
-    };
+      const data = await response.json();
+      const loggedInUser = {
+          id: data.user.id,
+          firstName: data.user.firstname,
+          lastName: data.user.lastname,
+          email: data.user.email,
+          subjects: data.user.subjects,
+          schedule: data.user.schedule,
+          role: data.user.role as 'STUDENT' | 'TEACHER' | 'ADMIN',
+      };
     
-    setUser(loggedInUser);
-    localStorage.setItem('user', JSON.stringify(loggedInUser));
-    setIsLoggedIn(true);
+      setUser(loggedInUser);
+      localStorage.setItem('user', JSON.stringify(loggedInUser));
+      setIsLoggedIn(true);
 
-    if (data.user.role === 'STUDENT') {
-        navigate('/student-home');
-    } else if (data.user.role === 'TEACHER') {
-        navigate('/teacher-home');
-    }
-};
-
+      const roleRoutes: { [key: string]: string } = {
+        STUDENT: '/student-home',
+        TEACHER: '/teacher-home',
+        ADMIN: '/admin-home',
+      };
+  
+      const route = roleRoutes[data.user.role];
+      navigate(route);
+  };
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');

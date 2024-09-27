@@ -13,6 +13,7 @@ import ForgotPassword from './pages/forgot-password';
 import Register from './pages/register';
 import ChangePassword from './pages/change-password';
 import ResetPassword from './pages/reset-password';
+import AdminHome from './pages/admin-home';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/reset-password/:userId/:token" element={<ResetPassword />} />
+          <Route path="/admin-home" element={<AdminHome />} />
         </Routes>
       </AuthProvider>
     </Router>
