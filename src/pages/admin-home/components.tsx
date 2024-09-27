@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import colors from "../../assets/colors";
 
 interface MainContainerProps {
     isPopupOpen: boolean;
@@ -47,4 +48,73 @@ export const Content = styled.div`
         width: 100% ;
         margin-top: 100px;
     }
+`
+
+export const CardsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 90%;
+    max-height: 800px;
+    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: white;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e0e0e0;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: white transparent;
+`
+
+export const TeacherCard = styled.div`
+    position: relative;
+    background-color: white;
+    padding: 10px 50px 10px 50px;
+    border-radius: 10px;
+    width: 90%;
+`
+
+export const TeacherInfo = styled.div`
+    display: flex;
+    color: ${colors.primary};
+`
+
+export const TeacherName = styled.h2`
+    color: ${colors.primary};
+    padding-bottom: 0;
+    margin-bottom: 0;
+`
+
+export const ButtonContainer = styled.div`
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+`
+
+export const SearchBar = styled.input`
+    width: 300px;
+    height: 30px;
+    padding: 10px;
+    background-color: ${colors.secondary};
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.1rem;
+    color: ${colors.primary};
 `
