@@ -4,38 +4,15 @@ import { ButtonContainer, CardsContainer, Content, MainContainer, SearchBar, Tea
 import Logo from "../../components/top-down-logo";
 import { PopUp, PopUpContainer } from "../../components/popup/components";
 import { Button } from "../../components/main-button/components";
+import SideBar from "../../components/sidebar/sidebar";
 
 interface Teacher {
-    id: number;
+    teacherid: number;
     firstname: string;
     lastname: string;
     email: string;
-    joined_at: string;
+    signup_date: string;
 }
-
-const teachers1: Teacher[] = [
-    {
-        id: 1,
-        firstname: "John",
-        lastname: "Doe",
-        email: "john.doe@example.com",
-        joined_at: "2023-01-01",
-    },
-    {
-        id: 2,
-        firstname: "Jane",
-        lastname: "Doe",
-        email: "jane.doe@example.com",
-        joined_at: "2023-01-02",
-    },
-    {
-        id: 3,
-        firstname: "Bob",
-        lastname: "Smith",
-        email: "bob.smith@example.com",
-        joined_at: "2023-01-03",
-    },
-];
 
 const AdminHome = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -47,14 +24,35 @@ const AdminHome = () => {
     const { isLoggedIn, user } = useAuth();
 
     useEffect(() => {
-        /* if (!isLoggedIn || user?.role !== "ADMIN") {
+        if (!isLoggedIn || user?.role !== "ADMIN") {
             window.location.href = "/";
-        } */
-        setTeachers(teachers1);
+        }
+       const getInactiveTeachers = async () => {
+       const response = await fetch(`http://localhost:3000/admins/inactive-teachers`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        setTeachers(data);
+       }
+       getInactiveTeachers();
     }, [isLoggedIn, user?.role]);
 
     const handleTeacherAccept = () => {
-        setTeachers(teachers.filter(teacher => teacher.id !== currentTeacherId));
+        try{
+            fetch(`http://localhost:3000/admins/activate-teacher/${currentTeacherId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log("Teacher accepted!");
+        } catch (error) {
+            console.log("Error accepting teacher: ", error);
+        }
+        setTeachers(teachers.filter(teacher => teacher.teacherid !== currentTeacherId));
         setIsPopupOpen(false);
     }
 
@@ -69,7 +67,18 @@ const AdminHome = () => {
     } 
 
     const handleTeacherRejection = () => {
-        setTeachers(teachers.filter(teacher => teacher.id !== currentTeacherId));
+        try{
+            fetch(`http://localhost:3000/teachers/delete/${currentTeacherId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log("Teacher Rejected!");
+        } catch (error) {
+            console.log("Error rejecting teacher: ", error);
+        }
+        setTeachers(teachers.filter(teacher => teacher.teacherid !== currentTeacherId));
         setIsRejectPopupOpen(false);
     }
 
@@ -105,6 +114,7 @@ const AdminHome = () => {
             )}
             <MainContainer isPopupOpen={isPopupOpen}>
                 <Logo />
+                <SideBar/>
                 <Content>
                     <SearchBar 
                         type="text" 
@@ -115,15 +125,15 @@ const AdminHome = () => {
                     <CardsContainer>
                         {filteredTeachers.length > 0 ? (
                             filteredTeachers.map((teacher) => (
-                                <TeacherCard key={teacher.id}>
+                                <TeacherCard key={teacher.teacherid}>
                                     <TeacherName>{teacher.firstname} {teacher.lastname}</TeacherName>
                                     <TeacherInfo>
                                         <p>Email: {teacher.email}</p>
-                                        <p style={{ paddingLeft: "15px" }}>Joined at: {teacher.joined_at}</p>
+                                        <p style={{ paddingLeft: "15px" }}>Joined at: {teacher.signup_date}</p>
                                     </TeacherInfo>
                                     <ButtonContainer>
-                                        <Button onClick={() => handleTeacherEnroll(teacher.id)}>Enroll</Button>
-                                        <Button important onClick={() => handleTeacherReject(teacher.id)}>Reject</Button>
+                                        <Button onClick={() => handleTeacherEnroll(teacher.teacherid)}>Enroll</Button>
+                                        <Button important onClick={() => handleTeacherReject(teacher.teacherid)}>Reject</Button>
                                     </ButtonContainer>
                                 </TeacherCard>
                             ))
