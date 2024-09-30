@@ -242,8 +242,8 @@ const ClassBrowser = () => {
                     <PopUpContainer>
                         <PopUp>
                         <CloseButton onClick={handlePopupClose}><RiCloseLargeFill/></CloseButton>
-                            <h2>{clickedClass.firstname} {clickedClass.lastname}</h2>
                             <LeftContainer>
+                                <h3 style={{marginBottom: '0px'}}>Teacher: {clickedClass.firstname} {clickedClass.lastname}</h3>
                                 <h2>Select a day and time for each slot</h2>
                                 {selectedSlots.map((slot, index) => (
                                     <InputsContainer key={index}>
@@ -302,6 +302,7 @@ const ClassBrowser = () => {
                 {isBookingTimeout && <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>}
                     <SideBar />
                     <Content>
+                    <h2>Available teachers dictating {subjectName}:</h2>
                         <BrowserWrapper>
                             {isLoading ? (
                                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
@@ -317,7 +318,6 @@ const ClassBrowser = () => {
                                 </> 
                                 : (
                                 <>
-                                <h2>Available teachers dictating {subjectName}</h2>
                                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
                                     <SearchInput
                                         type="text"
