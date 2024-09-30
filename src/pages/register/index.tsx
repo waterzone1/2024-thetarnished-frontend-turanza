@@ -16,7 +16,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-    const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<{ id: string; name: string; }[]>([]);
     const [isTeacher, setIsTeacher] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -24,7 +24,7 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const handleSelectOptions = (selected: number[]) => {
+    const handleSelectOptions = (selected: { id: string; name: string; }[]) => {
         setSelectedOptions(selected);
         console.log(selectedOptions);
     };
@@ -33,7 +33,7 @@ const Register = () => {
         e.preventDefault();
         setIsRegistering(true);
         try{
-            if(!firstName || !lastName || !email || !password || !repassword || !selectedOptions) {
+            if(!firstName || !lastName || !email || !password || !repassword || selectedOptions.length === 0) {
                 setErrorMessage('Please fill all fields.');
                 throw new Error('Please fill all fields.');
             }
@@ -53,7 +53,7 @@ const Register = () => {
                     lastname: lastName,
                     email: email,
                     password: password,
-                    subjects: selectedOptions,
+                    subjects: selectedOptions.map(option => option.id),
                     role: role
                 }),
             });
