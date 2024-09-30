@@ -19,6 +19,7 @@ export interface User {
     subjectname: string;
   }[];
   schedule?: ScheduleEntry[];
+  isActive: boolean;
   role: 'STUDENT' | 'TEACHER' | 'ADMIN';
 }
 

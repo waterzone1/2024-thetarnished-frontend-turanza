@@ -4,36 +4,36 @@ import Chip from '@mui/material/Chip';
 import { useEffect, useState } from 'react';
 
 interface Subject {
-  subjectid: number;
+  subjectid: string;
   subjectname: string;
 }
 
 interface MultiAutocompleteInputProps {
-  onSelect: (selectedOptions: number[]) => void;
+  onSelect: (selectedOptions: { id: string; name: string }[]) => void;
+  defaultValue?: Subject[];
 }
 
-export default function MultiAutocompleteInput({ onSelect,}: MultiAutocompleteInputProps) {
-
+export default function MultiAutocompleteInput({ onSelect, defaultValue = [] }: MultiAutocompleteInputProps) {
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     const getAllSubjects = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/subject/all-subjects', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
-            setSubjects(data)
-        } catch (error) {
-            console.error('Error fetching subjects:', error);
-        }
+      try {
+        const response = await fetch('http://localhost:3000/subject/all-subjects', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        setSubjects(data);
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
     };
 
     getAllSubjects();
-}, []);
+  }, []);
 
   return (
     <Autocomplete
@@ -43,10 +43,14 @@ export default function MultiAutocompleteInput({ onSelect,}: MultiAutocompleteIn
       filterSelectedOptions
       options={subjects}
       getOptionLabel={(option: Subject) => option.subjectname}
-      defaultValue={[]}
+      defaultValue={defaultValue}
       onChange={(_event, value) => {
-        const selectedTitles = value.map((option) => option.subjectid);
-        onSelect(selectedTitles);
+        // Crear un array de objetos con id y name
+        const selectedSubjects = value.map((option) => ({
+          id: option.subjectid,
+          name: option.subjectname,
+        }));
+        onSelect(selectedSubjects); // Pasar el array de objetos a la función onSelect
       }}
       renderTags={(value: Subject[], getTagProps) => (
         <div
@@ -69,7 +73,8 @@ export default function MultiAutocompleteInput({ onSelect,}: MultiAutocompleteIn
       renderInput={(params) => (
         <TextField {...params} label="Subjects" placeholder="Add subject..." />
       )}
-      sx={{maxWidth: 300,
+      sx={{
+        maxWidth: 300,
         '& .MuiAutocomplete-listbox': {
           '&::-webkit-scrollbar': {
             width: '6px',

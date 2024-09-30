@@ -33,7 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       const data = await response.json();
-      const loggedInUser = {
+      const loggedInUser: User = {
+
           id: data.user.id,
           firstName: data.user.firstname,
           lastName: data.user.lastname,
@@ -41,21 +42,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           subjects: data.user.subjects,
           schedule: data.user.schedule,
           role: data.user.role as 'STUDENT' | 'TEACHER' | 'ADMIN',
+          isActive: data.user.isActive
       };
     
-      setUser(loggedInUser);
-      localStorage.setItem('user', JSON.stringify(loggedInUser));
-      setIsLoggedIn(true);
+    setUser(loggedInUser);
+    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    setIsLoggedIn(true);
 
-      const roleRoutes: { [key: string]: string } = {
-        STUDENT: '/student-home',
-        TEACHER: '/teacher-home',
-        ADMIN: '/admin-home',
-      };
-  
-      const route = roleRoutes[data.user.role];
-      navigate(route);
+    const roleRoutes: { [key: string]: string } = {
+      STUDENT: '/student-home',
+      TEACHER: '/teacher-home',
+      ADMIN: '/admin-home',
+    };
+
+    const route = roleRoutes[data.user.role];
+    navigate(route);
   };
+  
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
