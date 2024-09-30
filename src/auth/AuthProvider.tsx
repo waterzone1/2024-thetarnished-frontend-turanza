@@ -32,28 +32,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error(errorData.message || 'Login failed');
     }
 
-    const data = await response.json();
-    const loggedInUser = {
-        id: data.user.id,
-        firstName: data.user.firstname,
-        lastName: data.user.lastname,
-        email: data.user.email,
-        subjects: data.user.subjects,
-        schedule: data.user.schedule,
-        role: data.user.role as 'STUDENT' | 'TEACHER',
-    };
+      const data = await response.json();
+      const loggedInUser: User = {
+          id: data.user.id,
+          firstName: data.user.firstname,
+          lastName: data.user.lastname,
+          email: data.user.email,
+          subjects: data.user.subjects,
+          schedule: data.user.schedule,
+          role: data.user.role as 'STUDENT' | 'TEACHER' | 'ADMIN',
+          isActive: data.user.isActive,
+      };
     
     setUser(loggedInUser);
     localStorage.setItem('user', JSON.stringify(loggedInUser));
     setIsLoggedIn(true);
 
-    if (data.user.role === 'STUDENT') {
-        navigate('/student-home');
-    } else if (data.user.role === 'TEACHER') {
-        navigate('/teacher-home');
-    }
-};
+    const roleRoutes: { [key: string]: string } = {
+      STUDENT: '/student-home',
+      TEACHER: '/teacher-home',
+      ADMIN: '/admin-home',
+    };
 
+    const route = roleRoutes[data.user.role];
+    navigate(route);
+  };
+  
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');

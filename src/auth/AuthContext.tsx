@@ -18,7 +18,8 @@ export interface User {
     subjectname: string;
   }[];
   schedule?: ScheduleEntry[];
-  role: 'STUDENT' | 'TEACHER';
+  isActive: boolean;
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN';
 }
 
 export interface AuthContextType {
