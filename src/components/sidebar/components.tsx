@@ -6,16 +6,14 @@ export const NavbarContainer = styled.nav`
     position: fixed;
     background-color: ${colors.secondary} ;
     height: 500px;
-    width: 100px;
     display: flex ;
     flex-direction:column;
     align-items: center;
-    justify-content:center;
-    gap: 10%;
+    justify-content:space-between;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-
+    padding: 50px 20px 50px 20px;
     @media (max-width: 1000px) {  
         display: none;
     }

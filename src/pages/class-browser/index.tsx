@@ -318,7 +318,6 @@ const ClassBrowser = () => {
                                 </> 
                                 : (
                                 <>
-                                
                                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
                                     <SearchInput
                                         type="text"

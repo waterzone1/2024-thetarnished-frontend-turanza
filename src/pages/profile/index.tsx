@@ -8,8 +8,9 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import Topbar from '../../components/topbar';
-import { PopUp, PopUpContainer } from '../class-browser/components';
 import Logo from '../../components/top-down-logo';
+import { PopUp, PopUpContainer } from '../../components/popup/components';
+import MultiAutocompleteInput from '../../components/multi-autocomplete-input';
 
 const Profile = () => {
 
@@ -25,6 +26,7 @@ const Profile = () => {
     const [showDeleteAccountConfirmation, setShowDeleteAccountConfirmation] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [message, setMessage] = useState('');
+    const [newSubjects, setNewSubjects] = useState<{ id: string; name: string; }[]>([]);
 
     const handlePasswordChange = () => {
         navigate('/change-password');
@@ -39,6 +41,11 @@ const Profile = () => {
         setShowDeleteAccountConfirmation(false);
         setIsPopupOpen(false);
     };
+
+    const handleSubjectsChange = (selected: { id: string; name: string; }[]) => {
+        setNewSubjects(selected);
+        console.log(newSubjects);
+    }
 
     const handleDeleteAccount = async () => {
         try{
@@ -69,24 +76,42 @@ const Profile = () => {
     const handleProfileSave = async (event: React.FormEvent) => {
         event.preventDefault();
         setIsSaving(true);
+
+        if (!firstName || !lastName || newSubjects.length === 0) {
+            setMessage('Please fill all fields.');
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
+            return;
+        }
+        const body = {
+            newFirstName: firstName,
+            newLastName: lastName,
+            email: user?.email,
+            subjects: newSubjects.map(subject => subject.id)
+        }
         try{
             const response = await fetch('http://localhost:3000/authentication/edit-profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    newFirstName: firstName,
-                    newLastName: lastName,
-                    email: user?.email
-                }),
+                body: JSON.stringify(body),
             });
             if (!response.ok) {
                 setMessage("Could not update profile");
                 throw new Error('Failed to update profile');
             }
             setIsSaving(false);
-            updateUser({ firstName: firstName, lastName: lastName });
+            updateUser({
+                firstName: firstName,
+                lastName: lastName,
+                subjects: newSubjects.map(subject => ({
+                    subjectid: subject.id,
+                    subjectname: subject.name
+                }))
+            });
             setIsEditing(false);
             setShowSuccessMessage(true);
             setTimeout(() => {
@@ -95,13 +120,13 @@ const Profile = () => {
         }catch(error){
             console.error(error);
             setIsEditing(false);
+            setIsSaving(false);
             setShowErrorMessage(true);
             setTimeout(() => {
                 setShowErrorMessage(false);
             }, 3000);
         }
     };
-
     return (
         <>
             {showDeleteAccountConfirmation && (
@@ -153,6 +178,9 @@ const Profile = () => {
                         <Input type="text" id="username" placeholder="Username..." value={firstName} onChange={(e) => setFirstName(e.target.value)} required ></Input>
                         <InputText>Last name:</InputText>
                         <Input type="text" id="username" placeholder="Username..." value={lastName} onChange={(e) => setLastName(e.target.value)} required ></Input>
+                        {user?.role === 'TEACHER' && (
+                        <MultiAutocompleteInput defaultValue={user?.subjects?.map(subject => ({ subjectid: subject.subjectid.toString(), subjectname: subject.subjectname }))} onSelect={handleSubjectsChange}/>
+                        )}
                         <ButtonsContainer>
                             <Button type="submit">{isSaving ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Save"}</Button>
                             <Button type="button" onClick={() => setIsEditing(false)} important>Cancel</Button>
@@ -166,5 +194,4 @@ const Profile = () => {
         </>
     )
 }
-
 export default Profile

@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export interface ScheduleEntry {
+  studentsCount: number;
   scheduleid: string;
   start_time: string;
   end_time: string;
@@ -18,7 +19,8 @@ export interface User {
     subjectname: string;
   }[];
   schedule?: ScheduleEntry[];
-  role: 'STUDENT' | 'TEACHER';
+  isActive: boolean;
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN';
 }
 
 export interface AuthContextType {
