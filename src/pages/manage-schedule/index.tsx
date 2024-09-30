@@ -69,7 +69,7 @@ const ManageSchedule: React.FC = () => {
       
       if (newStatus % 3 === 1 || newStatus % 3 === 2) {
         return { ...prev, [key]: newStatus % 3 };
-      } else {
+      } else 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [key]: _, ...rest } = prev;
         return rest;
