@@ -112,11 +112,18 @@ export const Subject = styled.div`
     padding: 10px;
     background-color: ${colors.primary};
     border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    min-width: 80px;
+    text-align: center;
+    text-overflow: ellipsis;
 `
 
 export const CardButtons = styled.div`
     position: absolute;
     display: flex;
+    width: 90%;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
@@ -170,21 +177,32 @@ export const Input = styled.input`
 `;
 
 export const ButtonsContainer = styled.div`
-    padding-top: 50px;
     display: flex; 
-    flex-direction: column ;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
 `
 
 export const InteractionBlocker = styled.div`
-    position: fixed; /* Fija el elemento en la pantalla */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Color negro semi-transparente */
-    backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-    display: flex; /* Opcional: centra el contenido si es necesario */
-    justify-content: center; /* Opcional: centra horizontalmente */
-    align-items: center; /* Opcional: centra verticalmente */
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const PasswordInput = styled.input`
+    width: 250px;
+    padding: 15px;
+    background: ${colors.secondary};
+    border: 1px solid ${colors.primary};
+    border-radius: 5px;
+    font-size: 16px;
+    color: ${colors.primary};
 `

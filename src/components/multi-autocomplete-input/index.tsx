@@ -16,10 +16,12 @@ interface MultiAutocompleteInputProps {
 export default function MultiAutocompleteInput({ onSelect, defaultValue = [] }: MultiAutocompleteInputProps) {
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
+  const URL = import.meta.env.VITE_API_URL;
+  
   useEffect(() => {
     const getAllSubjects = async () => {
       try {
-        const response = await fetch('http://localhost:3000/subject/all-subjects', {
+        const response = await fetch(`${URL}subject/all-subjects`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ export default function MultiAutocompleteInput({ onSelect, defaultValue = [] }: 
     };
 
     getAllSubjects();
-  }, []);
+  }, [URL]);
 
   return (
     <Autocomplete
@@ -45,12 +47,11 @@ export default function MultiAutocompleteInput({ onSelect, defaultValue = [] }: 
       getOptionLabel={(option: Subject) => option.subjectname}
       defaultValue={defaultValue}
       onChange={(_event, value) => {
-        // Crear un array de objetos con id y name
         const selectedSubjects = value.map((option) => ({
           id: option.subjectid,
           name: option.subjectname,
         }));
-        onSelect(selectedSubjects); // Pasar el array de objetos a la función onSelect
+        onSelect(selectedSubjects);
       }}
       renderTags={(value: Subject[], getTagProps) => (
         <div

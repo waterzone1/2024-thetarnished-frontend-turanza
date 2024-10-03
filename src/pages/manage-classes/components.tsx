@@ -99,11 +99,10 @@ export const CardInfo = styled.div`
 
 export const CardFooter = styled.div`
     color: ${colors.primary};
-    width: 95%;
-    align-items: right ;
-    justify-content: right ;
-    text-align: right;
-    padding-right: 5px;
+    display: flex;
+    align-items: center ;
+    justify-content: center ;
+    text-align: center;
 `
 
 const skeletonLoading = keyframes`
@@ -148,5 +147,12 @@ export const LoadingSkeletonCard = styled.div`
         margin: auto ;
         margin-bottom: 20px;
         width: 300px ;
-    }
+  }
 `;
+
+export const ButtonContainer = styled.div`
+    position: absolute ;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`

@@ -23,12 +23,14 @@ const AdminHome = () => {
 
     const { isLoggedIn, user } = useAuth();
 
+    const URL = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
         if (!isLoggedIn || user?.role !== "ADMIN") {
             window.location.href = "/";
         }
        const getInactiveTeachers = async () => {
-       const response = await fetch(`http://localhost:3000/admins/inactive-teachers`, {
+       const response = await fetch(`${URL}admins/inactive-teachers`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -38,11 +40,11 @@ const AdminHome = () => {
         setTeachers(data);
        }
        getInactiveTeachers();
-    }, [isLoggedIn, user?.role]);
+    }, [URL, isLoggedIn, user?.role]);
 
     const handleTeacherAccept = () => {
         try{
-            fetch(`http://localhost:3000/admins/activate-teacher/${currentTeacherId}`, {
+            fetch(`${URL}admins/activate-teacher/${currentTeacherId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +70,7 @@ const AdminHome = () => {
 
     const handleTeacherRejection = () => {
         try{
-            fetch(`http://localhost:3000/teachers/delete/${currentTeacherId}`, {
+            fetch(`${URL}teachers/delete/${currentTeacherId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

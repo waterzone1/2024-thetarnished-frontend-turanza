@@ -26,11 +26,12 @@ const MyClasses = () => {
     const { user } = useAuth();
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const getReservationsForStudent = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reservation/student/${user?.id}`, {
+                const response = await fetch(`${URL}reservation/student/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ const MyClasses = () => {
         };
 
         getReservationsForStudent();
-    }, [user?.id]);
+    }, [URL, user?.id]);
 
     const totalCards = 4;
     const skeletonCards = totalCards - reservations.length;

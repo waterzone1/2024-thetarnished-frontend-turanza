@@ -26,9 +26,8 @@ interface ScheduleEntry {
   start_time: string;
   end_time: string;
   dayofweek: number;
-  studentsCount: number;
+  maxstudents: number;
 }
-
 
 const ManageSchedule: React.FC = () => {
   const [availableHours, setAvailableHours] = useState<HourStatus>({});
@@ -47,16 +46,18 @@ const ManageSchedule: React.FC = () => {
     return `${hour}:00:00`;
   });
 
-  const teacherId = user?.id;
+  const URL = import.meta.env.VITE_API_URL;
 
+  const teacherId = user?.id;
 
   useEffect(() => {
     if (user?.schedule) {
+      console.log(user.schedule);
       const initialSchedule: HourStatus = {};
       user.schedule.forEach((s) => {
         const day = daysOfWeekShort[Number(s.dayofweek) - 1];
         const key = `${day} - ${s.start_time}`;
-        initialSchedule[key] = s.studentsCount === 1 ? 1 : 5;
+        initialSchedule[key] = s.maxstudents === "1" ? 1 : 5; 
       });
       setAvailableHours(initialSchedule);
     }
@@ -66,16 +67,15 @@ const ManageSchedule: React.FC = () => {
     const key = `${day} - ${hour}`;
     setAvailableHours((prev) => {
       const newStatus = (prev[key] || 0) + 1;
-      
+
       if (newStatus % 3 === 1 || newStatus % 3 === 2) {
         return { ...prev, [key]: newStatus % 3 };
-      } else 
+      } else {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [key]: _, ...rest } = prev;
         return rest;
       }
     });
-    console.log(availableHours);
   };
 
   const handleSaveSchedule = async (availableHours: HourStatus) => {
@@ -87,13 +87,14 @@ const ManageSchedule: React.FC = () => {
         const [day, start_time] = hourString.split(" - ");
         const end_time = `${parseInt(start_time.split(":")[0]) + 1}:00:00`;
         const dayofweek = daysOfWeekShort.indexOf(day) + 1;
-        const studentsCount = status === 1 ? 1 : 5;
-        return { start_time, end_time, dayofweek, studentsCount };
+        const maxstudents = status === 1 ? 1 : 5;
+        return { start_time, end_time, dayofweek, maxstudents };
       });
 
     try {
+      console.log(scheduleData);
       const response = await fetch(
-        `http://localhost:3000/schedule/create/${teacherId}`,
+        `${URL}schedule/create/${teacherId}`,
         {
           method: "POST",
           headers: {
@@ -133,27 +134,27 @@ const ManageSchedule: React.FC = () => {
     <>
       {isPopupOpen && (
         <PopUpContainer>
-        <PopUp>
-          <h2>Availability schedule.</h2>
-          <p>Here you can set your schedule.</p>
-          <p>
-            Click on the grid cells to select your available spots. The cells will change colors based on the selection:
-          </p>
-          <ul>
-            <li style={{ color: "#8b9a93" }}><strong>Green:</strong> Indicates the time slot is available for an individual class.</li>
-            <li style={{ color: "#f2b36f" }}><strong>Orange:</strong> Indicates a group class with up to five students.</li>
-            <li style={{ color: "grey" }}><strong>White:</strong> Indicates the time slot is not available.</li>
-          </ul>
-          <p>
-            Click again on a selected cell to unselect it. When you finish setting your availability, press the save button.
-          </p>
-          <ButtonsContainer>
-            <Button secondary onClick={handleClosePopup}>
-              Close
-            </Button>
-          </ButtonsContainer>
-        </PopUp>
-      </PopUpContainer>
+          <PopUp>
+            <h2>Availability schedule.</h2>
+            <p>Here you can set your schedule.</p>
+            <p>
+              Click on the grid cells to select your available spots. The cells will change colors based on the selection:
+            </p>
+            <ul>
+              <li style={{ color: "#8b9a93" }}><strong>Green:</strong> Indicates the time slot is available for an individual class.</li>
+              <li style={{ color: "#f2b36f" }}><strong>Orange:</strong> Indicates a group class with up to five students.</li>
+              <li style={{ color: "grey" }}><strong>White:</strong> Indicates the time slot is not available.</li>
+            </ul>
+            <p>
+              Click again on a selected cell to unselect it. When you finish setting your availability, press the save button.
+            </p>
+            <ButtonsContainer>
+              <Button secondary onClick={handleClosePopup}>
+                Close
+              </Button>
+            </ButtonsContainer>
+          </PopUp>
+        </PopUpContainer>
       )}
       <MainContainer isPopupOpen={isPopupOpen}>
         {showSuccessMessage && <Message>{message}</Message>}
@@ -182,8 +183,11 @@ const ManageSchedule: React.FC = () => {
                       const key = `${day} - ${hour}`;
                       const status = availableHours[key] || 0;
                       let backgroundColor = "";
+                      const scheduleEntry = user?.schedule?.find((s) => 
+                        s.start_time === hour && s.dayofweek === (daysOfWeekShort.indexOf(day) + 1).toString()
+                      );
                       if (status === 1) backgroundColor = "#8b9a93";
-                      else if (status === 2) backgroundColor = "#f2b36f";
+                      else if (status === 2 || (scheduleEntry && scheduleEntry.maxstudents === "5" && status !== 0)) backgroundColor = "#f2b36f";
                       return (
                         <TableData
                           key={day}
