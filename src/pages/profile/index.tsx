@@ -324,12 +324,14 @@ const Profile = () => {
                             </UserSubjects>
                         )}
                     </UserInfo>
-                    <VacationButtonContainer>
-                        {!user?.isOnVacation ? 
-                        <VacationButton onClick={handleTakeVacation}><FaUmbrellaBeach /></VacationButton> 
-                        : 
-                        <VacationButton important onClick={handleTerminateVacation}><FaUmbrellaBeach /></VacationButton>}
-                    </VacationButtonContainer>
+                    {user?.role === 'TEACHER' && (
+                        <VacationButtonContainer>
+                            {!user?.isOnVacation ? 
+                            <VacationButton onClick={handleTakeVacation}><FaUmbrellaBeach /></VacationButton> 
+                            : 
+                            <VacationButton important onClick={handleTerminateVacation}><FaUmbrellaBeach /></VacationButton>}
+                        </VacationButtonContainer>
+                    )}
                     <CardButtons>
                         <Button onClick={() => setIsEditing(true)}>Edit your profile</Button>
                         <Button important onClick={handlePasswordChange}>Change password</Button>
