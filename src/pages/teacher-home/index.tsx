@@ -46,6 +46,7 @@ const TeacherHome = () => {
             } catch (error) {
                 console.error(error);
                 setIsLoading(false);
+                setReservations([]);
             }
         };
         if (user?.id) {

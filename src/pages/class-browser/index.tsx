@@ -245,7 +245,7 @@ const ClassBrowser = () => {
             setTimeout(() => {
                 setShowSuccessMessage(false);
                 setIsBookingTimeout(false);
-                navigate(`/class-browser/${subjectId}/${subjectName}`);
+                navigate(`/class-browser/${subjectId}/${subjectName}`, { replace: true });
             }, 3000);
 
         } catch (error) {
