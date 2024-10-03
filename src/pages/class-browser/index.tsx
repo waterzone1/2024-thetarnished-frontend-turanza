@@ -92,7 +92,7 @@ const ClassBrowser = () => {
         };
 
         const getPrevTeachersDictatingSubject = async () => {
-            if (subjectId) {
+            if (subjectId && user?.id) {
                 try {
                     const response = await fetch(`${URL}students/get-previous/${user?.id}/${subjectId}`, {
                         method: 'GET',

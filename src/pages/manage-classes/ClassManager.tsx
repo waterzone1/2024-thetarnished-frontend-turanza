@@ -35,7 +35,7 @@ const ClassManager = () => {
     useEffect(() => {
         const getReservationsForTeacher = async () => {
             try {
-                const response = await fetch(`${URL}reservation/teacher/${user?.id}`, {
+                const response = await fetch(`${URL}reservation/teacher-past-reservations-by/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const ClassManager = () => {
             if (!response.ok) {
                 throw new Error('Failed to update reservation');
             }
-            setReservations((prevReservations) => prevReservations.filter((reservation) => reservation.id !== selectedClassId));
+            setReservations((prevReservations) => prevReservations.filter((reservation) => reservation.id !== reservationId));
             setIsFinishing(false);
             setMessage('Class finished successfully');
             setShowMessage(true);
