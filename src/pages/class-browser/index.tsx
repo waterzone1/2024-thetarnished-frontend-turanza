@@ -32,6 +32,7 @@ interface Schedule {
     dayofweek: string;
     dayofmonth: string;
     Teacher: Teacher;
+    maxstudents: number;
 }
 
 const ClassBrowser = () => {
@@ -76,6 +77,7 @@ const ClassBrowser = () => {
                                 },
                             });
                             const teacherSchedule = await scheduleResponse.json();
+                            console.log(teacherSchedule)
                             return { teacher, schedule: teacherSchedule };
                         })
                     );
@@ -327,8 +329,11 @@ const ClassBrowser = () => {
                                             .filter(schedule => !selectedSlots.some((selectedSlot, selectedIndex) => selectedIndex !== index && selectedSlot.time === formatTimeWithPadding(schedule.start_time) && selectedSlot.day === slot.day))
                                             .map(schedule => (
                                                 <option key={schedule.scheduleid} value={formatTimeWithPadding(schedule.start_time)}>
-                                                    {formatTimeWithPadding(schedule.start_time)}
+                                                {schedule.maxstudents > 1 
+                                                    ? formatTimeWithPadding(schedule.start_time) + "  (Group)"
+                                                    : formatTimeWithPadding(schedule.start_time)}
                                                 </option>
+
                                             ))}
                                     </Select>
                                     {index === 0 && (
