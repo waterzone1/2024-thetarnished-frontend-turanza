@@ -292,7 +292,7 @@ const ClassBrowser = () => {
         `${teacher.teacher.firstname} ${teacher.teacher.lastname}`.toLowerCase().includes(searchQuery.toLowerCase())
      );
 
-    const numStaticSkeletonCards = Math.max(0, 6 - filteredTeachers.length - prevTeachersDictatingSubject.length);
+    const numStaticSkeletonCards = Math.max(0, 5 - filteredTeachers.length - prevTeachersDictatingSubject.length);
     const cardsToDisplay = [...filteredTeachers.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
     const prevTeacherscardsToDisplay = [...filteredPrevTeachers.map(item => item.teacher)];
 

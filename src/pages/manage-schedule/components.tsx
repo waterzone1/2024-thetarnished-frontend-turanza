@@ -58,6 +58,7 @@ export const Content = styled.div`
     }
 `
 export const ScheduleContainer = styled.div`
+    position: relative;
     padding: 50px 50px 20px 50px;
     background-color: ${colors.secondary} ;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -95,4 +96,17 @@ export const ButtonContainer = styled.div`
     width: 100% ;
     align-items: center ;
     justify-content: center ;
+`
+
+export const TutorialButtonContainer = styled.div`
+    position: absolute;
+    top: 15px;
+    right: 15px;
+`
+
+export const TutorialButton = styled.button`
+    background-color: transparent;
+    color: ${colors.primary};
+    font-size: 2.5rem;
+    padding: 0px;
 `
