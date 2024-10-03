@@ -6,6 +6,7 @@ import { PopUp, PopUpContainer } from "../../components/popup/components";
 import { Button } from "../../components/main-button/components";
 import SideBar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar";
+import { useNavigate } from "react-router-dom";
 
 interface Teacher {
     teacherid: number;
@@ -26,23 +27,29 @@ const AdminHome = () => {
 
     const URL = import.meta.env.VITE_API_URL;
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (!isLoggedIn || user?.role !== "ADMIN") {
-            window.location.href = "/";
+            navigate("/");
         }
        const getInactiveTeachers = async () => {
-       const response = await fetch(`${URL}admins/inactive-teachers`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await response.json();
-        console.log(data);
-        setTeachers(data);
-       }
+            try{
+                const response = await fetch(`${URL}admins/inactive-teachers`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await response.json();
+                setTeachers(data);
+            }catch (error) {
+                console.error("Error fetching teachers: ", error);
+            }
+        }
+       
        getInactiveTeachers();
-    }, [URL, isLoggedIn, user?.role]);
+    }, [URL, isLoggedIn, navigate, user?.role]);
 
     const handleTeacherAccept = () => {
         try{
