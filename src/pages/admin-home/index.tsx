@@ -5,6 +5,7 @@ import Logo from "../../components/top-down-logo";
 import { PopUp, PopUpContainer } from "../../components/popup/components";
 import { Button } from "../../components/main-button/components";
 import SideBar from "../../components/sidebar/sidebar";
+import Topbar from "../../components/topbar";
 
 interface Teacher {
     teacherid: number;
@@ -37,6 +38,7 @@ const AdminHome = () => {
             },
         });
         const data = await response.json();
+        console.log(data);
         setTeachers(data);
        }
        getInactiveTeachers();
@@ -114,6 +116,7 @@ const AdminHome = () => {
             )}
             <MainContainer isPopupOpen={isPopupOpen}>
                 <Logo />
+                <Topbar/>
                 <SideBar/>
                 <Content>
                     <SearchBar 
