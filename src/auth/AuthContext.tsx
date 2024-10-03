@@ -22,6 +22,7 @@ export interface User {
   schedule?: ScheduleEntry[];
   isActive: boolean;
   role: 'STUDENT' | 'TEACHER' | 'ADMIN';
+  isOnVacation: boolean;
 }
 
 export interface AuthContextType {

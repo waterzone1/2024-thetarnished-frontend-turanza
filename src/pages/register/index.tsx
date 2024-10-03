@@ -27,7 +27,6 @@ const Register = () => {
 
     const handleSelectOptions = (selected: { id: string; name: string; }[]) => {
         setSelectedOptions(selected);
-        console.log(selectedOptions);
     };
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {

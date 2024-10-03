@@ -31,10 +31,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const errorData = await response.json();
           throw new Error(errorData.message || 'Login failed');
       }
-
       const data = await response.json();
+      console.log(data);
       const loggedInUser: User = {
-
           id: data.user.id,
           firstName: data.user.firstname,
           lastName: data.user.lastname,
@@ -42,7 +41,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           subjects: data.user.subjects,
           schedule: data.user.schedule,
           role: data.user.role as 'STUDENT' | 'TEACHER' | 'ADMIN',
-          isActive: data.user.isActive
+          isActive: data.user.isActive,
+          isOnVacation: data.user.on_vacation
       };
     
     setUser(loggedInUser);

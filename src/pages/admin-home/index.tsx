@@ -50,9 +50,8 @@ const AdminHome = () => {
                     "Content-Type": "application/json",
                 },
             });
-            console.log("Teacher accepted!");
         } catch (error) {
-            console.log("Error accepting teacher: ", error);
+            console.error("Error accepting teacher: ", error);
         }
         setTeachers(teachers.filter(teacher => teacher.teacherid !== currentTeacherId));
         setIsPopupOpen(false);
@@ -76,9 +75,8 @@ const AdminHome = () => {
                     "Content-Type": "application/json",
                 },
             });
-            console.log("Teacher Rejected!");
         } catch (error) {
-            console.log("Error rejecting teacher: ", error);
+            console.error("Error rejecting teacher: ", error);
         }
         setTeachers(teachers.filter(teacher => teacher.teacherid !== currentTeacherId));
         setIsRejectPopupOpen(false);

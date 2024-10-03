@@ -101,7 +101,7 @@ const TeacherHome = () => {
                           <h1 style={{paddingTop:"20px"}}>Hello, {user?.firstName}!</h1>
                           {reservations.length > 0 ? (
                             <>
-                            <h2 style={{paddingLeft: "15px"}}>Here are your upcoming classes:</h2>
+                            <h2>Here are your upcoming classes:</h2>
                             
                             <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
                               <TimeFilterButton onClick={() => setTimeFilter('24h')} active={timeFilter === '24h'}>Next 24 hours</TimeFilterButton>

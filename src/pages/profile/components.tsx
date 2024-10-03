@@ -3,6 +3,9 @@ import colors from "../../assets/colors";
 
 interface MainContainerProps {
     isPopupOpen: boolean;
+    showTakeVacationPopup: boolean;
+    showDeleteAccountConfirmation: boolean;
+    showTerminateVacationPopup: boolean;
 }
 
 
@@ -23,7 +26,9 @@ export const MainContainer =  styled.div<MainContainerProps>`
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
         z-index: 999;
-        opacity: ${({ isPopupOpen }) => (isPopupOpen ? 1 : 0)};
+        opacity: ${({ isPopupOpen, showTakeVacationPopup, showDeleteAccountConfirmation, showTerminateVacationPopup }) =>
+            isPopupOpen || showTakeVacationPopup || showDeleteAccountConfirmation || showTerminateVacationPopup ? 1 : 0
+        };
         transition: opacity 0.3s ease;
         pointer-events: none;
         backdrop-filter: blur(5px);        
@@ -97,15 +102,42 @@ export const UserEmail = styled.h2`
 export const UserSubjects = styled.div`
     display: flex;
     width: 80%;
+    max-width: 550px;
     align-items: center;
-    justify-content:center ;
+    justify-content: start;
     gap: 10px;
-
-    @media (max-width: 600px){
-        overflow: auto;
-        flex-wrap: wrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    scrollbar-width: thin;
+    
+    ::-webkit-scrollbar {
+        width: 8px;
     }
-`
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: white;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e0e0e0;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: ${colors.primary} transparent;
+
+    @media (max-width: 600px) {
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+`;
+
 
 export const Subject = styled.div`
     display: flex;
@@ -117,7 +149,7 @@ export const Subject = styled.div`
     white-space: nowrap; 
     min-width: 80px;
     text-align: center;
-    text-overflow: ellipsis;
+    text-overflow: auto;
 `
 
 export const CardButtons = styled.div`
@@ -178,7 +210,7 @@ export const Input = styled.input`
 
 export const ButtonsContainer = styled.div`
     display: flex; 
-    width: 90%;
+    width: 100%;
     align-items: center;
     justify-content: center;
 `
@@ -205,4 +237,33 @@ export const PasswordInput = styled.input`
     border-radius: 5px;
     font-size: 16px;
     color: ${colors.primary};
+`
+
+export const VacationButtonContainer = styled.div`
+    position: absolute ;
+    top: 20px;
+    right: 20px;
+`
+interface VacationButtonProps {
+    important?: boolean;
+}
+
+export const VacationButton = styled.button<VacationButtonProps>`
+    background-color: ${(props) => (props.important ? `${colors.important}` : `${colors.primary}`)};
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1.2rem;
+`
+
+export const CalendarContainer = styled.div`
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 `

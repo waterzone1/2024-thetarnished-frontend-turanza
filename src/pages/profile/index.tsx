@@ -1,5 +1,5 @@
 import SideBar from '../../components/sidebar/sidebar'
-import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer, PasswordInput } from './components';
+import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer, PasswordInput, VacationButtonContainer, VacationButton, CalendarContainer } from './components';
 import { Button } from '../../components/main-button/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,12 +11,14 @@ import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
 import { PopUp, PopUpContainer } from '../../components/popup/components';
 import MultiAutocompleteInput from '../../components/multi-autocomplete-input';
+import { FaUmbrellaBeach } from "react-icons/fa";
+import DateRangeCalendarComponent from './calendar';
+import dayjs from 'dayjs';
 
 const Profile = () => {
 
     const navigate = useNavigate();
     const { user, updateUser, logout } = useAuth();
-
     const [firstName, setFirstName] = useState(user?.firstName || '');
     const [lastName, setLastName] = useState(user?.lastName || '');
     const [isEditing, setIsEditing] = useState(false);
@@ -29,6 +31,11 @@ const Profile = () => {
     const [newSubjects, setNewSubjects] = useState<{ id: string; name: string; }[]>([]);
     const [password, setPassword] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
+    const [showTakeVacationPopup, setShowTakeVacationPopup] = useState(false);
+    const [isConfirmingVacation, setIsConfirmingVacation] = useState(false);
+    const [showTerminateVacationPopup, setShowTerminateVacationPopup] = useState(false);
+    const [isConfirmingTerminateVacation, setIsConfirmingTerminateVacation] = useState(false);
+
     const URL = import.meta.env.VITE_API_URL;
 
     const handlePasswordChange = () => {
@@ -154,8 +161,132 @@ const Profile = () => {
             }, 3000);
         }
     };
+
+    const handleTakeVacation = async () => {
+        setShowTakeVacationPopup(true);
+    }
+
+    const handleCancelTakeVacation = () => {
+        setShowTakeVacationPopup(false);
+    }
+
+    const handleConfirmVacation = async () => {
+        try{
+            setIsConfirmingVacation(true);
+            const response = await fetch(`${URL}classes/assign-vacation`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    teacherid: user?.id,
+                    startdate: dateRange[0],
+                    enddate: dateRange[1]
+                }),
+            });
+            if(response.status === 403) {
+                setMessage('Cannot take vacation during a reservation');
+                throw new Error('Failed to take vacation');
+            }
+            if (!response.ok) {
+                setMessage("Could not take vacation");
+                throw new Error('Failed to take vacation');
+            }
+            updateUser({ isOnVacation: true });
+            setIsConfirmingVacation(false);
+            setShowTakeVacationPopup(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 3000);    
+        }catch(error){
+            setIsConfirmingVacation(false);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
+            console.error(error);
+        }   
+    }
+    
+    const handleTerminateVacation = async () => {
+        setShowTerminateVacationPopup(true)
+    }
+
+    const handleCancelTerminateVacation = () => {
+        setShowTerminateVacationPopup(false);
+    }
+
+    const handleConfirmTerminateVacation = async () => {
+        try{
+            setIsConfirmingTerminateVacation(true);
+            const response = await fetch(`${URL}classes/stop-vacation`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    teacherid: user?.id,
+                }),
+            });
+            if (!response.ok) {
+                setMessage("Could not terminate vacation");
+                throw new Error('Failed to terminate vacation');
+            }
+            updateUser({ isOnVacation: false });
+            setIsConfirmingTerminateVacation(false);
+            setShowTerminateVacationPopup(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 3000);
+        }catch(error){
+            setIsConfirmingTerminateVacation(false);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 3000);
+            console.error(error);
+        }
+    }
+
+    const [dateRange, setDateRange] = useState<[string | null, string | null]>([null, null]);
+
+    const handleDateChange = (newDateRange: [dayjs.Dayjs | null, dayjs.Dayjs | null]) => {
+        const formattedDateRange: [string | null, string | null] = [
+            newDateRange[0] ? newDateRange[0].format('YYYY-MM-DD HH:mm:ss') : null,
+            newDateRange[1] ? newDateRange[1].format('YYYY-MM-DD HH:mm:ss') : null,
+        ];
+        setDateRange(formattedDateRange);
+    };
+
     return (
         <>
+        {showTerminateVacationPopup && (
+            <PopUpContainer>
+                <PopUp>
+                    <h2>Are you sure you want to terminate your vacation?</h2>
+                    <ButtonsContainer>
+                        <Button onClick={handleConfirmTerminateVacation}>{isConfirmingTerminateVacation ? <AnimatedLoadingLogo/> : "Terminate vacation" }</Button>
+                        <Button secondary onClick={handleCancelTerminateVacation}>Cancel</Button>
+                    </ButtonsContainer>
+                </PopUp>
+            </PopUpContainer>
+        )}
+        {showTakeVacationPopup && (
+            <PopUpContainer>
+                <PopUp>
+                    <h2>Please provide your vacation duration</h2>
+                    <CalendarContainer>
+                        <DateRangeCalendarComponent onDateChange={handleDateChange} />
+                    </CalendarContainer>
+                    <ButtonsContainer>
+                        <Button onClick={handleConfirmVacation}>{isConfirmingVacation ? <AnimatedLoadingLogo/> : "Take vacation"}</Button>
+                        <Button secondary onClick={handleCancelTakeVacation}>Cancel</Button>
+                    </ButtonsContainer>
+                </PopUp>
+            </PopUpContainer>
+            )}
             {showDeleteAccountConfirmation && (
             <PopUpContainer>
                 <PopUp>
@@ -163,13 +294,13 @@ const Profile = () => {
                     <p>Confirm your password:</p>
                     <PasswordInput placeholder="Password.." type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <ButtonsContainer>
-                    <Button important onClick={handleDeleteAccount}>{isDeleting ? <AnimatedLoadingLogo/> : "Delete account"}</Button>
-                    <Button secondary onClick={handleClosePopup}>Cancel</Button>
+                        <Button important onClick={handleDeleteAccount}>{isDeleting ? <AnimatedLoadingLogo/> : "Delete account"}</Button>
+                        <Button secondary onClick={handleClosePopup}>Cancel</Button>
                     </ButtonsContainer>
                 </PopUp>
             </PopUpContainer>
             )}
-        <MainContainer isPopupOpen={isPopupOpen}>
+        <MainContainer isPopupOpen={isPopupOpen} showTakeVacationPopup={showTakeVacationPopup} showDeleteAccountConfirmation={showDeleteAccountConfirmation} showTerminateVacationPopup={showTerminateVacationPopup}>
             {showSuccessMessage && <Message>Your profile has been updated.</Message>}
             {showErrorMessage && <Message error>{message}</Message>}
             <SideBar/>
@@ -193,6 +324,12 @@ const Profile = () => {
                             </UserSubjects>
                         )}
                     </UserInfo>
+                    <VacationButtonContainer>
+                        {!user?.isOnVacation ? 
+                        <VacationButton onClick={handleTakeVacation}><FaUmbrellaBeach /></VacationButton> 
+                        : 
+                        <VacationButton important onClick={handleTerminateVacation}><FaUmbrellaBeach /></VacationButton>}
+                    </VacationButtonContainer>
                     <CardButtons>
                         <Button onClick={() => setIsEditing(true)}>Edit your profile</Button>
                         <Button important onClick={handlePasswordChange}>Change password</Button>

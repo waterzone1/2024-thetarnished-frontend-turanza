@@ -94,7 +94,7 @@ const ClassBrowser = () => {
         const getPrevTeachersDictatingSubject = async () => {
             if (subjectId) {
                 try {
-                    const response = await fetch(`${URL}students/get-previous/${user?.id}`, {
+                    const response = await fetch(`${URL}students/get-previous/${user?.id}/${subjectId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -422,6 +422,7 @@ const ClassBrowser = () => {
                                     </div>
                                 )}
                                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
+                                <h2 style={{textAlign: "center"}}>All teachers</h2>
                                     {cardsToDisplay.map((teacher, index) => (
                                         teacher ? (
                                             <Card 

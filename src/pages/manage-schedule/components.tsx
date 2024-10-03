@@ -3,6 +3,7 @@ import colors from "../../assets/colors";
 
 interface MainContainerProps {
     isPopupOpen: boolean;
+    isOnVacationPopUpOpen: boolean;
 }
 
 export const MainContainer = styled.div<MainContainerProps>`
@@ -22,7 +23,7 @@ export const MainContainer = styled.div<MainContainerProps>`
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
         z-index: 999;
-        opacity: ${({ isPopupOpen }) => (isPopupOpen ? 1 : 0)};
+        opacity: ${({ isPopupOpen, isOnVacationPopUpOpen }) => (isPopupOpen || isOnVacationPopUpOpen ? 1 : 0)};
         transition: opacity 0.3s ease;
         pointer-events: none;
         backdrop-filter: blur(5px);        

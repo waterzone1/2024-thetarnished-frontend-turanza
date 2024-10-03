@@ -39,6 +39,7 @@ const ManageSchedule: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(
     (user?.schedule)?.length === 0
   );
+  const [isOnVacationPopUpOpen, setIsOnVacationPopUpOpen] = useState<boolean>(false);
 
   const daysOfWeekShort = useMemo(() => ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], []);
   const hours = Array.from({ length: 13 }, (_, i) => {
@@ -51,8 +52,8 @@ const ManageSchedule: React.FC = () => {
   const teacherId = user?.id;
 
   useEffect(() => {
+    setIsOnVacationPopUpOpen(user?.isOnVacation || false);
     if (user?.schedule) {
-      console.log(user.schedule);
       const initialSchedule: HourStatus = {};
       user.schedule.forEach((s) => {
         const day = daysOfWeekShort[Number(s.dayofweek) - 1];
@@ -61,7 +62,7 @@ const ManageSchedule: React.FC = () => {
       });
       setAvailableHours(initialSchedule);
     }
-  }, [user?.schedule, daysOfWeekShort]);
+  }, [user?.schedule, daysOfWeekShort, user?.isOnVacation]);
 
   const toggleHour = (day: string, hour: string): void => {
     const key = `${day} - ${hour}`;
@@ -92,7 +93,6 @@ const ManageSchedule: React.FC = () => {
       });
 
     try {
-      console.log(scheduleData);
       const response = await fetch(
         `${URL}schedule/create/${teacherId}`,
         {
@@ -130,6 +130,10 @@ const ManageSchedule: React.FC = () => {
     setIsPopupOpen(false);
   };
 
+  const handleCloseOnVacationPopup = () => {
+    setIsOnVacationPopUpOpen(false);
+  };
+
   return (
     <>
       {isPopupOpen && (
@@ -156,7 +160,23 @@ const ManageSchedule: React.FC = () => {
           </PopUp>
         </PopUpContainer>
       )}
-      <MainContainer isPopupOpen={isPopupOpen}>
+      {isOnVacationPopUpOpen && (
+        <PopUpContainer>
+          <PopUp>
+            <h2>You are currently on vacation.</h2>
+            <p>
+              During vacation period you can't set your schedule.
+            </p>
+            <ButtonsContainer>
+              <Button secondary onClick={handleCloseOnVacationPopup}>
+                Close
+              </Button>
+            </ButtonsContainer>
+          </PopUp>
+        </PopUpContainer>
+        )
+      }
+      <MainContainer isPopupOpen={isPopupOpen} isOnVacationPopUpOpen={isOnVacationPopUpOpen}>
         {showSuccessMessage && <Message>{message}</Message>}
         {showErrorMessage && <Message error>{message}</Message>}
         <SideBar />
@@ -203,13 +223,12 @@ const ManageSchedule: React.FC = () => {
               </tbody>
             </table>
             <ButtonContainer>
-              <Button onClick={() => handleSaveSchedule(availableHours)}>
-                {isSaving ? (
-                  <AnimatedLoadingLogo src={TransparentLogo} />
-                ) : (
-                  "Save schedule"
-                )}
-              </Button>
+              {user?.isOnVacation ? 
+              <Button secondary disabled>You are on vacation</Button>
+              : 
+              <Button onClick={() => handleSaveSchedule(availableHours)}>{isSaving ? (<AnimatedLoadingLogo src={TransparentLogo} />) : ("Save schedule")}</Button>
+              }
+              <Button secondary onClick={() => setIsPopupOpen(true)}>Tutorial</Button>
             </ButtonContainer>
           </ScheduleContainer>
         </Content>
