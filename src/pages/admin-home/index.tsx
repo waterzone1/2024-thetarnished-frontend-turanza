@@ -44,6 +44,7 @@ const AdminHome = () => {
                 const data = await response.json();
                 setTeachers(data);
             }catch (error) {
+                setTeachers([]);
                 console.error("Error fetching teachers: ", error);
             }
         }
@@ -91,9 +92,11 @@ const AdminHome = () => {
         setIsRejectPopupOpen(false);
     }
 
-    const filteredTeachers = teachers.filter(teacher => 
-        `${teacher.firstname} ${teacher.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredTeachers = Array.isArray(teachers) ? 
+        teachers.filter(teacher => 
+            `${teacher.firstname} ${teacher.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
+        ) 
+    : [];
 
     return (
         <>
