@@ -16,6 +16,7 @@ const ResetPassword = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ const ResetPassword = () => {
     useEffect(() => {
         const confirmCredentials = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reset/reset-password/${userId}/${token}`, {
+                const response = await fetch(`${URL}reset/reset-password/${userId}/${token}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -39,7 +40,7 @@ const ResetPassword = () => {
             }
         }
         confirmCredentials();
-    }, [navigate, token, userId]);
+    }, [URL, navigate, token, userId]);
 
     const handleChangePassword = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -49,7 +50,7 @@ const ResetPassword = () => {
             return;
         }
         try{
-            const response = await fetch(`http://localhost:3000/reset/reset-password/${userId}/${token}`, {
+            const response = await fetch(`${URL}reset/reset-password/${userId}/${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

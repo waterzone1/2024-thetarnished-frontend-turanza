@@ -10,6 +10,7 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [emailSent, setEmailSent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const ForgotPassword = () => {
         event.preventDefault();
     try{
         setIsLoading(true);
-        const response = await fetch('http://localhost:3000/reset/forgot-password', {
+        const response = await fetch(`${URL}reset/forgot-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

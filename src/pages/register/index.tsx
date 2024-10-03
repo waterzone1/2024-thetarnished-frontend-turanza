@@ -21,6 +21,7 @@ const Register = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ const Register = () => {
         e.preventDefault();
         setIsRegistering(true);
         try{
-            if(!firstName || !lastName || !email || !password || !repassword || selectedOptions.length === 0) {
+            if(!firstName || !lastName || !email || !password || !repassword || (isTeacher && selectedOptions.length === 0)) {
                 setErrorMessage('Please fill all fields.');
                 throw new Error('Please fill all fields.');
             }
@@ -43,7 +44,7 @@ const Register = () => {
             }
             const role = isTeacher ? 'TEACHER' : 'STUDENT';
     
-            const response = await fetch('http://localhost:3000/authentication/register', {
+            const response = await fetch(`${URL}authentication/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

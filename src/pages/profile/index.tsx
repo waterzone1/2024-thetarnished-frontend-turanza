@@ -1,5 +1,5 @@
 import SideBar from '../../components/sidebar/sidebar'
-import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer } from './components';
+import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer, PasswordInput } from './components';
 import { Button } from '../../components/main-button/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,9 @@ const Profile = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [newSubjects, setNewSubjects] = useState<{ id: string; name: string; }[]>([]);
+    const [password, setPassword] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    const URL = import.meta.env.VITE_API_URL;
 
     const handlePasswordChange = () => {
         navigate('/change-password');
@@ -40,16 +43,32 @@ const Profile = () => {
     const handleClosePopup = () => {
         setShowDeleteAccountConfirmation(false);
         setIsPopupOpen(false);
+        setPassword('');
     };
 
     const handleSubjectsChange = (selected: { id: string; name: string; }[]) => {
         setNewSubjects(selected);
-        console.log(newSubjects);
     }
 
     const handleDeleteAccount = async () => {
-        try{
-            const response = await fetch('http://localhost:3000/authentication/delete-account', {
+        try {
+            setIsDeleting(true);
+            const res = await fetch(`${URL}authentication/delete-account/${user?.email}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password: password,
+                }),
+            });
+
+            if (!res.ok) {
+                setMessage("Incorrect password");
+                throw new Error('Failed to delete user');
+            }
+
+            const response = await fetch(`${URL}authentication/delete-account`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,19 +77,27 @@ const Profile = () => {
                     email: user?.email
                 }),
             });
+
+            if(response.status === 400) {
+                setMessage('Cannot delete account with future or in debt reservations');
+                throw new Error('Failed to delete user');
+            }
+
             if (!response.ok) {
                 setMessage("Could not delete account");
                 throw new Error('Failed to delete user');
             }
             logout();
-        }catch(error){
+        } catch(error) {
+            setIsDeleting(false);
+            setPassword('');
             setShowErrorMessage(true);
+            handleClosePopup();
             setTimeout(() => {
                 setShowErrorMessage(false)
             }, 3000);
             console.error(error);
         }
-        
     };
 
     const handleProfileSave = async (event: React.FormEvent) => {
@@ -92,7 +119,7 @@ const Profile = () => {
             subjects: newSubjects.map(subject => subject.id)
         }
         try{
-            const response = await fetch('http://localhost:3000/authentication/edit-profile', {
+            const response = await fetch(`${URL}authentication/edit-profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,9 +160,11 @@ const Profile = () => {
             <PopUpContainer>
                 <PopUp>
                     <h2>Are you sure you want to delete your account?</h2>
+                    <p>Confirm your password:</p>
+                    <PasswordInput placeholder="Password.." type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <ButtonsContainer>
-                    <Button onClick={handleDeleteAccount}>Yes</Button>
-                    <Button secondary onClick={handleClosePopup}>No</Button>
+                    <Button important onClick={handleDeleteAccount}>{isDeleting ? <AnimatedLoadingLogo/> : "Delete account"}</Button>
+                    <Button secondary onClick={handleClosePopup}>Cancel</Button>
                     </ButtonsContainer>
                 </PopUp>
             </PopUpContainer>

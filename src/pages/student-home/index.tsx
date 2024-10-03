@@ -21,6 +21,7 @@ const Home = () => {
   const widthUmbral1 = 800;
   const widthUmbral2 = 450;
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
+  const URL = import.meta.env.VITE_API_URL;
 
   const getItemsPerPage = (width: number) => {
     if (width > widthUmbral1) return 9;
@@ -52,7 +53,7 @@ const Home = () => {
 
     const fetchSubjects = async () => {
       try {
-        const response = await fetch('http://localhost:3000/subject/all-subjects-dictated', {
+        const response = await fetch(`${URL}subject/all-subjects-dictated`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ const Home = () => {
     return () => {
       window.removeEventListener('resize', handleWidthChange);
     };
-  }, []);
+  }, [URL]);
 
   const filteredSubjects = subjects.filter(subject =>
     subject.subjectname.toLowerCase().includes(searchQuery.toLowerCase())

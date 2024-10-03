@@ -17,6 +17,8 @@ interface Reservations {
 const TeacherHome = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    const URL = import.meta.env.VITE_API_URL;
     
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -25,7 +27,7 @@ const TeacherHome = () => {
     useEffect(() => {
         const getReservationsForTeacher = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/reservation/teacher/${user?.id}`, {
+                const response = await fetch(`${URL}reservation/teacher/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ const TeacherHome = () => {
         if (user?.id) {
             getReservationsForTeacher();
         }
-    }, [user?.id]);
+    }, [URL, user?.id]);
 
     const handleGoToSchedule = () => {
         navigate("/manage-schedule")
@@ -59,8 +61,8 @@ const TeacherHome = () => {
         const now = new Date().getTime();
         const timeIntervals: Record<string, number> = {
             '24h': 24 * 60 * 60 * 1000,
-            '3d': 3 * 24 * 60 * 60 * 1000,
-            '1w': 7 * 24 * 60 * 60 * 1000,
+            '3d': 7 * 24 * 60 * 60 * 1000,
+            '1w': Infinity ,
         };
 
         return reservations.filter((reservation) => {
@@ -103,8 +105,8 @@ const TeacherHome = () => {
                             
                             <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
                               <TimeFilterButton onClick={() => setTimeFilter('24h')} active={timeFilter === '24h'}>Next 24 hours</TimeFilterButton>
-                              <TimeFilterButton onClick={() => setTimeFilter('3d')} active={timeFilter === '3d'}>Next 3 days</TimeFilterButton>
-                              <TimeFilterButton onClick={() => setTimeFilter('1w')} active={timeFilter === '1w'}>Next 1 week</TimeFilterButton>
+                              <TimeFilterButton onClick={() => setTimeFilter('3d')} active={timeFilter === '3d'}>Next 7 days</TimeFilterButton>
+                              <TimeFilterButton onClick={() => setTimeFilter('1w')} active={timeFilter === '1w'}>Next month</TimeFilterButton>
                             </div>
   
                             <CardsContainer>

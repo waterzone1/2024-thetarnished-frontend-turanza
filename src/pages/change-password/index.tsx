@@ -20,6 +20,7 @@ const ChangePassword = () => {
     const navigate = useNavigate();
 
     const { user, isLoggedIn, logout } = useAuth();
+    const URL = import.meta.env.VITE_API_URL;
 
     const handleGoBack = () => {
         navigate(-1);
@@ -30,7 +31,7 @@ const ChangePassword = () => {
         const userEmail = user?.email;
         setIsLoading(true);
         try{
-            const response = await fetch('http://localhost:3000/authentication/change-password', {
+            const response = await fetch(`${URL}authentication/change-password`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

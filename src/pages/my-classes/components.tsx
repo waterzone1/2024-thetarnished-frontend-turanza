@@ -69,13 +69,13 @@ export const Card = styled.div`
 `;
 
 export const CardHeader = styled.div`
-    background-color: ${colors.primary};
     color: #fff;
     border-radius: 6px 6px 0 0;
     font-size: 18px;
     font-weight: bold;
     text-align: center ;
     padding: 0px;
+    background-color: ${colors.primary} ;
 `;
 
 export const CardBody = styled.div`

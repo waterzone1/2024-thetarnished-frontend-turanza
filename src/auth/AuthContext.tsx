@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export interface ScheduleEntry {
+  maxstudents: string;
   studentsCount: number;
   scheduleid: string;
   start_time: string;
