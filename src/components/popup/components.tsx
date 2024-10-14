@@ -21,8 +21,12 @@ export const PopUp = styled.div`
     border: 2px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
+    @media (max-width: 1000px){
+        width: 70%;
+    }
+
     @media (max-width: 500px){
-        padding: 5px;
-        width: 80%;
+        padding: 30px;
+        
     }
 `

@@ -1,5 +1,5 @@
 import SideBar from '../../components/sidebar/sidebar'
-import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer, PasswordInput, VacationButtonContainer, VacationButton, CalendarContainer } from './components';
+import { MainContainer, Content, ProfileCard, UserImage, UserInfo, UserName, UserEmail, UserSubjects, Subject, CardButtons, Form, Input, InputText, ButtonsContainer, FormTitle, FormContainer, PasswordInput, VacationButtonContainer, VacationButton, CalendarContainer, UserRole, Role } from './components';
 import { Button } from '../../components/main-button/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -111,7 +111,7 @@ const Profile = () => {
         event.preventDefault();
         setIsSaving(true);
 
-        if (!firstName || !lastName || newSubjects.length === 0) {
+        if (!firstName || !lastName || (newSubjects.length === 0 && user?.role === "TEACHER")) {
             setMessage('Please fill all fields.');
             setShowErrorMessage(true);
             setTimeout(() => {
@@ -319,9 +319,9 @@ const Profile = () => {
                                 ))}
                             </UserSubjects>
                         ) : (
-                            <UserSubjects>
-                                <Subject>{user?.role}</Subject>
-                            </UserSubjects>
+                            <UserRole>
+                                <Role>{user?.role}</Role>
+                            </UserRole>
                         )}
                     </UserInfo>
                     {user?.role === 'TEACHER' && (

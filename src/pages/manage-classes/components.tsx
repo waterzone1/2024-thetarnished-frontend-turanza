@@ -45,7 +45,15 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        padding-top: 100px;
     }
+`
+
+
+export const CardsContainer = styled.div`
+    @media (max-width: 1000px){
+        padding-top: 50px;
+  }
 `
 
 export const Card = styled.div`
@@ -143,6 +151,7 @@ export const LoadingSkeletonCard = styled.div`
   animation: ${skeletonLoading} 1.5s infinite ease-in-out;
   margin-bottom: 20px;
   padding-bottom: 5px;
+
   @media (max-width: 550px){
         margin: auto ;
         margin-bottom: 20px;
@@ -155,4 +164,8 @@ export const ButtonContainer = styled.div`
     top: 50px;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1000px){
+        padding-top: 150px;
+  }
 `

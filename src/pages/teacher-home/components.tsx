@@ -66,7 +66,7 @@ export const Card = styled.div`
     }
 
     @media (max-width: 600px){
-        width: 80% ;
+        width: 90% ;
     }
 `;
 
@@ -134,7 +134,7 @@ export const StaticSkeletonCard = styled.div`
   margin-bottom: 20px;
 
   @media (max-width: 600px){
-        width: 80% ;
+        width: 90% ;
     }
 `;
 
@@ -173,3 +173,11 @@ export const TimeFilterButton = styled.button<{ active?: boolean }>`
     background-color: ${({ active }) => (active ? '' : '#bbb')};
   }
 `;
+
+
+export const FilterButtonsContainer = styled.div`
+    @media (max-width: 600px){
+        width: 90% ;
+        margin: auto;
+  }   
+`

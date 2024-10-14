@@ -77,7 +77,6 @@ const ClassBrowser = () => {
                                 },
                             });
                             const teacherSchedule = await scheduleResponse.json();
-                            console.log(teacherSchedule)
                             return { teacher, schedule: teacherSchedule };
                         })
                     );

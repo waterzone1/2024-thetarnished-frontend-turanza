@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, NoScheduleAlertContainer, TimeFilterButton } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, NoScheduleAlertContainer, TimeFilterButton, FilterButtonsContainer } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import { Button } from '../../components/main-button/components';
@@ -97,17 +97,17 @@ const TeacherHome = () => {
                           ))}
                       </div>
                   ) : (
-                      <div>
-                          <h1 style={{paddingTop:"20px"}}>Hello, {user?.firstName}!</h1>
+                      <div style={{justifyContent: "center", alignItems:"center", textAlign: "center"}}>
+                          <h1 style={{paddingTop:"30px"}}>Hello, {user?.firstName}!</h1>
                           {reservations.length > 0 ? (
                             <>
                             <h2>Here are your upcoming classes:</h2>
                             
-                            <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
+                            <FilterButtonsContainer style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px', gap:"10px" }}>
                               <TimeFilterButton onClick={() => setTimeFilter('24h')} active={timeFilter === '24h'}>Next 24 hours</TimeFilterButton>
                               <TimeFilterButton onClick={() => setTimeFilter('3d')} active={timeFilter === '3d'}>Next 7 days</TimeFilterButton>
                               <TimeFilterButton onClick={() => setTimeFilter('1w')} active={timeFilter === '1w'}>Next month</TimeFilterButton>
-                            </div>
+                            </FilterButtonsContainer>
   
                             <CardsContainer>
                                   {filteredReservations.map((reservation) => (

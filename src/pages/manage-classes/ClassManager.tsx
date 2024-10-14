@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
@@ -35,7 +35,7 @@ const ClassManager = () => {
     useEffect(() => {
         const getReservationsForTeacher = async () => {
             try {
-                const response = await fetch(`${URL}reservation/teacher-past-reservations-by/${user?.id}`, {
+                const response = await fetch(`${URL}reservation/teacher/${user?.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -143,8 +143,8 @@ const ClassManager = () => {
             <PopUp>
                 <h2>Are you sure you want to cancel this class?</h2>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button important onClick={cancelClass}>{isCanceling ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Yes"}</Button>
-                    <Button secondary onClick={() => setIsPopupOpen(false)}>No</Button>
+                    <Button important onClick={cancelClass}>{isCanceling ?  <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Cancel class"}</Button>
+                    <Button secondary onClick={() => setIsPopupOpen(false)}>Keep class</Button>
                 </div>
             </PopUp>
         </PopUpContainer>
@@ -157,7 +157,7 @@ const ClassManager = () => {
                     ))}
                 </div>
             ) : reservations.length > 0 ? (
-                <div>
+                <CardsContainer>
                     {reservations.map((reservation) => (
                         <Card key={reservation.id}>
                             <CardHeader style={{ backgroundColor: reservation.group ? '#f2b36f' : '#3e7d44' }}>
@@ -170,6 +170,7 @@ const ClassManager = () => {
                                 </CardInfo>
                             </CardBody>
                             <CardFooter>
+                            {new Date(reservation.datetime) < new Date() && (
                             <Button onClick={() => handleFinishedClass(reservation.id)}>
                                 {isFinishing && selectedClassId === reservation.id ? (
                                     <AnimatedLoadingLogo src={SimplifiedLogo} />
@@ -177,6 +178,7 @@ const ClassManager = () => {
                                     "Mark as finished"
                                 )}
                             </Button>
+                            )}
                                 <Button secondary onClick={() => handleClassCancelation(reservation.id)}>Cancel</Button>
                             </CardFooter>
                         </Card>
@@ -185,7 +187,7 @@ const ClassManager = () => {
                         Array.from({ length: skeletonCards }).map((_, index) => (
                             <StaticSkeletonCard key={`skeleton-${index}`} />
                     ))}
-                </div>
+                </CardsContainer>
             ) : (
                 <h2 style={{textAlign:"center"}}>You don't have any class to manage.</h2>
             )}

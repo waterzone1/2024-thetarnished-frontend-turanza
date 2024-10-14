@@ -26,15 +26,12 @@ export const MainContainer = styled.div<MainContainerProps>`
         opacity: ${({ isPopupOpen, isOnVacationPopUpOpen }) => (isPopupOpen || isOnVacationPopUpOpen ? 1 : 0)};
         transition: opacity 0.3s ease;
         pointer-events: none;
-        backdrop-filter: blur(5px);        
+        backdrop-filter: blur(5px);      
+        padding-bottom: 50px ;  
     }
 
     @media (max-width: 1000px){
-        height: 100% ;
-    }
-
-    @media (max-width: 500px){
-        height: 100vh ;
+        padding-bottom: 50px ;
     }
 `
 
@@ -102,6 +99,13 @@ export const TutorialButtonContainer = styled.div`
     position: absolute;
     top: 15px;
     right: 15px;
+
+    @media (max-width: 1000px){
+        top: 92%;
+    }
+    @media (max-width: 500px){
+        top: 90%;
+    }
 `
 
 export const TutorialButton = styled.button`
