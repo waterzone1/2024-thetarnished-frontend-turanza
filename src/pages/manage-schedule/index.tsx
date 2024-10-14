@@ -4,6 +4,8 @@ import {
   Content,
   TableData,
   ButtonContainer,
+  TutorialButtonContainer,
+  TutorialButton,
 } from "./components";
 import SideBar from "../../components/sidebar/sidebar";
 import { useEffect, useState, useMemo } from "react";
@@ -17,6 +19,7 @@ import Topbar from "../../components/topbar";
 import { ButtonsContainer } from "../login/components";
 import Logo from "../../components/top-down-logo";
 import { PopUp, PopUpContainer } from "../../components/popup/components";
+import { PiWarningCircle } from "react-icons/pi";
 
 interface HourStatus {
   [key: string]: number;
@@ -228,8 +231,12 @@ const ManageSchedule: React.FC = () => {
               : 
               <Button onClick={() => handleSaveSchedule(availableHours)}>{isSaving ? (<AnimatedLoadingLogo src={TransparentLogo} />) : ("Save schedule")}</Button>
               }
-              <Button secondary onClick={() => setIsPopupOpen(true)}>Tutorial</Button>
+              
             </ButtonContainer>
+            <TutorialButtonContainer>
+              <TutorialButton onClick={() => setIsPopupOpen(true)}><PiWarningCircle /></TutorialButton>
+            </TutorialButtonContainer>
+            
           </ScheduleContainer>
         </Content>
       </MainContainer>

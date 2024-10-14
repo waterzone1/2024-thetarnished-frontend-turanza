@@ -89,6 +89,8 @@ export const UserInfo = styled.div`
 export const UserName = styled.h1`
     color: ${colors.primary};
     margin-bottom: 0px;
+    flex-wrap: nowrap;
+    text-align: center;
 
     @media (max-width: 600px){
         font-size: 30px;
@@ -135,6 +137,7 @@ export const UserSubjects = styled.div`
         &::-webkit-scrollbar {
             display: none;
         }
+        max-width: 300px;
     }
 `;
 
@@ -267,3 +270,24 @@ export const CalendarContainer = styled.div`
     align-items: center;
     justify-content: center;
 `
+
+export const UserRole = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+`;
+
+export const Role = styled.div`
+    display: flex;
+    padding: 10px;
+    background-color: ${colors.primary};
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    text-overflow: auto;
+`;

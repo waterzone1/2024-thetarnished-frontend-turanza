@@ -1,13 +1,41 @@
 import styled, { keyframes } from 'styled-components';
 import colors from '../../assets/colors';
 
-export const MainContainer = styled.div`
+
+interface MainContainerProps {
+    isPopupOpen: boolean;
+    isCreateExamPopupOpen: boolean;
+}
+
+export const MainContainer = styled.div<MainContainerProps>`
     height: 100vh ;
     width: 100vw ;
     display: flex;
     align-items: center ;
     background: rgb(43,84,52);
     background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
+
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: ${({ isPopupOpen, isCreateExamPopupOpen }) =>
+            isPopupOpen || isCreateExamPopupOpen ? 1 : 0
+        };
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        backdrop-filter: blur(5px);        
+    }
+
+    @media (max-width: 1000px){
+        padding-bottom: 80px;
+    }
 `
 
 export const Content = styled.div`
@@ -45,14 +73,23 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        padding-top: 100px;
+    }
+`
+
+
+export const CardsContainer = styled.div`
+    @media (max-width: 1000px){
+        padding-top: 100px;
     }
 `
 
 export const Card = styled.div`
     background-color: #fff;
+    position: relative;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding-bottom: 5px;
     transition: transform 0.2s ease;
     width: 500px ;
@@ -126,8 +163,9 @@ export const StaticSkeletonCard = styled.div`
   border: 1px solid ${colors.secondary};
   border-radius: 8px;
   background-color: transparent;
+  margin-bottom: 10px;
   padding-bottom: 5px;
-  margin-bottom: 20px;
+
   @media (max-width: 550px){
         margin: auto ;
         margin-bottom: 20px;
@@ -143,6 +181,7 @@ export const LoadingSkeletonCard = styled.div`
   animation: ${skeletonLoading} 1.5s infinite ease-in-out;
   margin-bottom: 20px;
   padding-bottom: 5px;
+
   @media (max-width: 550px){
         margin: auto ;
         margin-bottom: 20px;
@@ -155,4 +194,34 @@ export const ButtonContainer = styled.div`
     top: 50px;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1000px){
+        padding-top: 150px;
+  }
+`
+
+export const ExamButton = styled.button`
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -40%);
+    right: 5px;
+    background-color: ${colors.primary};
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    padding: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        transition: opacity 0.5s ease;
+    }
+
+    @media (max-width: 550px){
+        padding: 5px;
+    }
 `

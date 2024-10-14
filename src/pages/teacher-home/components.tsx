@@ -8,6 +8,10 @@ export const MainContainer = styled.div`
     align-items: center ;
     background: rgb(43,84,52);
     background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
+    
+    @media (max-width: 1000px){
+        padding-bottom: 80px;
+    }
 `
 
 export const Content = styled.div`
@@ -45,6 +49,7 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        padding-top: 80px;
     }
 `
 
@@ -66,7 +71,7 @@ export const Card = styled.div`
     }
 
     @media (max-width: 600px){
-        width: 80% ;
+        width: 90% ;
     }
 `;
 
@@ -134,7 +139,7 @@ export const StaticSkeletonCard = styled.div`
   margin-bottom: 20px;
 
   @media (max-width: 600px){
-        width: 80% ;
+        width: 90% ;
     }
 `;
 
@@ -173,3 +178,11 @@ export const TimeFilterButton = styled.button<{ active?: boolean }>`
     background-color: ${({ active }) => (active ? '' : '#bbb')};
   }
 `;
+
+
+export const FilterButtonsContainer = styled.div`
+    @media (max-width: 600px){
+        width: 90% ;
+        margin: auto;
+  }   
+`

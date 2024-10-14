@@ -26,15 +26,12 @@ export const MainContainer = styled.div<MainContainerProps>`
         opacity: ${({ isPopupOpen, isOnVacationPopUpOpen }) => (isPopupOpen || isOnVacationPopUpOpen ? 1 : 0)};
         transition: opacity 0.3s ease;
         pointer-events: none;
-        backdrop-filter: blur(5px);        
+        backdrop-filter: blur(5px);      
+        padding-bottom: 50px ;  
     }
 
     @media (max-width: 1000px){
-        height: 100% ;
-    }
-
-    @media (max-width: 500px){
-        height: 100vh ;
+        padding-bottom: 100px ;
     }
 `
 
@@ -50,6 +47,7 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        padding-top: 80px;
     }
 
     @media (max-width: 850px){
@@ -58,6 +56,7 @@ export const Content = styled.div`
     }
 `
 export const ScheduleContainer = styled.div`
+    position: relative;
     padding: 50px 50px 20px 50px;
     background-color: ${colors.secondary} ;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -95,4 +94,24 @@ export const ButtonContainer = styled.div`
     width: 100% ;
     align-items: center ;
     justify-content: center ;
+`
+
+export const TutorialButtonContainer = styled.div`
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    @media (max-width: 1000px){
+        top: 92%;
+    }
+    @media (max-width: 500px){
+        top: 90%;
+    }
+`
+
+export const TutorialButton = styled.button`
+    background-color: transparent;
+    color: ${colors.primary};
+    font-size: 2.5rem;
+    padding: 0px;
 `

@@ -22,10 +22,14 @@ export const PopUp = styled.div`
     border: 2px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     width: 50vw;
-    height: 40vh;
+    height: 50vh;
 
-    @media (max-width: 500px){
-        padding: 5px;
+    @media (max-width: 1500px){
         width: 80%;
+    }
+
+    @media (max-width: 850px){
+        flex-direction: column;
+        height: 80%;
     }
 `

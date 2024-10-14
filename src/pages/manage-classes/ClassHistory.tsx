@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
 import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, StaticSkeletonCard, LoadingSkeletonCard } from './components';
 import { useAuth } from '../../auth/useAuth';
+import Topbar from '../../components/topbar';
 
 interface Student {
     firstname: string;
@@ -56,8 +57,9 @@ const ClassHistory = () => {
     const skeletonCards = totalCards - reservations.length;
 
   return (
-    <MainContainer>
+    <MainContainer isCreateExamPopupOpen={false} isPopupOpen={false}>
         <SideBar />
+        <Topbar/>
         <Content>
             {isLoading ? (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

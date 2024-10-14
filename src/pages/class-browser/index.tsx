@@ -32,6 +32,7 @@ interface Schedule {
     dayofweek: string;
     dayofmonth: string;
     Teacher: Teacher;
+    maxstudents: number;
 }
 
 const ClassBrowser = () => {
@@ -245,7 +246,7 @@ const ClassBrowser = () => {
             setTimeout(() => {
                 setShowSuccessMessage(false);
                 setIsBookingTimeout(false);
-                navigate(`/class-browser/${subjectId}/${subjectName}`, { replace: true });
+                window.location.reload();
             }, 3000);
 
         } catch (error) {
@@ -290,7 +291,7 @@ const ClassBrowser = () => {
         `${teacher.teacher.firstname} ${teacher.teacher.lastname}`.toLowerCase().includes(searchQuery.toLowerCase())
      );
 
-    const numStaticSkeletonCards = Math.max(0, 6 - filteredTeachers.length - prevTeachersDictatingSubject.length);
+    const numStaticSkeletonCards = Math.max(0, 5 - filteredTeachers.length - prevTeachersDictatingSubject.length);
     const cardsToDisplay = [...filteredTeachers.map(item => item.teacher), ...Array(numStaticSkeletonCards).fill(null)];
     const prevTeacherscardsToDisplay = [...filteredPrevTeachers.map(item => item.teacher)];
 
@@ -306,8 +307,8 @@ const ClassBrowser = () => {
                     <PopUp>
                         <CloseButton onClick={handlePopupClose}><RiCloseLargeFill/></CloseButton>
                         <LeftContainer>
-                            <h3 style={{marginBottom: '0px'}}>Teacher: {clickedClass.firstname} {clickedClass.lastname}</h3>
-                            <h2>Select a day and time for each slot</h2>
+                            <h3 style={{marginBottom: '0px', marginTop:'0px'}}>Teacher: {clickedClass.firstname} {clickedClass.lastname}</h3>
+                            <p>Select a day and time for each slot</p>
                             {selectedSlots.map((slot, index) => (
                                 <InputsContainer key={index}>
                                     <Select required onChange={(e) => handleDayChange(index, e)} value={slot.day}>
@@ -327,8 +328,11 @@ const ClassBrowser = () => {
                                             .filter(schedule => !selectedSlots.some((selectedSlot, selectedIndex) => selectedIndex !== index && selectedSlot.time === formatTimeWithPadding(schedule.start_time) && selectedSlot.day === slot.day))
                                             .map(schedule => (
                                                 <option key={schedule.scheduleid} value={formatTimeWithPadding(schedule.start_time)}>
-                                                    {formatTimeWithPadding(schedule.start_time)}
+                                                {schedule.maxstudents > 1 
+                                                    ? formatTimeWithPadding(schedule.start_time) + "  (Group)"
+                                                    : formatTimeWithPadding(schedule.start_time)}
                                                 </option>
+
                                             ))}
                                     </Select>
                                     {index === 0 && (
@@ -341,7 +345,7 @@ const ClassBrowser = () => {
                             ))}
                         </LeftContainer>
                         <RightContainer>
-                                <h2>Summary</h2>
+                                <h2 style={{marginBottom:'0px'}}>Summary</h2>
                                 <SummaryContainer>
                                     {selectedSlots
                                         .filter(slot => slot.day && slot.time)
@@ -374,7 +378,7 @@ const ClassBrowser = () => {
                 {isBookingTimeout && <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>}
                     <SideBar />
                     <Content>
-                    <h2>Available teachers dictating {subjectName}:</h2>
+                    <h2 style={{textAlign:'center'}}>Available teachers dictating {subjectName}:</h2>
                         <BrowserWrapper>
                             {isLoading ? (
                                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>

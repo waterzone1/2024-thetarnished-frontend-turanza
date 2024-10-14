@@ -84,8 +84,6 @@ export const BrowserWrapper = styled.div`
     @media (max-width: 1000px){
         width: 80%;
     }
-
-
 `;
 
 
@@ -143,8 +141,9 @@ export const ButtonsContainer = styled.div`
     flex-direction: row;
     margin-top: auto;
 
-    @media (max-width: 500px){
-        width: 100px;
+    @media (max-width: 850px){
+        position: relative;
+        margin-top: auto;
     }
 `
 
@@ -267,6 +266,12 @@ export const LeftContainer = styled.div`
     width: 50%;
     border-right: 1px solid ${colors.primary};
     height: 100%;
+
+    @media (max-width: 850px){
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid ${colors.primary};
+    }
 `
 
 export const RightContainer = styled.div`
@@ -276,6 +281,11 @@ export const RightContainer = styled.div`
     align-items: center ;
     width: 50%;
     height: 100%;
+
+    @media (max-width: 850px){
+        width: 100%;
+    }
+    
 `
 
 interface SlotButtonProps {
