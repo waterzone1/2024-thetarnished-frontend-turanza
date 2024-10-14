@@ -57,7 +57,7 @@ const ClassHistory = () => {
     const skeletonCards = totalCards - reservations.length;
 
   return (
-    <MainContainer>
+    <MainContainer isCreateExamPopupOpen={false} isPopupOpen={false}>
         <SideBar />
         <Topbar/>
         <Content>

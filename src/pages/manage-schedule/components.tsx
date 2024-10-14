@@ -31,7 +31,7 @@ export const MainContainer = styled.div<MainContainerProps>`
     }
 
     @media (max-width: 1000px){
-        padding-bottom: 50px ;
+        padding-bottom: 100px ;
     }
 `
 
@@ -47,6 +47,7 @@ export const Content = styled.div`
     @media (max-width: 1000px){
         margin-left: 0;
         width: 100% ;
+        padding-top: 80px;
     }
 
     @media (max-width: 850px){

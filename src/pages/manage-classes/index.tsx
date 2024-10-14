@@ -16,7 +16,7 @@ const ManageClasses = () => {
     return (
         <>
         <ButtonContainer>
-            <Button secondary onClick={toggleContainer}>{showContainer ? "Show unpaid classes " : "Go to class manager"}</Button>
+            <Button secondary onClick={toggleContainer}>{showContainer ? "Go to class history " : "Go to class manager"}</Button>
         </ButtonContainer>
         {showContainer ? <ClassManager/> :  <ClassHistory/>}
         </>

@@ -246,7 +246,7 @@ const ClassBrowser = () => {
             setTimeout(() => {
                 setShowSuccessMessage(false);
                 setIsBookingTimeout(false);
-                navigate("/student-home")
+                window.location.reload();
             }, 3000);
 
         } catch (error) {
@@ -307,8 +307,8 @@ const ClassBrowser = () => {
                     <PopUp>
                         <CloseButton onClick={handlePopupClose}><RiCloseLargeFill/></CloseButton>
                         <LeftContainer>
-                            <h3 style={{marginBottom: '0px'}}>Teacher: {clickedClass.firstname} {clickedClass.lastname}</h3>
-                            <h2>Select a day and time for each slot</h2>
+                            <h3 style={{marginBottom: '0px', marginTop:'0px'}}>Teacher: {clickedClass.firstname} {clickedClass.lastname}</h3>
+                            <p>Select a day and time for each slot</p>
                             {selectedSlots.map((slot, index) => (
                                 <InputsContainer key={index}>
                                     <Select required onChange={(e) => handleDayChange(index, e)} value={slot.day}>
@@ -345,7 +345,7 @@ const ClassBrowser = () => {
                             ))}
                         </LeftContainer>
                         <RightContainer>
-                                <h2>Summary</h2>
+                                <h2 style={{marginBottom:'0px'}}>Summary</h2>
                                 <SummaryContainer>
                                     {selectedSlots
                                         .filter(slot => slot.day && slot.time)
@@ -378,7 +378,7 @@ const ClassBrowser = () => {
                 {isBookingTimeout && <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>}
                     <SideBar />
                     <Content>
-                    <h2>Available teachers dictating {subjectName}:</h2>
+                    <h2 style={{textAlign:'center'}}>Available teachers dictating {subjectName}:</h2>
                         <BrowserWrapper>
                             {isLoading ? (
                                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>

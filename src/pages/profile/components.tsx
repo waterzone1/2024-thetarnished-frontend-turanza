@@ -137,6 +137,7 @@ export const UserSubjects = styled.div`
         &::-webkit-scrollbar {
             display: none;
         }
+        max-width: 300px;
     }
 `;
 

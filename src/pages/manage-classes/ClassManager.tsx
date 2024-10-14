@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, ExamButton } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
@@ -9,9 +9,11 @@ import { PopUp, PopUpContainer } from '../../components/popup/components';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { IoCreateOutline } from "react-icons/io5";
+import CreateExamForm from '../../components/create-exam-form';
 
 
-interface Reservations {
+interface Reservation {
     id: string;
     student_name: string;
     subject_name: string;
@@ -21,7 +23,8 @@ interface Reservations {
 
 const ClassManager = () => {
     const { user } = useAuth();
-    const [reservations, setReservations] = useState<Reservations[]>([]);
+    const [reservations, setReservations] = useState<Reservation[]>([]);
+    const [currentReservation, setCurrentReservation] = useState<Reservation | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
@@ -30,6 +33,7 @@ const ClassManager = () => {
     const [showMessage, setShowMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [message, setMessage] = useState('');
+    const [isCreateExamPopupOpen, setIsCreateExamPopupOpen] = useState(false);
     const URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -131,8 +135,13 @@ const ClassManager = () => {
         setIsPopupOpen(true);
     };
 
+    const handleCreateNewExam = (reservation: Reservation) => {
+        setCurrentReservation(reservation)
+        setIsCreateExamPopupOpen(true);
+    };
+
   return (
-    <MainContainer>
+    <MainContainer isCreateExamPopupOpen={isCreateExamPopupOpen} isPopupOpen={isPopupOpen}>
         {showMessage && <Message>{message}</Message>}
         {showErrorMessage && <Message error>{message}</Message>}
         <SideBar />
@@ -149,13 +158,16 @@ const ClassManager = () => {
             </PopUp>
         </PopUpContainer>
         )}
+        {isCreateExamPopupOpen && currentReservation && (
+        <CreateExamForm reservation={currentReservation} closePopup={() => setIsCreateExamPopupOpen(false)} />
+        )}
         <Content>
             {isLoading ? (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <CardsContainer style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {Array.from({ length: totalCards }).map((_, index) => (
                         <LoadingSkeletonCard key={index} />
                     ))}
-                </div>
+                </CardsContainer>
             ) : reservations.length > 0 ? (
                 <CardsContainer>
                     {reservations.map((reservation) => (
@@ -166,21 +178,22 @@ const ClassManager = () => {
                             <CardBody>
                                 <CardInfo>
                                     <p>{reservation.student_name}</p>
-                                    <p>{new Date(reservation.datetime).toLocaleString()}</p>  
+                                    <p style={{fontSize:"15px", fontWeight:"normal"}}>{new Date(reservation.datetime).toLocaleString()}</p>  
                                 </CardInfo>
                             </CardBody>
                             <CardFooter>
-                            {new Date(reservation.datetime) < new Date() && (
-                            <Button onClick={() => handleFinishedClass(reservation.id)}>
-                                {isFinishing && selectedClassId === reservation.id ? (
-                                    <AnimatedLoadingLogo src={SimplifiedLogo} />
-                                ) : (
-                                    "Mark as finished"
+                                {new Date(reservation.datetime) < new Date() && (
+                                <Button onClick={() => handleFinishedClass(reservation.id)}>
+                                    {isFinishing && selectedClassId === reservation.id ? (
+                                        <AnimatedLoadingLogo src={SimplifiedLogo} />
+                                    ) : (
+                                        "Mark as finished"
+                                    )}
+                                </Button>
                                 )}
-                            </Button>
-                            )}
                                 <Button secondary onClick={() => handleClassCancelation(reservation.id)}>Cancel</Button>
                             </CardFooter>
+                            <ExamButton onClick={() => handleCreateNewExam(reservation)}><IoCreateOutline /></ExamButton>
                         </Card>
                     ))}
                     {skeletonCards > 0 && 
@@ -194,6 +207,6 @@ const ClassManager = () => {
         </Content>
     </MainContainer>
   )
-}
+};
 
-export default ClassManager
+export default ClassManager;
