@@ -23,7 +23,7 @@ const TeacherHome = () => {
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [timeFilter, setTimeFilter] = useState<'24h' | '3d' | '1w'>('1w');
-
+    
     useEffect(() => {
         const getReservationsForTeacher = async () => {
             try {
@@ -31,6 +31,7 @@ const TeacherHome = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`,
                     },
                 });
 
@@ -51,7 +52,7 @@ const TeacherHome = () => {
         if (user?.id) {
             getReservationsForTeacher();
         }
-    }, [URL, user?.id]);
+    }, [URL, user?.id, user?.token]);
 
     const handleGoToSchedule = () => {
         navigate("/manage-schedule")

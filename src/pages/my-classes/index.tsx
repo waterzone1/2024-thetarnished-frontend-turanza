@@ -35,6 +35,7 @@ const MyClasses = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`,
                     },
                 });
 
@@ -51,7 +52,7 @@ const MyClasses = () => {
         };
 
         getReservationsForStudent();
-    }, [URL, user?.id]);
+    }, [URL, user?.id, user?.token]);
 
     const totalCards = 4;
     const skeletonCards = totalCards - reservations.length;

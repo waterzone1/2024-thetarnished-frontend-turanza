@@ -138,8 +138,9 @@ export const CardFooter = styled.div`
     color: ${colors.primary};
     display: flex;
     align-items: center ;
-    justify-content: center ;
+    justify-content: flex-end;
     text-align: center;
+    width: 97%;
 `
 
 const skeletonLoading = keyframes`
@@ -224,4 +225,14 @@ export const ExamButton = styled.button`
     @media (max-width: 550px){
         padding: 5px;
     }
+`
+
+interface PaidInfoProps {
+    isPaid: boolean;
+}
+
+export const PaidInfo = styled.div<PaidInfoProps>`
+    padding: 5px;
+    color: ${(props) => (props.isPaid ? `${colors.primary}` : `${colors.important}`)};
+    font-weight: bold;
 `

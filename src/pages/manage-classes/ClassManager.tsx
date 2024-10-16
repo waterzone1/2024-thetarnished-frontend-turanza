@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, ExamButton } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
@@ -9,7 +9,6 @@ import { PopUp, PopUpContainer } from '../../components/popup/components';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
-import { IoCreateOutline } from "react-icons/io5";
 import CreateExamForm from '../../components/create-exam-form';
 
 
@@ -43,6 +42,7 @@ const ClassManager = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user?.token}`,
                     },
                 });
 
@@ -59,7 +59,7 @@ const ClassManager = () => {
         };
 
         getReservationsForTeacher();
-    }, [URL, user?.id]);
+    }, [URL, user?.id, user?.token]);
 
     const totalCards = 4;
     const skeletonCards = totalCards - reservations.length;
@@ -72,6 +72,7 @@ const ClassManager = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`,
                 },
                 body: JSON.stringify({
                     valor: 300,
@@ -105,6 +106,7 @@ const ClassManager = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`,
                 },
             });
             if (!response.ok) {
@@ -191,9 +193,11 @@ const ClassManager = () => {
                                     )}
                                 </Button>
                                 )}
+                                {new Date(reservation.datetime) > new Date() && (
+                                    <Button onClick={() => handleCreateNewExam(reservation)}>Create exam</Button>
+                                )}
                                 <Button secondary onClick={() => handleClassCancelation(reservation.id)}>Cancel</Button>
                             </CardFooter>
-                            <ExamButton onClick={() => handleCreateNewExam(reservation)}><IoCreateOutline /></ExamButton>
                         </Card>
                     ))}
                     {skeletonCards > 0 && 

@@ -13,6 +13,7 @@ export const MainContainer = styled.div<MainContainerProps>`
     align-items: center ;
     background: rgb(43,84,52);
     background: radial-gradient(circle, rgba(43,84,52,1) 0%, rgba(15,41,46,1) 92%);
+    padding-bottom: 60px ;
 
     &::after {
         content: '';
@@ -28,10 +29,6 @@ export const MainContainer = styled.div<MainContainerProps>`
         pointer-events: none;
         backdrop-filter: blur(5px);      
         padding-bottom: 50px ;  
-    }
-
-    @media (max-width: 1000px){
-        padding-bottom: 100px ;
     }
 `
 
