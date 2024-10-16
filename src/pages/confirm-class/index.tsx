@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { Content, MainContainer } from './components';
+import { Content, MainContainer, NotificationContainer, NotificationIcon, NotificationMessage } from './components';
 import { InteractionBlocker } from '../../components/interaction-blocker/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import { IoCheckmarkCircleOutline, IoCloseCircleOutline  } from "react-icons/io5";
+
 
 const ClassConfirm = () => {
     const [isLoading, setIsLoading] = React.useState(true);
     const URL = import.meta.env.VITE_API_URL;
     const { reservationId, teacherId } = useParams();
     const [message, setMessage] = React.useState('');
+    const [isConfirmed, setIsConfirmed] = React.useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -29,6 +32,7 @@ const ClassConfirm = () => {
                     throw new Error('Failed to fetch teacher reservations');
                 }
                 setMessage('Class confirmed!');
+                setIsConfirmed(true);
                 setIsLoading(false);
             }catch(error){
                 setMessage('Failed to confirm class.');
@@ -45,7 +49,13 @@ const ClassConfirm = () => {
                 {isLoading ? (
                     <InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>
                 ) : (
-                    <h2>{message}</h2>
+                    <>
+                    <NotificationContainer>
+                        <NotificationMessage>{message}</NotificationMessage>
+                        <NotificationIcon>{isConfirmed ? (<IoCheckmarkCircleOutline className="svg" />) : (<IoCloseCircleOutline className="svg" />)}</NotificationIcon>
+                    </NotificationContainer>
+                    <p>You may now leave this page.</p>
+                    </>
                 )}
             </Content>
         </MainContainer>
