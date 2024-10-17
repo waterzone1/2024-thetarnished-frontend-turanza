@@ -55,6 +55,8 @@ const Chat: React.FC = () => {
     if (user?.role) {
       setRole(user.role);
     }
+    fetchStudentName(studentId);
+    fetchTeacherName(teacherId);
     scrollToBottom();
   }, [user, messages]);
 
@@ -63,7 +65,7 @@ const Chat: React.FC = () => {
     try {
       const response = await fetch(
         `${URL}students/${id}`
-      , {
+      , { 
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -98,8 +100,7 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     if (studentId && teacherId) {
-      fetchStudentName(studentId);
-      fetchTeacherName(teacherId);
+
 
       socket.emit("joinRoom", { studentId, teacherId });
 
