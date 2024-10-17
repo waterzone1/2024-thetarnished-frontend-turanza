@@ -19,7 +19,7 @@ const ClassConfirm = () => {
         const confirmClass = async () => {
             try{
                 const reponse = await fetch(`${URL}reservation/confirm-reservation/${reservationId}`, {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
