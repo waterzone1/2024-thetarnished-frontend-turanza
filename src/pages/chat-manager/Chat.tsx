@@ -38,17 +38,8 @@ const Chat: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const {studentId, teacherId} = useParams();
   const {user} = useAuth();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  
-  useEffect(() => {
-    setIsLoading(true);
-    if (user?.role) {
-      setRole(user.role);
-    }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, [user]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const URL = import.meta.env.VITE_API_URL;
 
 
   const scrollToBottom = () => {
@@ -60,12 +51,25 @@ const Chat: React.FC = () => {
     }
   };
   
+  useEffect(() => {
+    if (user?.role) {
+      setRole(user.role);
+    }
+    scrollToBottom();
+  }, [user, messages]);
+
 
   const fetchStudentName = async (id: string) => {
     try {
       const response = await fetch(
-        `https://backendapi.fpenonori.com/students/${id}`
-      );
+        `${URL}students/${id}`
+      , {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${user?.token}`,
+        },
+      });
       const student = await response.json();
       setStudentName(student.firstname +" "+ student.lastname);
     } catch (error) {
@@ -76,8 +80,14 @@ const Chat: React.FC = () => {
   const fetchTeacherName = async (id: string) => {
     try {
       const response = await fetch(
-        `https://backendapi.fpenonori.com/teachers/${id}`
-      );
+        `${URL}teachers/${id}`
+        , {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${user?.token}`,
+          },
+        });
       const teacher = await response.json();
       setTeacherName(teacher.firstname +" "+ teacher.lastname);
 
