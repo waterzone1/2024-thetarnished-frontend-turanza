@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, CardsContainer, ChatButton } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
@@ -10,18 +10,25 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import CreateExamForm from '../../components/create-exam-form';
+import { useNavigate } from 'react-router-dom';
+import { CiChat1 } from "react-icons/ci";
 
 
 interface Reservation {
     id: string;
     student_name: string;
     subject_name: string;
+    student_id: string;
     datetime: string;
     group: boolean;
 }
 
 const ClassManager = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
+    const navigateToChat = (studentid:string) =>{
+        navigate(`/chat/${studentid}/${user?.id}`);
+    }
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [currentReservation, setCurrentReservation] = useState<Reservation | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -192,7 +199,9 @@ const ClassManager = () => {
                                         "Mark as finished"
                                     )}
                                 </Button>
+                                
                                 )}
+                                <ChatButton title='Initiate chat' onClick={()=> navigateToChat(reservation.student_id)}><CiChat1/></ChatButton> 
                                 {new Date(reservation.datetime) > new Date() && (
                                     <Button onClick={() => handleCreateNewExam(reservation)}>Create exam</Button>
                                 )}

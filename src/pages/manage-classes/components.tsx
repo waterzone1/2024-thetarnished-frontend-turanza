@@ -236,3 +236,19 @@ export const PaidInfo = styled.div<PaidInfoProps>`
     color: ${(props) => (props.isPaid ? `${colors.primary}` : `${colors.important}`)};
     font-weight: bold;
 `
+
+export const ChatButton = styled.button`
+    position: absolute;
+    right: -60px;
+    top: 40%;
+    background-color: ${colors.primary};
+    font-size: 1.5rem;
+    padding: 5px 10px 5px 10px;
+    border: none;
+
+    &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        
+    }
+`
