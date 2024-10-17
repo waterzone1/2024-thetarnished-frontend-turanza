@@ -103,7 +103,7 @@ const TeacherHome = () => {
                       </div>
                   ) : (
                       <div style={{justifyContent: "center", alignItems:"center", textAlign: "center"}}>
-                          <h1 style={{paddingTop:"30px"}}>Hello, {user?.firstName}!</h1>
+                          <h1 style={{paddingTop:"30px", marginBottom:"5px"}}>Hello, {user?.firstName}!</h1>
                           {reservations.length > 0 ? (
                             <>
                             <h2>Here are your upcoming classes:</h2>

@@ -8,7 +8,7 @@ interface MainContainerProps {
 
 export const MainContainer = styled.div<MainContainerProps>`
     height: 100vh ;
-    width: 100vw ;
+    width: 100% ;
     display: flex;
     align-items: center ;
     background: rgb(43,84,52);
@@ -29,6 +29,10 @@ export const MainContainer = styled.div<MainContainerProps>`
         pointer-events: none;
         backdrop-filter: blur(5px);      
         padding-bottom: 50px ;  
+    }
+
+    @media (max-width: 1000px){
+        padding-bottom: 180px ;
     }
 `
 

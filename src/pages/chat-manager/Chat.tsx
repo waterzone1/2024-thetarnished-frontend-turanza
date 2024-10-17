@@ -7,6 +7,9 @@ import styled from "styled-components";
 import SideBar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar";
 import { Button } from "../../components/main-button/components";
+import { InteractionBlocker } from "../../components/interaction-blocker/components";
+import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
+import SimplifiedLogo from "../../assets/Logo transparent.png";
 
 
 interface Message {
@@ -33,11 +36,16 @@ const Chat: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const {studentId, teacherId} = useParams();
   const {user} = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   
   useEffect(() => {
+    setIsLoading(true);
     if (user?.role) {
       setRole(user.role);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
   }, [user]);
 
 
@@ -127,87 +135,87 @@ const Chat: React.FC = () => {
     <MainContainer>
       <Topbar/>
       <SideBar/>
-      <Content>
-        
-    <div className="chat-container">
-      <div className="sender-name">{role === "STUDENT" ? teacherName : studentName}</div>
-      <div className="message-history" ref={chatContainerRef}>
-  {messages.map((msg, index) => {
-    const isSender =
-      role === "STUDENT"
-        ? String(msg.sender) === String(studentId)
-        : String(msg.sender) === String(teacherId);
-
-    const currentDate = new Date(msg.timestamp).toDateString();
-    const previousDate =
-      index > 0 ? new Date(messages[index - 1].timestamp).toDateString() : null;
-
-    // Check if the current message is the first message of a new day
-    let dateSeparator = null;
-    const today = new Date().toDateString();
-    const dateLabel = currentDate === today ? "Today" : currentDate;
-
-    if (currentDate !== previousDate) {
-      // Create a custom "server" message for the date separator
-      const serverMessage = {
-        id: `server-${index}`,
-        message: ` ${dateLabel}`,
-        timestamp: new Date(msg.timestamp), 
-        sender: "server",
-      };
-
-      dateSeparator = (
-        <div key={`server-msg-${index}`} className="server-message">
-          <p className="server-message-text">
-            {serverMessage.message}
-          </p>
-        </div>
-      );
-    }
-
-    const time = new Date(msg.timestamp);
-    const formattedTimestamp = `${String(time.getHours()).padStart(
-      2,
-      "0"
-    )}:${String(time.getMinutes()).padStart(2, "0")}`;
-
-    return (
-      <React.Fragment key={index}>
-        {dateSeparator}
-        <p className={isSender ? "sender-message" : "other-message"}>
-          {msg.message}
-          <br />
-          <em
-            style={{
-              fontSize: "0.85em",
-              color: "#fff",
-              textAlign: "right",
-              display: "block",
-            }}
-          >
-            {formattedTimestamp}
-          </em>
-        </p>
-      </React.Fragment>
-    );
-  })}
-</div>
-      <div className="chat-input">
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              sendMessage();
+      {isLoading ? (<InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>) : (
+        <Content>        
+        <div className="chat-container">
+          <div className="sender-name">{role === "STUDENT" ? teacherName : studentName}</div>
+          <div className="message-history" ref={chatContainerRef}>
+          {messages.map((msg, index) => {
+            const isSender =
+              role === "STUDENT"
+                ? String(msg.sender) === String(studentId)
+                : String(msg.sender) === String(teacherId);
+  
+            const currentDate = new Date(msg.timestamp).toDateString();
+            const previousDate =
+              index > 0 ? new Date(messages[index - 1].timestamp).toDateString() : null;
+  
+            let dateSeparator = null;
+            const today = new Date().toDateString();
+            const dateLabel = currentDate === today ? "Today" : currentDate;
+  
+            if (currentDate !== previousDate) {
+              const serverMessage = {
+                id: `server-${index}`,
+                message: ` ${dateLabel}`,
+                timestamp: new Date(msg.timestamp), 
+                sender: "server",
+              };
+  
+              dateSeparator = (
+                <div key={`server-msg-${index}`} className="server-message">
+                  <p className="server-message-text">
+                    {serverMessage.message}
+                  </p>
+                </div>
+              );
             }
-          }}
-          placeholder="Type a message"
-        />
-        <Button onClick={sendMessage}>Send</Button>
-      </div>
-    </div>
-    </Content>
+  
+            const time = new Date(msg.timestamp);
+            const formattedTimestamp = `${String(time.getHours()).padStart(
+              2,
+              "0"
+            )}:${String(time.getMinutes()).padStart(2, "0")}`;
+  
+            return (
+              <React.Fragment key={index}>
+                {dateSeparator}
+                <p className={isSender ? "sender-message" : "other-message"}>
+                  {msg.message}
+                  <br />
+                  <em
+                    style={{
+                      fontSize: "0.85em",
+                      color: "#fff",
+                      textAlign: "right",
+                      display: "block",
+                    }}
+                  >
+                    {formattedTimestamp}
+                  </em>
+                </p>
+              </React.Fragment>
+            );
+          })}
+        </div>
+          <div className="chat-input">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendMessage();
+                }
+              }}
+              placeholder="Type a message"
+            />
+            <Button onClick={sendMessage}>Send</Button>
+          </div>
+        </div>
+      </Content>
+
+      )}
     </MainContainer>
   );
 };

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/sidebar';
-import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard } from './components';
+import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFooter, StaticSkeletonCard, LoadingSkeletonCard, ChatButton } from './components';
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
-import { Button } from '../../components/main-button/components';
 import { useNavigate } from 'react-router-dom';
+import { CiChat1 } from "react-icons/ci";
 
 
 interface Teacher {
@@ -89,8 +89,8 @@ const MyClasses = () => {
                                     </CardInfo>
                                 </CardBody>
                                 <CardFooter>
-                                        <p>{new Date(reservation.datetime).toLocaleString()}</p>
-                                        <Button onClick={()=> navigateToChat(reservation.Teacher.teacherid)}>hola</Button>     
+                                        <p>{new Date(reservation.datetime).toLocaleString()}</p>     
+                                <ChatButton title='Initiate chat' onClick={()=> navigateToChat(reservation.Teacher.teacherid)}><CiChat1/></ChatButton> 
                                 </CardFooter>
                             </Card>
                         ))}
