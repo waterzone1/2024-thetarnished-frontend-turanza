@@ -24,6 +24,7 @@
   background-color: #ffffff;
   color:#59b963;
   padding: 15px;
+  position: relative;
 }
 .message-history {
   flex-grow: 1; 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import "./Chat.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../auth/useAuth";
 import styled from "styled-components";
 import SideBar from "../../components/sidebar/sidebar";
@@ -10,6 +10,8 @@ import { Button } from "../../components/main-button/components";
 import { InteractionBlocker } from "../../components/interaction-blocker/components";
 import { AnimatedLoadingLogo } from "../../components/animated-loading-logo/components";
 import SimplifiedLogo from "../../assets/Logo transparent.png";
+import colors from "../../assets/colors";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 
 interface Message {
@@ -131,6 +133,12 @@ const Chat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  const navigate = useNavigate();
+
+  const handleCloseChat = () => {
+    navigate("/my-classes")
+  };
+
   return (
     <MainContainer>
       <Topbar/>
@@ -138,7 +146,7 @@ const Chat: React.FC = () => {
       {isLoading ? (<InteractionBlocker><AnimatedLoadingLogo src={SimplifiedLogo}/></InteractionBlocker>) : (
         <Content>        
         <div className="chat-container">
-          <div className="sender-name">{role === "STUDENT" ? teacherName : studentName}</div>
+          <div className="sender-name">{role === "STUDENT" ? teacherName : studentName}<CloseButton onClick={handleCloseChat}><RiCloseLargeFill/></CloseButton></div>
           <div className="message-history" ref={chatContainerRef}>
           {messages.map((msg, index) => {
             const isSender =
@@ -242,4 +250,19 @@ const Content = styled.div`
         width: 100% ;
     }
 `
+
+const CloseButton = styled.button`
+    background-color: transparent;
+    color: ${colors.primary};
+    font-size: 1.4rem;
+    border: none;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+
+    &:hover {
+        opacity: 0.7;
+    }
+`
+
 export default Chat;
