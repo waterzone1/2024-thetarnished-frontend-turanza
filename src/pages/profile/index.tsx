@@ -111,7 +111,7 @@ const Profile = () => {
         event.preventDefault();
         setIsSaving(true);
 
-        if (!firstName || !lastName || (newSubjects.length === 0 && user?.role === "TEACHER")) {
+        if (!firstName || !lastName) {
             setMessage('Please fill all fields.');
             setShowErrorMessage(true);
             setTimeout(() => {

@@ -4,11 +4,14 @@ import { MainContainer, Content, Card, CardHeader, CardBody, CardInfo, CardFoote
 import { useAuth } from '../../auth/useAuth';
 import Topbar from '../../components/topbar';
 import Logo from '../../components/top-down-logo';
+import { Button } from '../../components/main-button/components';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Teacher {
     firstname: string;
     lastname: string;
+    teacherid: string;
 }
 
 interface Subject {
@@ -24,9 +27,13 @@ interface Reservations {
 
 const MyClasses = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const URL = import.meta.env.VITE_API_URL;
+    const navigateToChat = (teacherid:string) =>{
+        navigate(`/chat/${user?.id}/${teacherid}`);
+    }
 
     useEffect(() => {
         const getReservationsForStudent = async () => {
@@ -83,6 +90,7 @@ const MyClasses = () => {
                                 </CardBody>
                                 <CardFooter>
                                         <p>{new Date(reservation.datetime).toLocaleString()}</p>
+                                        <Button onClick={()=> navigateToChat(reservation.Teacher.teacherid)}>hola</Button>     
                                 </CardFooter>
                             </Card>
                         ))}

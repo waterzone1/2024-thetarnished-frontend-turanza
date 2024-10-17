@@ -18,6 +18,7 @@ import LandingPage from './pages/landing-page';
 import ExamViewer from './pages/exam-viewer';
 import ExamDetail from './pages/exam-detail';
 import ClassConfirm from './pages/confirm-class';
+import Chat from './pages/chat-manager/Chat'
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/my-classes" element={<MyClasses />} />
           <Route path="/exam-viewer" element={<ExamViewer />} />
           <Route path="/class-browser/:subjectId/:subjectName" element={<ClassBrowser />} />
+          <Route path="/chat/:studentId/:teacherId/" element={<Chat />} />  {/* No nos olvidemos de agregar esto     :studentId/:teacherId*/ }
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/register" element={<Register />} />

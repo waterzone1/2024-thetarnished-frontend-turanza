@@ -6,12 +6,14 @@ import Topbar from '../../components/topbar';
 import { Button } from '../../components/main-button/components';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/top-down-logo';
+// import { PopUp, PopUpContainer } from '../../components/popup/components';
 
 interface Reservations {
     id: string;
     student_name: string;
     subject_name: string;
     datetime: string;
+    student_id: string;
 }
 
 const TeacherHome = () => {
@@ -23,6 +25,8 @@ const TeacherHome = () => {
     const [reservations, setReservations] = useState<Reservations[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [timeFilter, setTimeFilter] = useState<'24h' | '3d' | '1w'>('1w');
+
+    
     
     useEffect(() => {
         const getReservationsForTeacher = async () => {
@@ -77,7 +81,7 @@ const TeacherHome = () => {
     const skeletonCards = totalCards - filteredReservations.length;
 
     return (
-        <MainContainer>
+        <MainContainer >
             <SideBar />
             <Logo/>
             <Topbar/>
@@ -131,6 +135,8 @@ const TeacherHome = () => {
                                                   hour12: false
                                                   })}
                                               </p>
+                                              
+                                              
                                           </CardFooter>
                                       </Card>
                                   ))}

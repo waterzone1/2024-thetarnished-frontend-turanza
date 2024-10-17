@@ -10,18 +10,24 @@ import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
 import CreateExamForm from '../../components/create-exam-form';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Reservation {
     id: string;
     student_name: string;
     subject_name: string;
+    student_id: string;
     datetime: string;
     group: boolean;
 }
 
 const ClassManager = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
+    const navigateToChat = (studentid:string) =>{
+        navigate(`/chat/${studentid}/${user?.id}`);
+    }
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [currentReservation, setCurrentReservation] = useState<Reservation | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -192,7 +198,9 @@ const ClassManager = () => {
                                         "Mark as finished"
                                     )}
                                 </Button>
+                                
                                 )}
+                                <Button onClick={()=> navigateToChat(reservation.student_id)}>Chat</Button> 
                                 {new Date(reservation.datetime) > new Date() && (
                                     <Button onClick={() => handleCreateNewExam(reservation)}>Create exam</Button>
                                 )}
