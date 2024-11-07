@@ -166,6 +166,7 @@ const MyClasses = () => {
                     padding: '20px',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                     zIndex: 1000,
+                    maxHeight : '400px', overflowY: 'auto'
                 }}>
                     <Title>Unrated Classes</Title>
                     {isCommentsLoading ? (
@@ -241,7 +242,7 @@ const MyClasses = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <div>
                         {isLoading ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                 {Array.from({ length: totalCards }).map((_, index) => (
                                     <LoadingSkeletonCard key={index} />
                                 ))}
