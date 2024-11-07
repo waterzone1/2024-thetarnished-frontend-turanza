@@ -41,7 +41,7 @@ export const MainContainer = styled.div<MainContainerProps>`
 
 export const Content = styled.div`
     width: 90% ;
-    height: 100% ;
+    height: 80% ;
     margin-left: 100px;
     display: flex ;
     align-items: center ;
@@ -201,7 +201,9 @@ export const LoadingSkeletonCard = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    position: absolute ;
+    z-index: 1600;
+    position: absolute;
+
     top: 50px;
     left: 50%;
     transform: translate(-50%, -50%);
