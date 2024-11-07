@@ -9,7 +9,7 @@ import { PopUp, PopUpContainer } from '../../components/popup/components';
 import { Message } from '../../components/message/components';
 import { AnimatedLoadingLogo } from '../../components/animated-loading-logo/components';
 import SimplifiedLogo from "../../assets/Logo transparent.png";
-import CreateExamForm from '../../components/create-exam-form';
+import CreateExamForm from '../../components/create-exam-form/index';
 import { useNavigate } from 'react-router-dom';
 import { CiChat1 } from "react-icons/ci";
 import UserRating from './Rating';
