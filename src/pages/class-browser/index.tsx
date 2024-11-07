@@ -72,6 +72,7 @@ const ClassBrowser = () => {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${user?.token}`,
+                            'ngrok-skip-browser-warning': 'true'
                         },
                     });
                     const teachers = await response.json();
@@ -83,6 +84,7 @@ const ClassBrowser = () => {
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'Authorization': `Bearer ${user?.token}`,
+                                    'ngrok-skip-browser-warning': 'true'
                                 },
                             });
                             const teacherSchedule = await scheduleResponse.json();
@@ -109,6 +111,7 @@ const ClassBrowser = () => {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${user?.token}`,
+                            'ngrok-skip-browser-warning': 'true'
                         },
                     });
                     const teachers = await response.json();
@@ -120,6 +123,7 @@ const ClassBrowser = () => {
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'Authorization': `Bearer ${user?.token}`,
+                                    'ngrok-skip-browser-warning': 'true'
                                 },
                             });
                             const teacherSchedule = await scheduleResponse.json();
@@ -165,6 +169,7 @@ const ClassBrowser = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
             if (!response.ok) {
@@ -251,6 +256,7 @@ const ClassBrowser = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify(requestBody),
                 });

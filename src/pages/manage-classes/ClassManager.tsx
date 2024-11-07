@@ -60,6 +60,7 @@ const ClassManager = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
                 });
 
@@ -90,6 +91,7 @@ const ClassManager = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     valor: 300,
@@ -124,6 +126,7 @@ const ClassManager = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
             if (!response.ok) {
@@ -168,6 +171,7 @@ const ClassManager = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
             if (!response.ok) {

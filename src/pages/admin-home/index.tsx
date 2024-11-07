@@ -40,6 +40,7 @@ const AdminHome = () => {
                     headers: {
                         "Content-Type": "application/json",
                         'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     
                 });
@@ -61,6 +62,7 @@ const AdminHome = () => {
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                     
                 },
             });
@@ -88,6 +90,7 @@ const AdminHome = () => {
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
         } catch (error) {

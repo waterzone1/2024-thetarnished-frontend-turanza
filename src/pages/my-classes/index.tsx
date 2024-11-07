@@ -73,6 +73,7 @@ const MyClasses = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
                 });
 
@@ -104,7 +105,8 @@ const MyClasses = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user?.token}`
+                        'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     }
                 });
 
@@ -130,7 +132,8 @@ const MyClasses = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user?.token}`
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({ comment: newComment, commenter_name: `${user?.firstName} ${user?.lastName}` }),
             });

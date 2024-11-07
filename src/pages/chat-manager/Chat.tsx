@@ -66,6 +66,7 @@ const Chat: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${user?.token}`,
+            'ngrok-skip-browser-warning': 'true'
           },
         });
         const student = await response.json();
@@ -84,6 +85,7 @@ const Chat: React.FC = () => {
             headers: {
               "Content-Type": "application/json",
               'Authorization': `Bearer ${user?.token}`,
+              'ngrok-skip-browser-warning': 'true'
             },
           });
     

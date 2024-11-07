@@ -112,7 +112,8 @@ const CreateExamForm = ({ reservation, closePopup }: CreateExamFormProps) => {
         const response = await fetch(`${URL}exam/create-exam`,{
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
           },
           body: JSON.stringify(newExam)
         });

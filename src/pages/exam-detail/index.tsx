@@ -51,17 +51,21 @@ const ExamDetail: React.FC = () => {
   
 
   useEffect(() => {
-    const fetchExam = async () => {
+    const fetchExam = async (): Promise<void> => {
       try {
-        const response = await fetch(`${URL}exam/get-exams-by/${examId}`);
+        const response = await fetch(`${URL}exam/get-exams-by/${examId}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
         const data = await response.json();
         setExam(data[0]);
       } catch (error) {
         console.error('Error fetching exam:', error);
       }
-    }
+    };
     fetchExam();
-  }, [URL, examId])
+  }, [URL, examId]);
   
 
   const handleAnswerSelect = (questionId: string, choiceId: string) => {

@@ -42,7 +42,11 @@ const ExamViewer = () => {
   useEffect(() => {
     const getAllExamsByStudentId = async () => {
       try {
-        const response = await fetch(`${URL}exam/get-student-exams-by/${user?.id}`);
+        const response = await fetch(`${URL}exam/get-student-exams-by/${user?.id}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
         const data = await response.json();
         setExams(data);
       } catch (error) {

@@ -64,6 +64,7 @@ const Profile = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     password: password,
@@ -79,6 +80,7 @@ const Profile = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     email: user?.email
@@ -131,6 +133,7 @@ const Profile = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify(body),
             });
@@ -179,6 +182,7 @@ const Profile = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     teacherid: user?.id,
@@ -227,6 +231,7 @@ const Profile = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     teacherid: user?.id,

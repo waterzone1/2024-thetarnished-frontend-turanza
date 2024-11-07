@@ -52,6 +52,7 @@ const ClassHistory = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
                 });
 
@@ -80,7 +81,8 @@ const ClassHistory = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user?.token}`
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({ comment: newComment, commenter_name: `${user?.firstName} ${user?.lastName}` }),
             });
@@ -126,6 +128,7 @@ const ClassHistory = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
             if (!response.ok) {
