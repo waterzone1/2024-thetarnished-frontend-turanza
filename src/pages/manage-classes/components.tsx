@@ -201,7 +201,9 @@ export const LoadingSkeletonCard = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    position: absolute ;
+    z-index: 999;
+    position: relative;
+
     top: 50px;
     left: 50%;
     transform: translate(-50%, -50%);
