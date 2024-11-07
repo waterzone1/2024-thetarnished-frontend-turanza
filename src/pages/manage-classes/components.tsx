@@ -5,6 +5,7 @@ import colors from '../../assets/colors';
 interface MainContainerProps {
     isPopupOpen: boolean;
     isCreateExamPopupOpen: boolean;
+    showCommentPopup?: boolean;
 }
 
 export const MainContainer = styled.div<MainContainerProps>`
@@ -25,8 +26,8 @@ export const MainContainer = styled.div<MainContainerProps>`
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
         z-index: 999;
-        opacity: ${({ isPopupOpen, isCreateExamPopupOpen }) =>
-            isPopupOpen || isCreateExamPopupOpen ? 1 : 0
+        opacity: ${({ isPopupOpen, isCreateExamPopupOpen, showCommentPopup }) =>
+            isPopupOpen || isCreateExamPopupOpen || showCommentPopup ? 1 : 0
         };
         transition: opacity 0.3s ease;
         pointer-events: none;
@@ -138,8 +139,18 @@ export const CardFooter = styled.div`
     color: ${colors.primary};
     display: flex;
     align-items: center ;
-    justify-content: center ;
+    justify-content: flex-end;
     text-align: center;
+    width: 97%;
+`
+
+export const CardFooterSpaced = styled.div`
+    color: ${colors.primary};
+    display: flex;
+    align-items: center ;
+    justify-content: space-between;
+    text-align: center;
+    width: 97%;
 `
 
 const skeletonLoading = keyframes`
@@ -223,5 +234,31 @@ export const ExamButton = styled.button`
 
     @media (max-width: 550px){
         padding: 5px;
+    }
+`
+
+interface PaidInfoProps {
+    isPaid: boolean;
+}
+
+export const PaidInfo = styled.div<PaidInfoProps>`
+    padding: 5px;
+    color: ${(props) => (props.isPaid ? `${colors.primary}` : `${colors.important}`)};
+    font-weight: bold;
+`
+
+export const ChatButton = styled.button`
+    position: absolute;
+    right: -60px;
+    top: 40%;
+    background-color: ${colors.primary};
+    font-size: 1.5rem;
+    padding: 5px 10px 5px 10px;
+    border: none;
+
+    &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        
     }
 `
