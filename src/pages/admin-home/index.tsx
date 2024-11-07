@@ -39,7 +39,10 @@ const AdminHome = () => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${user?.token}`,
+                        'ngrok-skip-browser-warning': 'true'
                     },
+                    
                 });
                 const data = await response.json();
                 setTeachers(data);
@@ -50,7 +53,7 @@ const AdminHome = () => {
         }
        
        getInactiveTeachers();
-    }, [URL, isLoggedIn, navigate, user?.role]);
+    }, [URL, isLoggedIn, navigate, user?.role, user?.token]);
 
     const handleTeacherAccept = () => {
         try{
@@ -58,6 +61,9 @@ const AdminHome = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
+                    
                 },
             });
         } catch (error) {
@@ -83,6 +89,8 @@ const AdminHome = () => {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
             });
         } catch (error) {

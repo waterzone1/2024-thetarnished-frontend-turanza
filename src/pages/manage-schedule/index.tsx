@@ -102,6 +102,8 @@ const ManageSchedule: React.FC = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${user?.token}`,
+            'ngrok-skip-browser-warning': 'true'
           },
           body: JSON.stringify({ schedule: scheduleData }),
         }

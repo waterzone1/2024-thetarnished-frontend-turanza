@@ -64,6 +64,7 @@ const Profile = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     password: password,
@@ -79,6 +80,7 @@ const Profile = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     email: user?.email
@@ -111,7 +113,7 @@ const Profile = () => {
         event.preventDefault();
         setIsSaving(true);
 
-        if (!firstName || !lastName || (newSubjects.length === 0 && user?.role === "TEACHER")) {
+        if (!firstName || !lastName) {
             setMessage('Please fill all fields.');
             setShowErrorMessage(true);
             setTimeout(() => {
@@ -130,6 +132,8 @@ const Profile = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify(body),
             });
@@ -177,6 +181,8 @@ const Profile = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     teacherid: user?.id,
@@ -224,6 +230,8 @@ const Profile = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`,
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     teacherid: user?.id,

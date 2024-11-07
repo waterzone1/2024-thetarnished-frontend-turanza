@@ -47,6 +47,7 @@ const Register = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     firstname: firstName,
@@ -70,7 +71,7 @@ const Register = () => {
             setShowSuccessMessage(true);
             setTimeout(() => {
                 setShowSuccessMessage(false);
-                navigate("/");
+                navigate("/login");
             }, 3000);         
 
         }catch(error){
@@ -144,7 +145,7 @@ const Register = () => {
                         </AnimatedContainer>
                         <ButtonsContainer>
                             <Button type="submit">{isRegistering ? <AnimatedLoadingLogo src={SimplifiedLogo}/> : "Register"}</Button>
-                            <ForgotPass to="/">Already have an account?</ForgotPass>
+                            <ForgotPass to="/login">Already have an account?</ForgotPass>
                         </ButtonsContainer>
                     </Form>
                 </FormContainer>
